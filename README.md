@@ -110,7 +110,7 @@ source ~/.bashrc
 
 #### In case or error due to cpprestsdk(casablanca) not finding libcrypto
 
-Follow the instructions in the (isuue#1388 from cpprest)[https://github.com/microsoft/cpprestsdk/issues/1388#issuecomment-619570350].
+Follow the instructions in the [isuue#1388 from cpprest](https://github.com/microsoft/cpprestsdk/issues/1388#issuecomment-619570350).
 Add the line `INTERFACE_LINK_LIBRARIES "OpenSSL::SSL"` as in the following code:
 ```
 set_target_properties(cpprestsdk::cpprestsdk_openssl_internal PROPERTIES
