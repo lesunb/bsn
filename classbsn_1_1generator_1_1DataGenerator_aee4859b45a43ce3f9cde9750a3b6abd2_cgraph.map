@@ -1,0 +1,5 @@
+<map id="bsn::generator::DataGenerator::nextState" name="bsn::generator::DataGenerator::nextState">
+<area shape="rect" id="node2" href="$namespacebsn_1_1generator.html#aed8b98157588111aca3f20d0fb2a76b2" title="bsn::generator::probability\lGenerator" alt="" coords="273,5,468,47"/>
+<area shape="rect" id="node3" href="$classbsn_1_1range_1_1Range.html#a0785d0aa7d5463bcdd3842089069a2e7" title="bsn::range::Range::\lgetLowerBound" alt="" coords="297,71,444,112"/>
+<area shape="rect" id="node4" href="$classbsn_1_1range_1_1Range.html#a540c2181ec15a65b189a7fb89659f388" title="bsn::range::Range::\lgetUpperBound" alt="" coords="297,136,444,177"/>
+</map>

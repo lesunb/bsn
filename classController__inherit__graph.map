@@ -1,0 +1,4 @@
+<map id="Controller" name="Controller">
+<area shape="rect" id="node2" href="$classEnactor.html" title="{Enactor\n|# adapt\l# except\l# invocations\l# exception_buffer\l# freq\l# r_curr\l# c_curr\l# r_ref\l# c_ref\l# replicate_task\l# cycles\l# stability_margin\l# adaptation_parameter\l|+ Enactor()\l+ ~Enactor()\l+ setUp()\l+ tearDown()\l+ body()\l+ receiveStatus()\l+ receiveStrategy()\l+ receiveAdaptationParameter()\l+ receiveEvent()\l+ apply_reli_strategy()\l+ apply_cost_strategy()\l+ print()\l}" alt="" coords="5,219,239,633"/>
+<area shape="rect" id="node3" href="$classarch_1_1ROSComponent.html" title="{arch::ROSComponent\n|# rosComponentDescriptor\l|+ ROSComponent()\l+ ~ROSComponent()\l+ setUp()\l+ tearDown()\l+ run()\l+ body()\l# getRosNodeName()\l}" alt="" coords="23,5,221,171"/>
+</map>

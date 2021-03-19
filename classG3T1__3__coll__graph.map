@@ -1,0 +1,9 @@
+<map id="G3T1_3" name="G3T1_3">
+<area shape="rect" id="node2" href="$classSensor.html" title="{Sensor\n||+ Sensor()\l+ ~Sensor()\l+ setUp()\l+ tearDown()\l+ run()\l+ body()\l+ apply_noise()\l+ reconfigure()\l+ injectUncertainty()\l+ collect()\l+ process()\l+ transfer()\l# isActive()\l# turnOn()\l# turnOff()\l# recharge()\l}" alt="" coords="509,821,667,1119"/>
+<area shape="rect" id="node3" href="$classarch_1_1target__system_1_1Component.html" title="{arch::target_system\l::Component\n||+ Component()\l+ ~Component()\l+ setUp()\l+ tearDown()\l+ run()\l+ body()\l+ sendEvent()\l+ sendStatus()\l+ sendEnergyStatus()\l+ reconfigure()\l# activate()\l# deactivate()\l# shutdownComponent()\l# sigIntHandler()\l}" alt="" coords="143,447,329,729"/>
+<area shape="rect" id="node4" href="$classarch_1_1ROSComponent.html" title="{arch::ROSComponent\n||+ ROSComponent()\l+ ~ROSComponent()\l+ setUp()\l+ tearDown()\l+ run()\l+ body()\l# getRosNodeName()\l}" alt="" coords="37,219,201,384"/>
+<area shape="rect" id="node5" href="$classarch_1_1ROSComponentDescriptor.html" title="{arch::ROSComponentDescriptor\n||+ ROSComponentDescriptor()\l+ ~ROSComponentDescriptor()\l+ setName()\l+ getName()\l+ setFreq()\l+ getFreq()\l}" alt="" coords="5,5,232,156"/>
+<area shape="rect" id="node10" title="STL class. " alt="" coords="743,549,830,627"/>
+<area shape="rect" id="node11" title="STL class. " alt="" coords="717,255,856,347"/>
+<area shape="rect" id="node12" href="$classbsn_1_1resource_1_1Battery.html" title="{bsn::resource::Battery\n||+ Battery()\l+ Battery()\l+ ~Battery()\l+ Battery()\l+ operator=()\l+ consume()\l+ generate()\l+ setId()\l+ getId()\l+ setCapacity()\land 6 more...\l}" alt="" coords="855,476,1020,700"/>
+</map>

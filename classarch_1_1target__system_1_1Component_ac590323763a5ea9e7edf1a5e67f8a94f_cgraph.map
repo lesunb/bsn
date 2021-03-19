@@ -1,0 +1,14 @@
+<map id="arch::target_system::Component::run" name="arch::target_system::Component::run">
+<area shape="rect" id="node2" href="$classarch_1_1target__system_1_1Component.html#a6a7bf2a65bcc78fc61167205509091a5" title="arch::target_system\l::Component::setUp" alt="" coords="217,156,369,197"/>
+<area shape="rect" id="node4" href="$classarch_1_1target__system_1_1Component.html#adc6ecb4090656eeac2289ec147a20f81" title="arch::target_system\l::Component::sendStatus" alt="" coords="450,253,635,295"/>
+<area shape="rect" id="node8" href="$classarch_1_1ROSComponentDescriptor.html#a4b73f46f37241865a08e75ab202e28eb" title="arch::ROSComponentDescriptor\l::getFreq" alt="" coords="1003,299,1229,340"/>
+<area shape="rect" id="node12" href="$classarch_1_1target__system_1_1Component.html#ac473539ffdccdef20318a6c4bfea0b22" title="arch::target_system\l::Component::body" alt="" coords="217,371,369,412"/>
+<area shape="rect" id="node13" href="$classarch_1_1target__system_1_1Component.html#af8115ceb5653f47f04537fb0eb7dfff2" title="arch::target_system\l::Component::tearDown" alt="" coords="205,436,381,477"/>
+<area shape="rect" id="node3" href="$classarch_1_1ROSComponentDescriptor.html#a6ae1f0c4c644bce7bc7e99e408dc7ca0" title="arch::ROSComponentDescriptor\l::setFreq" alt="" coords="429,123,656,164"/>
+<area shape="rect" id="node6" href="$classarch_1_1target__system_1_1Component.html#a766a2494155aaa42b3c8162cefb11b77" title="arch::target_system\l::Component::activate" alt="" coords="459,188,626,229"/>
+<area shape="rect" id="node9" href="$classarch_1_1target__system_1_1Component.html#a859fdc651315139921d2b2c5fa75be76" title="arch::target_system\l::Component::sigIntHandler" alt="" coords="443,5,643,47"/>
+<area shape="rect" id="node11" href="$classarch_1_1ROSComponent.html#aa5fa36ba1bff54a60c9a0e5498e504f7" title="arch::ROSComponent\l::getRosNodeName" alt="" coords="1036,35,1196,76"/>
+<area shape="rect" id="node5" href="$classarch_1_1ROSComponentDescriptor.html#a462b00745d0de3f98d88f3eb1ba11e45" title="arch::ROSComponentDescriptor\l::getName" alt="" coords="1003,220,1229,261"/>
+<area shape="rect" id="node7" href="$classarch_1_1target__system_1_1Component.html#a9d793970d5fbdef5c31e5ab901b98030" title="arch::target_system\l::Component::sendEvent" alt="" coords="739,195,920,236"/>
+<area shape="rect" id="node10" href="$classarch_1_1target__system_1_1Component.html#ab67fdba3849fb31886a7e4d2b032f38c" title="arch::target_system\l::Component::shutdownComponent" alt="" coords="704,5,955,47"/>
+</map>

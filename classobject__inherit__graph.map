@@ -1,0 +1,6 @@
+<map id="object" name="object">
+<area shape="rect" id="node2" href="$classarchlib_1_1srv_1_1__DataAccessRequest_1_1DataAccessRequest.html" title="{archlib.srv._DataAccessRequest.\lDataAccessRequest\n||}" alt="" coords="5,131,237,223"/>
+<area shape="rect" id="node3" href="$classarchlib_1_1srv_1_1__EffectorRegister_1_1EffectorRegister.html" title="{archlib.srv._EffectorRegister.\lEffectorRegister\n||}" alt="" coords="262,131,469,223"/>
+<area shape="rect" id="node4" href="$classarchlib_1_1srv_1_1__EngineRequest_1_1EngineRequest.html" title="{archlib.srv._EngineRequest.\lEngineRequest\n||}" alt="" coords="493,131,693,223"/>
+<area shape="rect" id="node5" href="$classservices_1_1srv_1_1__PatientData_1_1PatientData.html" title="{services.srv._PatientData.\lPatientData\n||}" alt="" coords="718,131,909,223"/>
+</map>

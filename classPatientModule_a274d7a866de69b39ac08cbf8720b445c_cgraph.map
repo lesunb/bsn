@@ -1,0 +1,5 @@
+<map id="PatientModule::setUp" name="PatientModule::setUp">
+<area shape="rect" id="node2" href="$namespacebsn_1_1utils.html#a4ab7be3d27380abe032f4ceec86b09b2" title="bsn::utils::split" alt="" coords="268,5,385,32"/>
+<area shape="rect" id="node3" href="$classarch_1_1ROSComponentDescriptor.html#a6ae1f0c4c644bce7bc7e99e408dc7ca0" title="arch::ROSComponentDescriptor\l::setFreq" alt="" coords="213,57,440,98"/>
+<area shape="rect" id="node4" href="$classbsn_1_1generator_1_1DataGenerator.html#a39c91084817846319e7dca9ed4e4f9e3" title="bsn::generator::DataGenerator\l::setSeed" alt="" coords="217,122,437,163"/>
+</map>

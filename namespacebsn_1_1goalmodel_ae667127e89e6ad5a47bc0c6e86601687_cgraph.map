@@ -1,0 +1,5 @@
+<map id="bsn::goalmodel::operator&lt;&lt;" name="bsn::goalmodel::operator&lt;&lt;">
+<area shape="rect" id="node2" href="$classbsn_1_1goalmodel_1_1Node.html#ae0ad7ddec09e54734821a25e84677553" title="bsn::goalmodel::Node\l::getID" alt="" coords="260,5,424,47"/>
+<area shape="rect" id="node3" href="$classbsn_1_1goalmodel_1_1Node.html#a6e9b650e57a8951f241d88267a4521e7" title="bsn::goalmodel::Node\l::getDescription" alt="" coords="260,71,424,112"/>
+<area shape="rect" id="node4" href="$classbsn_1_1goalmodel_1_1Node.html#ac7e1c2bc59a420499d0dac0a1593282e" title="bsn::goalmodel::Node\l::getChildren" alt="" coords="260,136,424,177"/>
+</map>

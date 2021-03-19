@@ -1,0 +1,9 @@
+<map id="arch::target_system::Component::sendEvent" name="arch::target_system::Component::sendEvent">
+<area shape="rect" id="node2" href="$classarch_1_1target__system_1_1Component.html#a766a2494155aaa42b3c8162cefb11b77" title="arch::target_system\l::Component::activate" alt="" coords="243,5,409,47"/>
+<area shape="rect" id="node8" href="$classarch_1_1target__system_1_1Component.html#a7e504b0c12531376d3cca170a23b18e3" title="arch::target_system\l::Component::deactivate" alt="" coords="235,71,417,112"/>
+<area shape="rect" id="node3" href="$classarch_1_1target__system_1_1Component.html#a6a7bf2a65bcc78fc61167205509091a5" title="arch::target_system\l::Component::setUp" alt="" coords="477,5,629,47"/>
+<area shape="rect" id="node5" href="$classCentralHub.html#a72336916ee15e722ee0b9f2c7c3747b6" title="CentralHub::reconfigure" alt="" coords="465,74,641,101"/>
+<area shape="rect" id="node4" href="$classarch_1_1target__system_1_1Component.html#ac590323763a5ea9e7edf1a5e67f8a94f" title="arch::target_system\l::Component::run" alt="" coords="689,5,841,47"/>
+<area shape="rect" id="node6" href="$classCentralHub.html#a388e947318a28cf7cac762ac8b1cf3d4" title="CentralHub::run" alt="" coords="703,74,827,101"/>
+<area shape="rect" id="node7" href="$g4t1_8cpp.html#af19ddca125f05a2090dd132045573ee4" title="main" alt="" coords="889,74,944,101"/>
+</map>

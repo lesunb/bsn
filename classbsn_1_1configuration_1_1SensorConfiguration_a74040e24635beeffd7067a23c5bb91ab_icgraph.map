@@ -1,0 +1,14 @@
+<map id="bsn::configuration::SensorConfiguration::evaluateNumber" name="bsn::configuration::SensorConfiguration::evaluateNumber">
+<area shape="rect" id="node2" href="$classG3T1__1.html#a4696c0b3b423e6d0efe2a6f3f6e84cfa" title="G3T1_1::collect" alt="" coords="219,5,341,32"/>
+<area shape="rect" id="node3" href="$classG3T1__1.html#a58277c46b8319bd35e3ffabd52805874" title="G3T1_1::transfer" alt="" coords="215,56,345,83"/>
+<area shape="rect" id="node4" href="$classG3T1__2.html#af0d9cc4619906329eeb799c5a35e142a" title="G3T1_2::collect" alt="" coords="219,107,341,133"/>
+<area shape="rect" id="node5" href="$classG3T1__2.html#ac437972ecabb9e234c8717101d51eac8" title="G3T1_2::transfer" alt="" coords="215,157,345,184"/>
+<area shape="rect" id="node6" href="$classG3T1__3.html#a3519014bd56d810164d86d9756169c44" title="G3T1_3::collect" alt="" coords="219,208,341,235"/>
+<area shape="rect" id="node7" href="$classG3T1__3.html#a4bd1c419743c7c128fd1c3cf4fa5e434" title="G3T1_3::transfer" alt="" coords="215,259,345,285"/>
+<area shape="rect" id="node8" href="$classG3T1__4.html#aac00c133f2199079b671b3094496fb33" title="G3T1_4::collect" alt="" coords="219,309,341,336"/>
+<area shape="rect" id="node9" href="$classG3T1__4.html#a20ad5272beba24e4879fb29985b85f69" title="G3T1_4::transfer" alt="" coords="215,360,345,387"/>
+<area shape="rect" id="node10" href="$classG3T1__5.html#a1aa8fb64b30b7263df5c2189fb5995dc" title="G3T1_5::collect" alt="" coords="219,411,341,437"/>
+<area shape="rect" id="node11" href="$classG3T1__5.html#ae9918da7342a4fb88c6f633db43b9fe8" title="G3T1_5::transfer" alt="" coords="215,461,345,488"/>
+<area shape="rect" id="node12" href="$classG3T1__6.html#a0deb9a2b913d7753ef6708ccbd87df34" title="G3T1_6::collect" alt="" coords="219,512,341,539"/>
+<area shape="rect" id="node13" href="$classG3T1__6.html#aaa3c643ee36464eca9e095d150926e22" title="G3T1_6::transfer" alt="" coords="215,563,345,589"/>
+</map>

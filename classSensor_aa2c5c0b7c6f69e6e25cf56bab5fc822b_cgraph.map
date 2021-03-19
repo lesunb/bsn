@@ -1,0 +1,4 @@
+<map id="Sensor::recharge" name="Sensor::recharge">
+<area shape="rect" id="node2" href="$classbsn_1_1resource_1_1Battery.html#a674c7c02100126e91f040bc93f143c7e" title="bsn::resource::Battery\l::getCurrentLevel" alt="" coords="184,5,349,47"/>
+<area shape="rect" id="node3" href="$classbsn_1_1resource_1_1Battery.html#aa7265cd180da80242067253f7f42272c" title="bsn::resource::Battery\l::generate" alt="" coords="184,71,349,112"/>
+</map>

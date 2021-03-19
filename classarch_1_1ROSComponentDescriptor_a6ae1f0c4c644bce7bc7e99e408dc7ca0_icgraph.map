@@ -1,0 +1,22 @@
+<map id="arch::ROSComponentDescriptor::setFreq" name="arch::ROSComponentDescriptor::setFreq">
+<area shape="rect" id="node2" href="$classarch_1_1target__system_1_1Component.html#a6a7bf2a65bcc78fc61167205509091a5" title="arch::target_system\l::Component::setUp" alt="" coords="292,5,444,47"/>
+<area shape="rect" id="node4" href="$classarch_1_1target__system_1_1Effector.html#a1af5c14648d7da1d22600914a0dd714e" title="arch::target_system\l::Effector::setUp" alt="" coords="292,71,444,112"/>
+<area shape="rect" id="node5" href="$classarch_1_1target__system_1_1Probe.html#a224b34084b08465e77bf6b1f5668bd29" title="arch::target_system\l::Probe::setUp" alt="" coords="292,136,444,177"/>
+<area shape="rect" id="node6" href="$classPatientModule.html#a274d7a866de69b39ac08cbf8720b445c" title="PatientModule::setUp" alt="" coords="288,202,448,229"/>
+<area shape="rect" id="node7" href="$classDataAccess.html#a79a37674517514869067d9afbf0417c1" title="DataAccess::setUp" alt="" coords="296,253,440,279"/>
+<area shape="rect" id="node8" href="$classLogger.html#aab1efed2f9f6ac7929b2d8774ee9b70c" title="Logger::setUp" alt="" coords="312,303,424,330"/>
+<area shape="rect" id="node9" href="$classInjector.html#ac7658d4d7db234ed9237fd186392c2b8" title="Injector::setUp" alt="" coords="309,354,427,381"/>
+<area shape="rect" id="node10" href="$classEngine.html#ae0233e4936be42094d3dfd401633cccd" title="Engine::setUp" alt="" coords="312,405,424,431"/>
+<area shape="rect" id="node13" href="$classController.html#ac5b5525e1a9fc6914657dd8d943a0928" title="Controller::setUp" alt="" coords="302,455,434,482"/>
+<area shape="rect" id="node14" href="$classCentralHub.html#a72336916ee15e722ee0b9f2c7c3747b6" title="CentralHub::reconfigure" alt="" coords="280,506,456,533"/>
+<area shape="rect" id="node17" href="$classG4T1.html#ad02634c3bf56a245b99bb30f520628c5" title="G4T1::setUp" alt="" coords="317,557,419,583"/>
+<area shape="rect" id="node18" href="$classSensor.html#a476760a7dd4be51136bf165e183526cf" title="Sensor::reconfigure" alt="" coords="295,607,441,634"/>
+<area shape="rect" id="node21" href="$classParamAdapter.html#a7c0398f646d90dfe7f017a7e972e0eab" title="ParamAdapter::setUp" alt="" coords="288,658,448,685"/>
+<area shape="rect" id="node3" href="$classarch_1_1target__system_1_1Component.html#ac590323763a5ea9e7edf1a5e67f8a94f" title="arch::target_system\l::Component::run" alt="" coords="504,5,656,47"/>
+<area shape="rect" id="node11" href="$classCostEngine.html#abf2d8b5da61c0c372c6d632d9a55e832" title="CostEngine::setUp" alt="" coords="509,367,651,394"/>
+<area shape="rect" id="node12" href="$classReliabilityEngine.html#ad5323671d1e8645df2e0f7d9772bf806" title="ReliabilityEngine::\lsetUp" alt="" coords="511,419,649,460"/>
+<area shape="rect" id="node15" href="$classCentralHub.html#a388e947318a28cf7cac762ac8b1cf3d4" title="CentralHub::run" alt="" coords="518,506,642,533"/>
+<area shape="rect" id="node16" href="$g4t1_8cpp.html#af19ddca125f05a2090dd132045573ee4" title="main" alt="" coords="704,506,759,533"/>
+<area shape="rect" id="node19" href="$classSensor.html#a1a664cdb090cb4295bbdedcffb1c8499" title="Sensor::run" alt="" coords="533,607,627,634"/>
+<area shape="rect" id="node20" href="$g3t1__1_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="704,607,759,634"/>
+</map>

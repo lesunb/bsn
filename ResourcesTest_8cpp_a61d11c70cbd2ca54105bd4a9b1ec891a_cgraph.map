@@ -1,0 +1,5 @@
+<map id="TEST_F" name="TEST_F">
+<area shape="rect" id="node2" href="$classbsn_1_1resource_1_1Battery.html#ac0ac21b47793f078ac0de26fd039f17b" title="bsn::resource::Battery\l::getCapacity" alt="" coords="121,5,287,47"/>
+<area shape="rect" id="node3" href="$classbsn_1_1resource_1_1Battery.html#a674c7c02100126e91f040bc93f143c7e" title="bsn::resource::Battery\l::getCurrentLevel" alt="" coords="121,71,287,112"/>
+<area shape="rect" id="node4" href="$classbsn_1_1resource_1_1Battery.html#af42ddcb306bcc9f8c7bb4d23a1c96a2d" title="bsn::resource::Battery\l::getUnit" alt="" coords="121,136,287,177"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="arch::target_system::Effector" name="arch::target_system::Effector">
+<area shape="rect" id="node2" href="$classarch_1_1ROSComponent.html" title="{arch::ROSComponent\n||+ ROSComponent()\l+ ~ROSComponent()\l+ setUp()\l+ tearDown()\l+ run()\l+ body()\l# getRosNodeName()\l}" alt="" coords="37,219,201,384"/>
+<area shape="rect" id="node3" href="$classarch_1_1ROSComponentDescriptor.html" title="{arch::ROSComponentDescriptor\n||+ ROSComponentDescriptor()\l+ ~ROSComponentDescriptor()\l+ setName()\l+ getName()\l+ setFreq()\l+ getFreq()\l}" alt="" coords="5,5,232,156"/>
+</map>

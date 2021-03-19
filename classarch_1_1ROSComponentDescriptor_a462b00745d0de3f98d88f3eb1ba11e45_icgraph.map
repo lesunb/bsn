@@ -1,0 +1,17 @@
+<map id="arch::ROSComponentDescriptor::getName" name="arch::ROSComponentDescriptor::getName">
+<area shape="rect" id="node2" href="$classarch_1_1ROSComponentDescriptor.html#a9149fc01ac3ad2c104d7b1765a66a46c" title="arch::ROSComponentDescriptor\l::~ROSComponentDescriptor" alt="" coords="282,17,509,59"/>
+<area shape="rect" id="node3" href="$classarch_1_1target__system_1_1Component.html#a9d793970d5fbdef5c31e5ab901b98030" title="arch::target_system\l::Component::sendEvent" alt="" coords="305,83,486,124"/>
+<area shape="rect" id="node11" href="$classarch_1_1target__system_1_1Component.html#adc6ecb4090656eeac2289ec147a20f81" title="arch::target_system\l::Component::sendStatus" alt="" coords="559,173,744,215"/>
+<area shape="rect" id="node16" href="$classarch_1_1target__system_1_1Component.html#a614676f17763a04020a2095ac541145c" title="arch::target_system\l::Component::sendEnergyStatus" alt="" coords="280,221,511,263"/>
+<area shape="rect" id="node4" href="$classarch_1_1target__system_1_1Component.html#a766a2494155aaa42b3c8162cefb11b77" title="arch::target_system\l::Component::activate" alt="" coords="568,71,735,112"/>
+<area shape="rect" id="node10" href="$classarch_1_1target__system_1_1Component.html#a7e504b0c12531376d3cca170a23b18e3" title="arch::target_system\l::Component::deactivate" alt="" coords="560,5,743,47"/>
+<area shape="rect" id="node5" href="$classarch_1_1target__system_1_1Component.html#a6a7bf2a65bcc78fc61167205509091a5" title="arch::target_system\l::Component::setUp" alt="" coords="804,64,956,105"/>
+<area shape="rect" id="node7" href="$classCentralHub.html#a72336916ee15e722ee0b9f2c7c3747b6" title="CentralHub::reconfigure" alt="" coords="792,13,968,39"/>
+<area shape="rect" id="node6" href="$classarch_1_1target__system_1_1Component.html#ac590323763a5ea9e7edf1a5e67f8a94f" title="arch::target_system\l::Component::run" alt="" coords="1016,209,1168,251"/>
+<area shape="rect" id="node8" href="$classCentralHub.html#a388e947318a28cf7cac762ac8b1cf3d4" title="CentralHub::run" alt="" coords="1030,130,1154,157"/>
+<area shape="rect" id="node9" href="$g4t1_8cpp.html#af19ddca125f05a2090dd132045573ee4" title="main" alt="" coords="1216,130,1271,157"/>
+<area shape="rect" id="node12" href="$classCentralHub.html#a48b13d52b79864e84eae5012108d3211" title="CentralHub::body" alt="" coords="813,130,947,157"/>
+<area shape="rect" id="node13" href="$classSensor.html#a1a664cdb090cb4295bbdedcffb1c8499" title="Sensor::run" alt="" coords="1045,297,1139,323"/>
+<area shape="rect" id="node15" href="$classSensor.html#a043dabb8b92f70fc247d585b8d66e133" title="Sensor::body" alt="" coords="827,333,933,359"/>
+<area shape="rect" id="node14" href="$g3t1__1_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="1216,297,1271,323"/>
+</map>

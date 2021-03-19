@@ -1,0 +1,7 @@
+<map id="Controller" name="Controller">
+<area shape="rect" id="node2" href="$classEnactor.html" title="{Enactor\n||+ Enactor()\l+ ~Enactor()\l+ setUp()\l+ tearDown()\l+ body()\l+ receiveStatus()\l+ receiveStrategy()\l+ receiveAdaptationParameter()\l+ receiveEvent()\l+ apply_reli_strategy()\l+ apply_cost_strategy()\l+ print()\l}" alt="" coords="698,660,931,899"/>
+<area shape="rect" id="node3" href="$classarch_1_1ROSComponent.html" title="{arch::ROSComponent\n||+ ROSComponent()\l+ ~ROSComponent()\l+ setUp()\l+ tearDown()\l+ run()\l+ body()\l# getRosNodeName()\l}" alt="" coords="70,373,234,539"/>
+<area shape="rect" id="node4" href="$classarch_1_1ROSComponentDescriptor.html" title="{arch::ROSComponentDescriptor\n||+ ROSComponentDescriptor()\l+ ~ROSComponentDescriptor()\l+ setName()\l+ getName()\l+ setFreq()\l+ getFreq()\l}" alt="" coords="5,160,232,311"/>
+<area shape="rect" id="node8" title="STL class. " alt="" coords="979,197,1066,274"/>
+<area shape="rect" id="node9" title="STL class. " alt="" coords="953,5,1092,97"/>
+</map>

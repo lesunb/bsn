@@ -1,0 +1,4 @@
+<map id="DataGeneratorTest" name="DataGeneratorTest">
+<area shape="rect" id="node3" href="$classbsn_1_1generator_1_1Markov.html" title="{bsn::generator::Markov\n||+ Markov()\l+ Markov()\l+ Markov()\l+ operator=()\l+ next_state()\l+ calculate_state()\l+ toString()\l}" alt="" coords="211,476,383,641"/>
+<area shape="rect" id="node7" href="$classbsn_1_1range_1_1Range.html" title="{bsn::range::Range\n||+ Range()\l+ Range()\l+ ~Range()\l+ Range()\l+ operator=()\l+ in_range()\l+ convert()\l+ to_print()\l+ setLowerBound()\l+ getLowerBound()\l+ setUpperBound()\l+ getUpperBound()\l+ toString()\l}" alt="" coords="218,5,366,259"/>
+</map>

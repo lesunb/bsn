@@ -1,0 +1,4 @@
+<map id="Sensor::reconfigure" name="Sensor::reconfigure">
+<area shape="rect" id="node2" href="$namespacebsn_1_1utils.html#a4ab7be3d27380abe032f4ceec86b09b2" title="bsn::utils::split" alt="" coords="255,5,372,32"/>
+<area shape="rect" id="node3" href="$classarch_1_1ROSComponentDescriptor.html#a6ae1f0c4c644bce7bc7e99e408dc7ca0" title="arch::ROSComponentDescriptor\l::setFreq" alt="" coords="200,57,427,98"/>
+</map>

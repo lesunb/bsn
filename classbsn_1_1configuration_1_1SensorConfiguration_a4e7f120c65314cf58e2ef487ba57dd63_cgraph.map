@@ -1,0 +1,9 @@
+<map id="bsn::configuration::SensorConfiguration::operator=" name="bsn::configuration::SensorConfiguration::operator=">
+<area shape="rect" id="node2" href="$classbsn_1_1configuration_1_1SensorConfiguration.html#a5cbb1f6ecadc4bbda6ac273cb4d4e5f5" title="bsn::configuration\l::SensorConfiguration\l::getId" alt="" coords="215,5,376,61"/>
+<area shape="rect" id="node3" href="$classbsn_1_1configuration_1_1SensorConfiguration.html#a8670643b8a6f0e51ef28858c42ef1330" title="bsn::configuration\l::SensorConfiguration\l::getLowRisk" alt="" coords="215,85,376,141"/>
+<area shape="rect" id="node4" href="$classbsn_1_1configuration_1_1SensorConfiguration.html#ace2305e7f554676344e3d6dc15c59c08" title="bsn::configuration\l::SensorConfiguration\l::getMediumRisk" alt="" coords="215,165,376,221"/>
+<area shape="rect" id="node5" href="$classbsn_1_1configuration_1_1SensorConfiguration.html#acdfcb71e90acbca6036e0d93a9f7ef8e" title="bsn::configuration\l::SensorConfiguration\l::getHighRisk" alt="" coords="215,245,376,301"/>
+<area shape="rect" id="node6" href="$classbsn_1_1configuration_1_1SensorConfiguration.html#acc1264bd8739fdc4d9ddaf0f00552a12" title="bsn::configuration\l::SensorConfiguration\l::getLowPercentage" alt="" coords="215,325,376,381"/>
+<area shape="rect" id="node7" href="$classbsn_1_1configuration_1_1SensorConfiguration.html#a84047430dc4ca3d5efc65f454feebf1c" title="bsn::configuration\l::SensorConfiguration\l::getMidPercentage" alt="" coords="215,405,376,461"/>
+<area shape="rect" id="node8" href="$classbsn_1_1configuration_1_1SensorConfiguration.html#a44ff7709db274eaa05ea8d41c6028e16" title="bsn::configuration\l::SensorConfiguration\l::getHighPercentage" alt="" coords="215,485,376,541"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="arch::target_system::Component::activate" name="arch::target_system::Component::activate">
+<area shape="rect" id="node2" href="$classarch_1_1target__system_1_1Component.html#a6a7bf2a65bcc78fc61167205509091a5" title="arch::target_system\l::Component::setUp" alt="" coords="232,5,384,47"/>
+<area shape="rect" id="node4" href="$classCentralHub.html#a72336916ee15e722ee0b9f2c7c3747b6" title="CentralHub::reconfigure" alt="" coords="220,71,396,98"/>
+<area shape="rect" id="node3" href="$classarch_1_1target__system_1_1Component.html#ac590323763a5ea9e7edf1a5e67f8a94f" title="arch::target_system\l::Component::run" alt="" coords="444,5,596,47"/>
+<area shape="rect" id="node5" href="$classCentralHub.html#a388e947318a28cf7cac762ac8b1cf3d4" title="CentralHub::run" alt="" coords="458,71,582,98"/>
+<area shape="rect" id="node6" href="$g4t1_8cpp.html#af19ddca125f05a2090dd132045573ee4" title="main" alt="" coords="644,71,699,98"/>
+</map>

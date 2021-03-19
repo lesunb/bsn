@@ -1,0 +1,4 @@
+<map id="arch::target_system::Component::sendEvent" name="arch::target_system::Component::sendEvent">
+<area shape="rect" id="node2" href="$classarch_1_1ROSComponentDescriptor.html#a462b00745d0de3f98d88f3eb1ba11e45" title="arch::ROSComponentDescriptor\l::getName" alt="" coords="235,5,461,47"/>
+<area shape="rect" id="node3" href="$classarch_1_1ROSComponentDescriptor.html#a4b73f46f37241865a08e75ab202e28eb" title="arch::ROSComponentDescriptor\l::getFreq" alt="" coords="235,71,461,112"/>
+</map>

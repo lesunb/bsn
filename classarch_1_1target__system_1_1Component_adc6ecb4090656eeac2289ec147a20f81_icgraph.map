@@ -1,0 +1,10 @@
+<map id="arch::target_system::Component::sendStatus" name="arch::target_system::Component::sendStatus">
+<area shape="rect" id="node2" href="$classarch_1_1target__system_1_1Component.html#a6a7bf2a65bcc78fc61167205509091a5" title="arch::target_system\l::Component::setUp" alt="" coords="239,5,391,47"/>
+<area shape="rect" id="node3" href="$classarch_1_1target__system_1_1Component.html#ac590323763a5ea9e7edf1a5e67f8a94f" title="arch::target_system\l::Component::run" alt="" coords="439,35,591,76"/>
+<area shape="rect" id="node4" href="$classCentralHub.html#a388e947318a28cf7cac762ac8b1cf3d4" title="CentralHub::run" alt="" coords="453,161,577,187"/>
+<area shape="rect" id="node6" href="$classCentralHub.html#a48b13d52b79864e84eae5012108d3211" title="CentralHub::body" alt="" coords="247,173,382,199"/>
+<area shape="rect" id="node7" href="$classSensor.html#a1a664cdb090cb4295bbdedcffb1c8499" title="Sensor::run" alt="" coords="467,237,562,263"/>
+<area shape="rect" id="node9" href="$classSensor.html#a043dabb8b92f70fc247d585b8d66e133" title="Sensor::body" alt="" coords="261,274,368,301"/>
+<area shape="rect" id="node5" href="$g4t1_8cpp.html#af19ddca125f05a2090dd132045573ee4" title="main" alt="" coords="639,161,693,187"/>
+<area shape="rect" id="node8" href="$g3t1__1_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="639,237,693,263"/>
+</map>

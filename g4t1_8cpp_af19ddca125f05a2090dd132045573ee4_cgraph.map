@@ -1,0 +1,20 @@
+<map id="main" name="main">
+<area shape="rect" id="node2" href="$classCentralHub.html#a388e947318a28cf7cac762ac8b1cf3d4" title="CentralHub::run" alt="" coords="108,191,232,217"/>
+<area shape="rect" id="node3" href="$classCentralHub.html#a91be8b44d7c4075c20434723c75fc6f9" title="CentralHub::setUp" alt="" coords="297,5,439,32"/>
+<area shape="rect" id="node4" href="$classCentralHub.html#a4d658629e1d1fc8dc80ee298173e4c22" title="CentralHub::collect" alt="" coords="295,56,441,83"/>
+<area shape="rect" id="node5" href="$classCentralHub.html#a72336916ee15e722ee0b9f2c7c3747b6" title="CentralHub::reconfigure" alt="" coords="280,304,456,331"/>
+<area shape="rect" id="node11" href="$classarch_1_1ROSComponentDescriptor.html#a4b73f46f37241865a08e75ab202e28eb" title="arch::ROSComponentDescriptor\l::getFreq" alt="" coords="1008,267,1235,309"/>
+<area shape="rect" id="node15" href="$classCentralHub.html#a48b13d52b79864e84eae5012108d3211" title="CentralHub::body" alt="" coords="301,613,435,640"/>
+<area shape="rect" id="node19" href="$classarch_1_1target__system_1_1Component.html#adc6ecb4090656eeac2289ec147a20f81" title="arch::target_system\l::Component::sendStatus" alt="" coords="525,741,710,782"/>
+<area shape="rect" id="node6" href="$namespacebsn_1_1utils.html#a4ab7be3d27380abe032f4ceec86b09b2" title="bsn::utils::split" alt="" coords="559,157,676,184"/>
+<area shape="rect" id="node7" href="$classarch_1_1ROSComponentDescriptor.html#a6ae1f0c4c644bce7bc7e99e408dc7ca0" title="arch::ROSComponentDescriptor\l::setFreq" alt="" coords="504,209,731,250"/>
+<area shape="rect" id="node8" href="$classarch_1_1target__system_1_1Component.html#a766a2494155aaa42b3c8162cefb11b77" title="arch::target_system\l::Component::activate" alt="" coords="534,326,701,367"/>
+<area shape="rect" id="node12" href="$classarch_1_1target__system_1_1Component.html#a7e504b0c12531376d3cca170a23b18e3" title="arch::target_system\l::Component::deactivate" alt="" coords="526,457,709,498"/>
+<area shape="rect" id="node13" href="$classbsn_1_1resource_1_1Battery.html#a674c7c02100126e91f040bc93f143c7e" title="bsn::resource::Battery\l::getCurrentLevel" alt="" coords="535,522,700,563"/>
+<area shape="rect" id="node14" href="$classbsn_1_1resource_1_1Battery.html#aa7265cd180da80242067253f7f42272c" title="bsn::resource::Battery\l::generate" alt="" coords="535,391,700,433"/>
+<area shape="rect" id="node9" href="$classarch_1_1target__system_1_1Component.html#a9d793970d5fbdef5c31e5ab901b98030" title="arch::target_system\l::Component::sendEvent" alt="" coords="779,342,960,383"/>
+<area shape="rect" id="node10" href="$classarch_1_1ROSComponentDescriptor.html#a462b00745d0de3f98d88f3eb1ba11e45" title="arch::ROSComponentDescriptor\l::getName" alt="" coords="1008,358,1235,399"/>
+<area shape="rect" id="node16" href="$classCentralHub.html#ad6c1ba1c51d58a420e076fbd27cd2b5c" title="CentralHub::apply_noise" alt="" coords="527,588,708,615"/>
+<area shape="rect" id="node17" href="$classCentralHub.html#a3527f7455ec82af84e32b182221ede80" title="CentralHub::process" alt="" coords="541,639,694,665"/>
+<area shape="rect" id="node18" href="$classCentralHub.html#a31e4df7094f5d176052056464d5886fa" title="CentralHub::transfer" alt="" coords="540,689,695,716"/>
+</map>

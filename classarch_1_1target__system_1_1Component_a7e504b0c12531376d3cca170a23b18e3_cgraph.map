@@ -1,0 +1,5 @@
+<map id="arch::target_system::Component::deactivate" name="arch::target_system::Component::deactivate">
+<area shape="rect" id="node2" href="$classarch_1_1target__system_1_1Component.html#a9d793970d5fbdef5c31e5ab901b98030" title="arch::target_system\l::Component::sendEvent" alt="" coords="236,39,417,80"/>
+<area shape="rect" id="node3" href="$classarch_1_1ROSComponentDescriptor.html#a462b00745d0de3f98d88f3eb1ba11e45" title="arch::ROSComponentDescriptor\l::getName" alt="" coords="465,5,692,47"/>
+<area shape="rect" id="node4" href="$classarch_1_1ROSComponentDescriptor.html#a4b73f46f37241865a08e75ab202e28eb" title="arch::ROSComponentDescriptor\l::getFreq" alt="" coords="465,71,692,112"/>
+</map>

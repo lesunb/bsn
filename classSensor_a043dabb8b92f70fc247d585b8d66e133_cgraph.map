@@ -1,0 +1,15 @@
+<map id="Sensor::body" name="Sensor::body">
+<area shape="rect" id="node2" href="$classSensor.html#aeb95c3006f7155be956658f0b951b9db" title="Sensor::isActive" alt="" coords="212,5,339,32"/>
+<area shape="rect" id="node3" href="$classbsn_1_1resource_1_1Battery.html#a674c7c02100126e91f040bc93f143c7e" title="bsn::resource::Battery\l::getCurrentLevel" alt="" coords="469,486,635,527"/>
+<area shape="rect" id="node4" href="$classSensor.html#ab687b1dd4e4ecb1d806bf947cedc9b76" title="Sensor::turnOn" alt="" coords="216,123,335,149"/>
+<area shape="rect" id="node5" href="$classSensor.html#a7e0dadfc3dcde4c6c7b20d0c0ae09082" title="Sensor::turnOff" alt="" coords="216,173,335,200"/>
+<area shape="rect" id="node6" href="$classarch_1_1target__system_1_1Component.html#adc6ecb4090656eeac2289ec147a20f81" title="arch::target_system\l::Component::sendStatus" alt="" coords="183,225,368,266"/>
+<area shape="rect" id="node8" href="$classSensor.html#ab89214185c2da031e0f78b0f4dc031e8" title="Sensor::collect" alt="" coords="217,291,334,317"/>
+<area shape="rect" id="node9" href="$classSensor.html#a865bbaf085db8217e4d0c02e12e8a2a1" title="Sensor::apply_noise" alt="" coords="199,341,351,368"/>
+<area shape="rect" id="node10" href="$classSensor.html#a209530c83c3299a6587e1c87277dcd1e" title="Sensor::process" alt="" coords="213,392,337,419"/>
+<area shape="rect" id="node11" href="$classSensor.html#afa34e334fc608034f8aeb8cb3d34abc9" title="Sensor::transfer" alt="" coords="213,443,338,469"/>
+<area shape="rect" id="node12" href="$classarch_1_1target__system_1_1Component.html#a614676f17763a04020a2095ac541145c" title="arch::target_system\l::Component::sendEnergyStatus" alt="" coords="160,57,391,98"/>
+<area shape="rect" id="node13" href="$classSensor.html#aa2c5c0b7c6f69e6e25cf56bab5fc822b" title="Sensor::recharge" alt="" coords="210,544,341,571"/>
+<area shape="rect" id="node7" href="$classarch_1_1ROSComponentDescriptor.html#a462b00745d0de3f98d88f3eb1ba11e45" title="arch::ROSComponentDescriptor\l::getName" alt="" coords="439,141,665,182"/>
+<area shape="rect" id="node14" href="$classbsn_1_1resource_1_1Battery.html#aa7265cd180da80242067253f7f42272c" title="bsn::resource::Battery\l::generate" alt="" coords="469,551,635,593"/>
+</map>

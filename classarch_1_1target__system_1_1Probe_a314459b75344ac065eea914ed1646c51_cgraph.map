@@ -1,0 +1,5 @@
+<map id="arch::target_system::Probe::body" name="arch::target_system::Probe::body">
+<area shape="rect" id="node2" href="$classarch_1_1target__system_1_1Probe.html#a01aead06d320f6f2e583a1dbcf0990cf" title="arch::target_system\l::Probe::collectEvent" alt="" coords="230,5,385,47"/>
+<area shape="rect" id="node3" href="$classarch_1_1target__system_1_1Probe.html#a2e582662575d5bec28730fd3b95296de" title="arch::target_system\l::Probe::collectStatus" alt="" coords="228,71,387,112"/>
+<area shape="rect" id="node4" href="$classarch_1_1target__system_1_1Probe.html#a38c77474a3a960522c0abda3d0fb9b30" title="arch::target_system\l::Probe::collectEnergyStatus" alt="" coords="205,136,409,177"/>
+</map>

@@ -1,0 +1,5 @@
+<map id="G3T1_5" name="G3T1_5">
+<area shape="rect" id="node2" href="$classSensor.html" title="{Sensor\n|# type\l# active\l# buffer_size\l# replicate_collect\l# noise_factor\l# battery\l# data\l# instant_recharge\l# shouldStart\l# cost\l|+ Sensor()\l+ ~Sensor()\l+ setUp()\l+ tearDown()\l+ run()\l+ body()\l+ apply_noise()\l+ reconfigure()\l+ injectUncertainty()\l+ collect()\l+ process()\l+ transfer()\l# isActive()\l# turnOn()\l# turnOff()\l# recharge()\l}" alt="" coords="25,549,184,979"/>
+<area shape="rect" id="node3" href="$classarch_1_1target__system_1_1Component.html" title="{arch::target_system\l::Component\n|# handle\l|+ Component()\l+ ~Component()\l+ setUp()\l+ tearDown()\l+ run()\l+ body()\l+ sendEvent()\l+ sendStatus()\l+ sendEnergyStatus()\l+ reconfigure()\l# activate()\l# deactivate()\l# shutdownComponent()\l# sigIntHandler()\l}" alt="" coords="12,219,197,501"/>
+<area shape="rect" id="node4" href="$classarch_1_1ROSComponent.html" title="{arch::ROSComponent\n|# rosComponentDescriptor\l|+ ROSComponent()\l+ ~ROSComponent()\l+ setUp()\l+ tearDown()\l+ run()\l+ body()\l# getRosNodeName()\l}" alt="" coords="5,5,204,171"/>
+</map>

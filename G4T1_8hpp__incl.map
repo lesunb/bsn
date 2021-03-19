@@ -1,0 +1,9 @@
+<map id="src/sa&#45;bsn/target_system/components/component/include/component/g4t1/G4T1.hpp" name="src/sa&#45;bsn/target_system/components/component/include/component/g4t1/G4T1.hpp">
+<area shape="rect" id="node8" href="$Processor_8hpp.html" title="libbsn/processor/Processor.hpp" alt="" coords="17,191,239,218"/>
+<area shape="rect" id="node14" href="$utils_8hpp.html" title="libbsn/utils/utils.hpp" alt="" coords="263,191,417,218"/>
+<area shape="rect" id="node15" href="$CentralHub_8hpp.html" title="component/CentralHub.hpp" alt="" coords="968,109,1168,136"/>
+<area shape="rect" id="node18" href="$Component_8hpp.html" title="archlib/target_system\l/Component.hpp" alt="" coords="1123,184,1287,225"/>
+<area shape="rect" id="node29" href="$Battery_8hpp.html" title="libbsn/resource/Battery.hpp" alt="" coords="539,191,738,218"/>
+<area shape="rect" id="node25" href="$ROSComponent_8hpp.html" title="archlib/ROSComponent.hpp" alt="" coords="1419,273,1619,300"/>
+<area shape="rect" id="node27" href="$ROSComponentDescriptor_8hpp.html" title="archlib/ROSComponentDescriptor.hpp" alt="" coords="1385,348,1652,375"/>
+</map>

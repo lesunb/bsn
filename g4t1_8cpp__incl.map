@@ -1,0 +1,10 @@
+<map id="src/sa&#45;bsn/target_system/components/component/apps/g4t1.cpp" name="src/sa&#45;bsn/target_system/components/component/apps/g4t1.cpp">
+<area shape="rect" id="node2" href="$G4T1_8hpp.html" title="component/g4t1/G4T1.hpp" alt="" coords="833,109,1028,136"/>
+<area shape="rect" id="node9" href="$Processor_8hpp.html" title="libbsn/processor/Processor.hpp" alt="" coords="17,266,239,293"/>
+<area shape="rect" id="node15" href="$utils_8hpp.html" title="libbsn/utils/utils.hpp" alt="" coords="263,266,417,293"/>
+<area shape="rect" id="node16" href="$CentralHub_8hpp.html" title="component/CentralHub.hpp" alt="" coords="968,184,1168,211"/>
+<area shape="rect" id="node19" href="$Component_8hpp.html" title="archlib/target_system\l/Component.hpp" alt="" coords="1123,259,1287,300"/>
+<area shape="rect" id="node30" href="$Battery_8hpp.html" title="libbsn/resource/Battery.hpp" alt="" coords="539,266,738,293"/>
+<area shape="rect" id="node26" href="$ROSComponent_8hpp.html" title="archlib/ROSComponent.hpp" alt="" coords="1419,348,1619,375"/>
+<area shape="rect" id="node28" href="$ROSComponentDescriptor_8hpp.html" title="archlib/ROSComponentDescriptor.hpp" alt="" coords="1385,423,1652,449"/>
+</map>

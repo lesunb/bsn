@@ -1,0 +1,5 @@
+<map id="bsn::configuration::SensorConfiguration::convertRealPercentage" name="bsn::configuration::SensorConfiguration::convertRealPercentage">
+<area shape="rect" id="node2" href="$classbsn_1_1range_1_1Range.html#a0785d0aa7d5463bcdd3842089069a2e7" title="bsn::range::Range::\lgetLowerBound" alt="" coords="233,5,380,47"/>
+<area shape="rect" id="node3" href="$classbsn_1_1range_1_1Range.html#a540c2181ec15a65b189a7fb89659f388" title="bsn::range::Range::\lgetUpperBound" alt="" coords="233,71,380,112"/>
+<area shape="rect" id="node4" href="$classbsn_1_1range_1_1Range.html#ab8b7c15c1b6dc5c0e2c57b968271ac3b" title="bsn::range::Range::\lconvert" alt="" coords="233,136,380,177"/>
+</map>

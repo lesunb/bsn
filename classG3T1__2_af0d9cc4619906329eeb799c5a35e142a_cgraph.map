@@ -1,0 +1,10 @@
+<map id="G3T1_2::collect" name="G3T1_2::collect">
+<area shape="rect" id="node2" href="$classbsn_1_1resource_1_1Battery.html#aedd16b53e50acce84e3f77dfd6d38e74" title="bsn::resource::Battery\l::consume" alt="" coords="176,5,341,47"/>
+<area shape="rect" id="node3" href="$classbsn_1_1configuration_1_1SensorConfiguration.html#a74040e24635beeffd7067a23c5bb91ab" title="bsn::configuration\l::SensorConfiguration\l::evaluateNumber" alt="" coords="178,71,339,127"/>
+<area shape="rect" id="node4" href="$classbsn_1_1range_1_1Range.html#a803a947a39a06176384e00e2ad758ec9" title="bsn::range::Range::\lin_range" alt="" coords="406,5,553,47"/>
+<area shape="rect" id="node5" href="$classbsn_1_1configuration_1_1SensorConfiguration.html#aab092b8b249eda7ee53a38ec45ba9421" title="bsn::configuration\l::SensorConfiguration\l::getDisplacement" alt="" coords="399,71,560,127"/>
+<area shape="rect" id="node8" href="$classbsn_1_1configuration_1_1SensorConfiguration.html#aeb452f9154ebbc75bd54564fa0f94430" title="bsn::configuration\l::SensorConfiguration\l::convertRealPercentage" alt="" coords="389,151,569,207"/>
+<area shape="rect" id="node6" href="$classbsn_1_1range_1_1Range.html#a0785d0aa7d5463bcdd3842089069a2e7" title="bsn::range::Range::\lgetLowerBound" alt="" coords="617,144,764,185"/>
+<area shape="rect" id="node7" href="$classbsn_1_1range_1_1Range.html#a540c2181ec15a65b189a7fb89659f388" title="bsn::range::Range::\lgetUpperBound" alt="" coords="617,79,764,120"/>
+<area shape="rect" id="node9" href="$classbsn_1_1range_1_1Range.html#ab8b7c15c1b6dc5c0e2c57b968271ac3b" title="bsn::range::Range::\lconvert" alt="" coords="617,209,764,251"/>
+</map>

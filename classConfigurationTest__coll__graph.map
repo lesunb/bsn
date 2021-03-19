@@ -1,0 +1,4 @@
+<map id="ConfigurationTest" name="ConfigurationTest">
+<area shape="rect" id="node3" href="$classbsn_1_1configuration_1_1SensorConfiguration.html" title="{bsn::configuration\l::SensorConfiguration\n||+ SensorConfiguration()\l+ SensorConfiguration()\l+ SensorConfiguration()\l+ operator=()\l+ evaluateNumber()\l+ getDisplacement()\l+ convertRealPercentage()\l+ isLowRisk()\l+ isMediumRisk()\l+ isHighRisk()\land 15 more...\l}" alt="" coords="77,153,275,391"/>
+<area shape="rect" id="node6" href="$classbsn_1_1range_1_1Range.html" title="{bsn::range::Range\n||+ Range()\l+ Range()\l+ ~Range()\l+ Range()\l+ operator=()\l+ in_range()\l+ convert()\l+ to_print()\l+ setLowerBound()\l+ getLowerBound()\l+ setUpperBound()\l+ getUpperBound()\l+ toString()\l}" alt="" coords="494,145,642,399"/>
+</map>

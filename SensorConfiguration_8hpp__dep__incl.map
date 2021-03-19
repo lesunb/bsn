@@ -1,0 +1,22 @@
+<map id="src/libbsn/include/libbsn/configuration/SensorConfiguration.hpp" name="src/libbsn/include/libbsn/configuration/SensorConfiguration.hpp">
+<area shape="rect" id="node2" href="$SensorConfiguration_8cpp.html" title="src/libbsn/src/configuration\l/SensorConfiguration.cpp" alt="" coords="5,117,201,158"/>
+<area shape="rect" id="node3" href="$ConfigurationTest_8cpp.html" title="src/libbsn/test/unit\l/configuration/Configuration\lTest.cpp" alt="" coords="226,109,429,165"/>
+<area shape="rect" id="node4" href="$G3T1__1_8hpp.html" title="src/sa&#45;bsn/target_system\l/components/component/include\l/component/g3t1_1/G3T1_1.hpp" alt="" coords="453,109,687,165"/>
+<area shape="rect" id="node7" href="$G3T1__2_8hpp.html" title="src/sa&#45;bsn/target_system\l/components/component/include\l/component/g3t1_2/G3T1_2.hpp" alt="" coords="711,109,946,165"/>
+<area shape="rect" id="node10" href="$G3T1__3_8hpp.html" title="src/sa&#45;bsn/target_system\l/components/component/include\l/component/g3t1_3/G3T1_3.hpp" alt="" coords="970,109,1205,165"/>
+<area shape="rect" id="node13" href="$G3T1__4_8hpp.html" title="src/sa&#45;bsn/target_system\l/components/component/include\l/component/g3t1_4/G3T1_4.hpp" alt="" coords="1423,109,1658,165"/>
+<area shape="rect" id="node16" href="$G3T1__5_8hpp.html" title="src/sa&#45;bsn/target_system\l/components/component/include\l/component/g3t1_5/G3T1_5.hpp" alt="" coords="1898,109,2133,165"/>
+<area shape="rect" id="node19" href="$G3T1__6_8hpp.html" title="src/sa&#45;bsn/target_system\l/components/component/include\l/component/g3t1_6/G3T1_6.hpp" alt="" coords="2373,109,2607,165"/>
+<area shape="rect" id="node5" href="$g3t1__1_8cpp.html" title="src/sa&#45;bsn/target_system\l/components/component/apps\l/g3t1_1.cpp" alt="" coords="7,213,226,269"/>
+<area shape="rect" id="node6" href="$G3T1__1_8cpp.html" title="src/sa&#45;bsn/target_system\l/components/component/src\l/g3t1_1/G3T1_1.cpp" alt="" coords="251,213,457,269"/>
+<area shape="rect" id="node8" href="$g3t1__2_8cpp.html" title="src/sa&#45;bsn/target_system\l/components/component/apps\l/g3t1_2.cpp" alt="" coords="482,213,701,269"/>
+<area shape="rect" id="node9" href="$G3T1__2_8cpp.html" title="src/sa&#45;bsn/target_system\l/components/component/src\l/g3t1_2/G3T1_2.cpp" alt="" coords="725,213,932,269"/>
+<area shape="rect" id="node11" href="$g3t1__3_8cpp.html" title="src/sa&#45;bsn/target_system\l/components/component/apps\l/g3t1_3.cpp" alt="" coords="957,213,1175,269"/>
+<area shape="rect" id="node12" href="$G3T1__3_8cpp.html" title="src/sa&#45;bsn/target_system\l/components/component/src\l/g3t1_3/G3T1_3.cpp" alt="" coords="1200,213,1407,269"/>
+<area shape="rect" id="node14" href="$g3t1__4_8cpp.html" title="src/sa&#45;bsn/target_system\l/components/component/apps\l/g3t1_4.cpp" alt="" coords="1431,213,1650,269"/>
+<area shape="rect" id="node15" href="$G3T1__4_8cpp.html" title="src/sa&#45;bsn/target_system\l/components/component/src\l/g3t1_4/G3T1_4.cpp" alt="" coords="1675,213,1881,269"/>
+<area shape="rect" id="node17" href="$g3t1__5_8cpp.html" title="src/sa&#45;bsn/target_system\l/components/component/apps\l/g3t1_5.cpp" alt="" coords="1906,213,2125,269"/>
+<area shape="rect" id="node18" href="$G3T1__5_8cpp.html" title="src/sa&#45;bsn/target_system\l/components/component/src\l/g3t1_5/G3T1_5.cpp" alt="" coords="2149,213,2356,269"/>
+<area shape="rect" id="node20" href="$g3t1__6_8cpp.html" title="src/sa&#45;bsn/target_system\l/components/component/apps\l/g3t1_6.cpp" alt="" coords="2381,213,2599,269"/>
+<area shape="rect" id="node21" href="$G3T1__6_8cpp.html" title="src/sa&#45;bsn/target_system\l/components/component/src\l/g3t1_6/G3T1_6.cpp" alt="" coords="2624,213,2831,269"/>
+</map>

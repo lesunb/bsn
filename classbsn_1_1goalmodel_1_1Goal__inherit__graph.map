@@ -1,0 +1,3 @@
+<map id="bsn::goalmodel::Goal" name="bsn::goalmodel::Goal">
+<area shape="rect" id="node2" href="$classbsn_1_1goalmodel_1_1Node.html" title="{bsn::goalmodel::Node\n|# id\l# description\l# children\l|+ Node()\l+ Node()\l+ ~Node()\l+ Node()\l+ operator=()\l+ operator==()\l+ setID()\l+ getID()\l+ setDescription()\l+ getDescription()\l+ hasChildren()\l+ getChildren()\l+ addChild()\l+ removeChild()\l+ getChild()\l}" alt="" coords="5,5,169,317"/>
+</map>

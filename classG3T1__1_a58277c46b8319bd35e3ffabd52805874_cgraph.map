@@ -1,0 +1,14 @@
+<map id="G3T1_1::transfer" name="G3T1_1::transfer">
+<area shape="rect" id="node2" href="$classbsn_1_1configuration_1_1SensorConfiguration.html#a74040e24635beeffd7067a23c5bb91ab" title="bsn::configuration\l::SensorConfiguration\l::evaluateNumber" alt="" coords="186,85,347,141"/>
+<area shape="rect" id="node9" href="$classbsn_1_1resource_1_1Battery.html#a674c7c02100126e91f040bc93f143c7e" title="bsn::resource::Battery\l::getCurrentLevel" alt="" coords="184,166,349,207"/>
+<area shape="rect" id="node10" href="$classbsn_1_1resource_1_1Battery.html#aedd16b53e50acce84e3f77dfd6d38e74" title="bsn::resource::Battery\l::consume" alt="" coords="184,231,349,273"/>
+<area shape="rect" id="node11" href="$classbsn_1_1configuration_1_1SensorConfiguration.html#ad634307e717a32be46cbf83f5bb64dd6" title="bsn::configuration\l::SensorConfiguration\l::isLowRisk" alt="" coords="186,5,347,61"/>
+<area shape="rect" id="node12" href="$classbsn_1_1configuration_1_1SensorConfiguration.html#a03fedce8669b42a6b9b85a5118e1b1c7" title="bsn::configuration\l::SensorConfiguration\l::isMediumRisk" alt="" coords="186,297,347,353"/>
+<area shape="rect" id="node13" href="$classbsn_1_1configuration_1_1SensorConfiguration.html#a10edc69659fac13589698a7f2f4f529b" title="bsn::configuration\l::SensorConfiguration\l::isHighRisk" alt="" coords="186,377,347,433"/>
+<area shape="rect" id="node3" href="$classbsn_1_1range_1_1Range.html#a803a947a39a06176384e00e2ad758ec9" title="bsn::range::Range::\lin_range" alt="" coords="414,14,561,55"/>
+<area shape="rect" id="node4" href="$classbsn_1_1configuration_1_1SensorConfiguration.html#aab092b8b249eda7ee53a38ec45ba9421" title="bsn::configuration\l::SensorConfiguration\l::getDisplacement" alt="" coords="407,163,568,219"/>
+<area shape="rect" id="node7" href="$classbsn_1_1configuration_1_1SensorConfiguration.html#aeb452f9154ebbc75bd54564fa0f94430" title="bsn::configuration\l::SensorConfiguration\l::convertRealPercentage" alt="" coords="397,83,577,139"/>
+<area shape="rect" id="node5" href="$classbsn_1_1range_1_1Range.html#a0785d0aa7d5463bcdd3842089069a2e7" title="bsn::range::Range::\lgetLowerBound" alt="" coords="625,170,772,211"/>
+<area shape="rect" id="node6" href="$classbsn_1_1range_1_1Range.html#a540c2181ec15a65b189a7fb89659f388" title="bsn::range::Range::\lgetUpperBound" alt="" coords="625,105,772,146"/>
+<area shape="rect" id="node8" href="$classbsn_1_1range_1_1Range.html#ab8b7c15c1b6dc5c0e2c57b968271ac3b" title="bsn::range::Range::\lconvert" alt="" coords="625,39,772,81"/>
+</map>

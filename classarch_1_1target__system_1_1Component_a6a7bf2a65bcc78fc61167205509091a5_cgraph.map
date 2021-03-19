@@ -1,0 +1,11 @@
+<map id="arch::target_system::Component::setUp" name="arch::target_system::Component::setUp">
+<area shape="rect" id="node2" href="$classarch_1_1ROSComponentDescriptor.html#a6ae1f0c4c644bce7bc7e99e408dc7ca0" title="arch::ROSComponentDescriptor\l::setFreq" alt="" coords="205,5,432,47"/>
+<area shape="rect" id="node3" href="$classarch_1_1target__system_1_1Component.html#adc6ecb4090656eeac2289ec147a20f81" title="arch::target_system\l::Component::sendStatus" alt="" coords="513,57,698,99"/>
+<area shape="rect" id="node5" href="$classarch_1_1target__system_1_1Component.html#a766a2494155aaa42b3c8162cefb11b77" title="arch::target_system\l::Component::activate" alt="" coords="235,123,402,164"/>
+<area shape="rect" id="node8" href="$classarch_1_1target__system_1_1Component.html#a859fdc651315139921d2b2c5fa75be76" title="arch::target_system\l::Component::sigIntHandler" alt="" coords="219,188,419,229"/>
+<area shape="rect" id="node10" href="$classarch_1_1ROSComponent.html#aa5fa36ba1bff54a60c9a0e5498e504f7" title="arch::ROSComponent\l::getRosNodeName" alt="" coords="812,217,972,259"/>
+<area shape="rect" id="node4" href="$classarch_1_1ROSComponentDescriptor.html#a462b00745d0de3f98d88f3eb1ba11e45" title="arch::ROSComponentDescriptor\l::getName" alt="" coords="779,57,1005,99"/>
+<area shape="rect" id="node6" href="$classarch_1_1target__system_1_1Component.html#a9d793970d5fbdef5c31e5ab901b98030" title="arch::target_system\l::Component::sendEvent" alt="" coords="515,123,696,164"/>
+<area shape="rect" id="node7" href="$classarch_1_1ROSComponentDescriptor.html#a4b73f46f37241865a08e75ab202e28eb" title="arch::ROSComponentDescriptor\l::getFreq" alt="" coords="779,123,1005,164"/>
+<area shape="rect" id="node9" href="$classarch_1_1target__system_1_1Component.html#ab67fdba3849fb31886a7e4d2b032f38c" title="arch::target_system\l::Component::shutdownComponent" alt="" coords="480,188,731,229"/>
+</map>

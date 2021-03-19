@@ -1,0 +1,33 @@
+<map id="src/libbsn/include/libbsn/range/Range.hpp" name="src/libbsn/include/libbsn/range/Range.hpp">
+<area shape="rect" id="node2" href="$SensorConfiguration_8hpp.html" title="src/libbsn/include\l/libbsn/configuration\l/SensorConfiguration.hpp" alt="" coords="1207,184,1393,240"/>
+<area shape="rect" id="node5" href="$G3T1__1_8hpp.html" title="src/sa&#45;bsn/target_system\l/components/component/include\l/component/g3t1_1/G3T1_1.hpp" alt="" coords="1623,288,1857,344"/>
+<area shape="rect" id="node8" href="$G3T1__2_8hpp.html" title="src/sa&#45;bsn/target_system\l/components/component/include\l/component/g3t1_2/G3T1_2.hpp" alt="" coords="1364,288,1599,344"/>
+<area shape="rect" id="node11" href="$G3T1__3_8hpp.html" title="src/sa&#45;bsn/target_system\l/components/component/include\l/component/g3t1_3/G3T1_3.hpp" alt="" coords="399,288,633,344"/>
+<area shape="rect" id="node14" href="$G3T1__4_8hpp.html" title="src/sa&#45;bsn/target_system\l/components/component/include\l/component/g3t1_4/G3T1_4.hpp" alt="" coords="657,288,892,344"/>
+<area shape="rect" id="node17" href="$G3T1__5_8hpp.html" title="src/sa&#45;bsn/target_system\l/components/component/include\l/component/g3t1_5/G3T1_5.hpp" alt="" coords="1881,288,2116,344"/>
+<area shape="rect" id="node20" href="$G3T1__6_8hpp.html" title="src/sa&#45;bsn/target_system\l/components/component/include\l/component/g3t1_6/G3T1_6.hpp" alt="" coords="2140,288,2375,344"/>
+<area shape="rect" id="node23" href="$Markov_8hpp.html" title="src/libbsn/include\l/libbsn/generator/Markov.hpp" alt="" coords="1760,95,1971,136"/>
+<area shape="rect" id="node25" href="$DataGenerator_8cpp.html" title="src/libbsn/src/generator\l/DataGenerator.cpp" alt="" coords="2666,295,2841,337"/>
+<area shape="rect" id="node26" href="$DataGeneratorTest_8cpp.html" title="src/libbsn/test/unit\l/generator/DataGeneratorTest.cpp" alt="" coords="2399,295,2641,337"/>
+<area shape="rect" id="node27" href="$PatientModule_8hpp.html" title="src/sa&#45;bsn/environment\l/patient/include/PatientModule.hpp" alt="" coords="2865,295,3111,337"/>
+<area shape="rect" id="node31" href="$Range_8cpp.html" title="src/libbsn/src/range\l/Range.cpp" alt="" coords="2509,95,2657,136"/>
+<area shape="rect" id="node32" href="$RangeTest_8cpp.html" title="src/libbsn/test/unit\l/range/RangeTest.cpp" alt="" coords="2681,95,2842,136"/>
+<area shape="rect" id="node3" href="$SensorConfiguration_8cpp.html" title="src/libbsn/src/configuration\l/SensorConfiguration.cpp" alt="" coords="917,295,1113,337"/>
+<area shape="rect" id="node4" href="$ConfigurationTest_8cpp.html" title="src/libbsn/test/unit\l/configuration/Configuration\lTest.cpp" alt="" coords="1137,288,1340,344"/>
+<area shape="rect" id="node6" href="$g3t1__1_8cpp.html" title="src/sa&#45;bsn/target_system\l/components/component/apps\l/g3t1_1.cpp" alt="" coords="1429,392,1648,448"/>
+<area shape="rect" id="node7" href="$G3T1__1_8cpp.html" title="src/sa&#45;bsn/target_system\l/components/component/src\l/g3t1_1/G3T1_1.cpp" alt="" coords="1673,392,1879,448"/>
+<area shape="rect" id="node9" href="$g3t1__2_8cpp.html" title="src/sa&#45;bsn/target_system\l/components/component/apps\l/g3t1_2.cpp" alt="" coords="955,392,1173,448"/>
+<area shape="rect" id="node10" href="$G3T1__2_8cpp.html" title="src/sa&#45;bsn/target_system\l/components/component/src\l/g3t1_2/G3T1_2.cpp" alt="" coords="1198,392,1405,448"/>
+<area shape="rect" id="node12" href="$g3t1__3_8cpp.html" title="src/sa&#45;bsn/target_system\l/components/component/apps\l/g3t1_3.cpp" alt="" coords="5,392,224,448"/>
+<area shape="rect" id="node13" href="$G3T1__3_8cpp.html" title="src/sa&#45;bsn/target_system\l/components/component/src\l/g3t1_3/G3T1_3.cpp" alt="" coords="249,392,455,448"/>
+<area shape="rect" id="node15" href="$g3t1__4_8cpp.html" title="src/sa&#45;bsn/target_system\l/components/component/apps\l/g3t1_4.cpp" alt="" coords="480,392,699,448"/>
+<area shape="rect" id="node16" href="$G3T1__4_8cpp.html" title="src/sa&#45;bsn/target_system\l/components/component/src\l/g3t1_4/G3T1_4.cpp" alt="" coords="723,392,930,448"/>
+<area shape="rect" id="node18" href="$g3t1__5_8cpp.html" title="src/sa&#45;bsn/target_system\l/components/component/apps\l/g3t1_5.cpp" alt="" coords="1904,392,2123,448"/>
+<area shape="rect" id="node19" href="$G3T1__5_8cpp.html" title="src/sa&#45;bsn/target_system\l/components/component/src\l/g3t1_5/G3T1_5.cpp" alt="" coords="2147,392,2354,448"/>
+<area shape="rect" id="node21" href="$g3t1__6_8cpp.html" title="src/sa&#45;bsn/target_system\l/components/component/apps\l/g3t1_6.cpp" alt="" coords="2379,392,2597,448"/>
+<area shape="rect" id="node22" href="$G3T1__6_8cpp.html" title="src/sa&#45;bsn/target_system\l/components/component/src\l/g3t1_6/G3T1_6.cpp" alt="" coords="2622,392,2829,448"/>
+<area shape="rect" id="node24" href="$DataGenerator_8hpp.html" title="src/libbsn/include\l/libbsn/generator/DataGenerator.hpp" alt="" coords="1820,191,2079,233"/>
+<area shape="rect" id="node30" href="$Markov_8cpp.html" title="src/libbsn/src/generator\l/Markov.cpp" alt="" coords="1570,191,1745,233"/>
+<area shape="rect" id="node28" href="$patient_8cpp.html" title="src/sa&#45;bsn/environment\l/patient/apps/patient.cpp" alt="" coords="2881,399,3065,441"/>
+<area shape="rect" id="node29" href="$PatientModule_8cpp.html" title="src/sa&#45;bsn/environment\l/patient/src/PatientModule.cpp" alt="" coords="3089,399,3308,441"/>
+</map>

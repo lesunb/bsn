@@ -1,0 +1,5 @@
+<map id="CentralHub" name="CentralHub">
+<area shape="rect" id="node4" href="$classG4T1.html" title="{G4T1\n||+ G4T1()\l+ ~G4T1()\l+ setUp()\l+ tearDown()\l+ collect()\l+ process()\l+ transfer()\l}" alt="" coords="49,895,160,1060"/>
+<area shape="rect" id="node2" href="$classarch_1_1target__system_1_1Component.html" title="{arch::target_system\l::Component\n|# handle\l|+ Component()\l+ ~Component()\l+ setUp()\l+ tearDown()\l+ run()\l+ body()\l+ sendEvent()\l+ sendStatus()\l+ sendEnergyStatus()\l+ reconfigure()\l# activate()\l# deactivate()\l# shutdownComponent()\l# sigIntHandler()\l}" alt="" coords="12,219,197,501"/>
+<area shape="rect" id="node3" href="$classarch_1_1ROSComponent.html" title="{arch::ROSComponent\n|# rosComponentDescriptor\l|+ ROSComponent()\l+ ~ROSComponent()\l+ setUp()\l+ tearDown()\l+ run()\l+ body()\l# getRosNodeName()\l}" alt="" coords="5,5,204,171"/>
+</map>

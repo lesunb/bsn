@@ -1,0 +1,5 @@
+<map id="TEST_F" name="TEST_F">
+<area shape="rect" id="node2" href="$classbsn_1_1goalmodel_1_1Node.html#a331301404b90ce9d959957a36fa93f0d" title="bsn::goalmodel::Node\l::addChild" alt="" coords="121,5,285,47"/>
+<area shape="rect" id="node3" href="$classbsn_1_1goalmodel_1_1Node.html#a54918fd1c3cf913da72d0ac6cd7a4efc" title="bsn::goalmodel::Node\l::removeChild" alt="" coords="121,71,285,112"/>
+<area shape="rect" id="node4" href="$classbsn_1_1goalmodel_1_1Node.html#ac7e1c2bc59a420499d0dac0a1593282e" title="bsn::goalmodel::Node\l::getChildren" alt="" coords="121,136,285,177"/>
+</map>

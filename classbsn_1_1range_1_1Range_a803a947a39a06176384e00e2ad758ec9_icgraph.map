@@ -1,0 +1,16 @@
+<map id="bsn::range::Range::in_range" name="bsn::range::Range::in_range">
+<area shape="rect" id="node2" href="$classbsn_1_1configuration_1_1SensorConfiguration.html#a74040e24635beeffd7067a23c5bb91ab" title="bsn::configuration\l::SensorConfiguration\l::evaluateNumber" alt="" coords="200,244,361,300"/>
+<area shape="rect" id="node15" href="$classbsn_1_1configuration_1_1SensorConfiguration.html#ad634307e717a32be46cbf83f5bb64dd6" title="bsn::configuration\l::SensorConfiguration\l::isLowRisk" alt="" coords="200,143,361,199"/>
+<area shape="rect" id="node3" href="$classG3T1__1.html#a4696c0b3b423e6d0efe2a6f3f6e84cfa" title="G3T1_1::collect" alt="" coords="413,309,536,336"/>
+<area shape="rect" id="node4" href="$classG3T1__1.html#a58277c46b8319bd35e3ffabd52805874" title="G3T1_1::transfer" alt="" coords="409,5,540,32"/>
+<area shape="rect" id="node5" href="$classG3T1__2.html#af0d9cc4619906329eeb799c5a35e142a" title="G3T1_2::collect" alt="" coords="413,360,536,387"/>
+<area shape="rect" id="node6" href="$classG3T1__2.html#ac437972ecabb9e234c8717101d51eac8" title="G3T1_2::transfer" alt="" coords="409,56,540,83"/>
+<area shape="rect" id="node7" href="$classG3T1__3.html#a3519014bd56d810164d86d9756169c44" title="G3T1_3::collect" alt="" coords="413,411,536,437"/>
+<area shape="rect" id="node8" href="$classG3T1__3.html#a4bd1c419743c7c128fd1c3cf4fa5e434" title="G3T1_3::transfer" alt="" coords="409,107,540,133"/>
+<area shape="rect" id="node9" href="$classG3T1__4.html#aac00c133f2199079b671b3094496fb33" title="G3T1_4::collect" alt="" coords="413,461,536,488"/>
+<area shape="rect" id="node10" href="$classG3T1__4.html#a20ad5272beba24e4879fb29985b85f69" title="G3T1_4::transfer" alt="" coords="409,157,540,184"/>
+<area shape="rect" id="node11" href="$classG3T1__5.html#a1aa8fb64b30b7263df5c2189fb5995dc" title="G3T1_5::collect" alt="" coords="413,512,536,539"/>
+<area shape="rect" id="node12" href="$classG3T1__5.html#ae9918da7342a4fb88c6f633db43b9fe8" title="G3T1_5::transfer" alt="" coords="409,208,540,235"/>
+<area shape="rect" id="node13" href="$classG3T1__6.html#a0deb9a2b913d7753ef6708ccbd87df34" title="G3T1_6::collect" alt="" coords="413,563,536,589"/>
+<area shape="rect" id="node14" href="$classG3T1__6.html#aaa3c643ee36464eca9e095d150926e22" title="G3T1_6::transfer" alt="" coords="409,259,540,285"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="Logger::body" name="Logger::body">
+<area shape="rect" id="node2" href="$classLogger.html#a91dc05b6320e8749822ea4b5d4bc816e" title="Logger::receiveAdaptation\lCommand" alt="" coords="167,5,361,47"/>
+<area shape="rect" id="node3" href="$classLogger.html#ae9034d8bf4e3fef539c6eca091cd8c43" title="Logger::receiveStatus" alt="" coords="183,71,345,98"/>
+<area shape="rect" id="node4" href="$classLogger.html#a50f782a02a31340bbcd7f55e251484f1" title="Logger::receiveEnergyStatus" alt="" coords="160,122,368,149"/>
+<area shape="rect" id="node5" href="$classLogger.html#ac5d3c71ae88d6e66f1a0f082a621f045" title="Logger::receiveEvent" alt="" coords="185,173,343,199"/>
+<area shape="rect" id="node6" href="$classLogger.html#a5e58080a4857c3ceba7cac7c14e96585" title="Logger::receiveUncertainty" alt="" coords="165,223,363,250"/>
+</map>

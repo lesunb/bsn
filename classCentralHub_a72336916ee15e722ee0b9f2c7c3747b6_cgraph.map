@@ -1,0 +1,11 @@
+<map id="CentralHub::reconfigure" name="CentralHub::reconfigure">
+<area shape="rect" id="node2" href="$namespacebsn_1_1utils.html#a4ab7be3d27380abe032f4ceec86b09b2" title="bsn::utils::split" alt="" coords="284,5,401,32"/>
+<area shape="rect" id="node3" href="$classarch_1_1ROSComponentDescriptor.html#a6ae1f0c4c644bce7bc7e99e408dc7ca0" title="arch::ROSComponentDescriptor\l::setFreq" alt="" coords="229,57,456,98"/>
+<area shape="rect" id="node4" href="$classarch_1_1target__system_1_1Component.html#a766a2494155aaa42b3c8162cefb11b77" title="arch::target_system\l::Component::activate" alt="" coords="259,122,426,163"/>
+<area shape="rect" id="node7" href="$classarch_1_1ROSComponentDescriptor.html#a4b73f46f37241865a08e75ab202e28eb" title="arch::ROSComponentDescriptor\l::getFreq" alt="" coords="733,246,960,287"/>
+<area shape="rect" id="node8" href="$classarch_1_1target__system_1_1Component.html#a7e504b0c12531376d3cca170a23b18e3" title="arch::target_system\l::Component::deactivate" alt="" coords="251,187,434,229"/>
+<area shape="rect" id="node9" href="$classbsn_1_1resource_1_1Battery.html#a674c7c02100126e91f040bc93f143c7e" title="bsn::resource::Battery\l::getCurrentLevel" alt="" coords="260,305,425,346"/>
+<area shape="rect" id="node10" href="$classbsn_1_1resource_1_1Battery.html#aa7265cd180da80242067253f7f42272c" title="bsn::resource::Battery\l::generate" alt="" coords="260,370,425,411"/>
+<area shape="rect" id="node5" href="$classarch_1_1target__system_1_1Component.html#a9d793970d5fbdef5c31e5ab901b98030" title="arch::target_system\l::Component::sendEvent" alt="" coords="504,185,685,226"/>
+<area shape="rect" id="node6" href="$classarch_1_1ROSComponentDescriptor.html#a462b00745d0de3f98d88f3eb1ba11e45" title="arch::ROSComponentDescriptor\l::getName" alt="" coords="733,181,960,222"/>
+</map>

@@ -1,0 +1,9 @@
+<map id="bsn::resource::Battery::generate" name="bsn::resource::Battery::generate">
+<area shape="rect" id="node2" href="$classCentralHub.html#a72336916ee15e722ee0b9f2c7c3747b6" title="CentralHub::reconfigure" alt="" coords="219,5,395,32"/>
+<area shape="rect" id="node5" href="$classSensor.html#aa2c5c0b7c6f69e6e25cf56bab5fc822b" title="Sensor::recharge" alt="" coords="241,56,372,83"/>
+<area shape="rect" id="node3" href="$classCentralHub.html#a388e947318a28cf7cac762ac8b1cf3d4" title="CentralHub::run" alt="" coords="443,5,567,32"/>
+<area shape="rect" id="node4" href="$g4t1_8cpp.html#af19ddca125f05a2090dd132045573ee4" title="main" alt="" coords="635,5,689,32"/>
+<area shape="rect" id="node6" href="$classSensor.html#a043dabb8b92f70fc247d585b8d66e133" title="Sensor::body" alt="" coords="451,56,558,83"/>
+<area shape="rect" id="node7" href="$classSensor.html#a1a664cdb090cb4295bbdedcffb1c8499" title="Sensor::run" alt="" coords="615,56,709,83"/>
+<area shape="rect" id="node8" href="$g3t1__1_8cpp.html#a3c04138a5bfe5d72780bb7e82a18e627" title="main" alt="" coords="757,56,812,83"/>
+</map>

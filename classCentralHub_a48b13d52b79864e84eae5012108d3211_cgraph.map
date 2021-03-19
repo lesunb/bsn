@@ -1,0 +1,8 @@
+<map id="CentralHub::body" name="CentralHub::body">
+<area shape="rect" id="node2" href="$classbsn_1_1resource_1_1Battery.html#a674c7c02100126e91f040bc93f143c7e" title="bsn::resource::Battery\l::getCurrentLevel" alt="" coords="198,5,363,47"/>
+<area shape="rect" id="node3" href="$classCentralHub.html#ad6c1ba1c51d58a420e076fbd27cd2b5c" title="CentralHub::apply_noise" alt="" coords="190,71,371,98"/>
+<area shape="rect" id="node4" href="$classCentralHub.html#a3527f7455ec82af84e32b182221ede80" title="CentralHub::process" alt="" coords="204,122,357,149"/>
+<area shape="rect" id="node5" href="$classCentralHub.html#a31e4df7094f5d176052056464d5886fa" title="CentralHub::transfer" alt="" coords="203,173,358,199"/>
+<area shape="rect" id="node6" href="$classarch_1_1target__system_1_1Component.html#adc6ecb4090656eeac2289ec147a20f81" title="arch::target_system\l::Component::sendStatus" alt="" coords="188,224,373,265"/>
+<area shape="rect" id="node7" href="$classarch_1_1ROSComponentDescriptor.html#a462b00745d0de3f98d88f3eb1ba11e45" title="arch::ROSComponentDescriptor\l::getName" alt="" coords="421,224,648,265"/>
+</map>

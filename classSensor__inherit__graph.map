@@ -1,0 +1,10 @@
+<map id="Sensor" name="Sensor">
+<area shape="rect" id="node4" href="$classG3T1__1.html" title="{G3T1_1\n||+ G3T1_1()\l+ ~G3T1_1()\l+ setUp()\l+ tearDown()\l+ collect()\l+ process()\l+ transfer()\l}" alt="" coords="5,1027,116,1192"/>
+<area shape="rect" id="node5" href="$classG3T1__2.html" title="{G3T1_2\n||+ G3T1_2()\l+ ~G3T1_2()\l+ setUp()\l+ tearDown()\l+ collect()\l+ process()\l+ transfer()\l}" alt="" coords="140,1027,251,1192"/>
+<area shape="rect" id="node6" href="$classG3T1__3.html" title="{G3T1_3\n||+ G3T1_3()\l+ ~G3T1_3()\l+ setUp()\l+ tearDown()\l+ collect()\l+ process()\l+ transfer()\l}" alt="" coords="275,1027,385,1192"/>
+<area shape="rect" id="node7" href="$classG3T1__4.html" title="{G3T1_4\n||+ G3T1_4()\l+ ~G3T1_4()\l+ setUp()\l+ tearDown()\l+ collect()\l+ process()\l+ transfer()\l}" alt="" coords="409,1027,520,1192"/>
+<area shape="rect" id="node8" href="$classG3T1__5.html" title="{G3T1_5\n||+ G3T1_5()\l+ ~G3T1_5()\l+ setUp()\l+ tearDown()\l+ collect()\l+ process()\l+ transfer()\l}" alt="" coords="544,1027,655,1192"/>
+<area shape="rect" id="node9" href="$classG3T1__6.html" title="{G3T1_6\n||+ G3T1_6()\l+ ~G3T1_6()\l+ setUp()\l+ tearDown()\l+ collect()\l+ process()\l+ transfer()\l}" alt="" coords="679,1027,789,1192"/>
+<area shape="rect" id="node2" href="$classarch_1_1target__system_1_1Component.html" title="{arch::target_system\l::Component\n|# handle\l|+ Component()\l+ ~Component()\l+ setUp()\l+ tearDown()\l+ run()\l+ body()\l+ sendEvent()\l+ sendStatus()\l+ sendEnergyStatus()\l+ reconfigure()\l# activate()\l# deactivate()\l# shutdownComponent()\l# sigIntHandler()\l}" alt="" coords="304,219,489,501"/>
+<area shape="rect" id="node3" href="$classarch_1_1ROSComponent.html" title="{arch::ROSComponent\n|# rosComponentDescriptor\l|+ ROSComponent()\l+ ~ROSComponent()\l+ setUp()\l+ tearDown()\l+ run()\l+ body()\l# getRosNodeName()\l}" alt="" coords="297,5,496,171"/>
+</map>
