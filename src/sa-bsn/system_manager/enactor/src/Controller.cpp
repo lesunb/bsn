@@ -10,6 +10,8 @@ void Controller::setUp() {
     ros::NodeHandle nh;
 
     adapt = nh.advertise<archlib::AdaptationCommand>("log_adapt", 10);
+    ros::Subscriber voltage_status_sub = nh.subscribe("log_voltage_status", 1000, &Controller::receiveVoltageStatus, this);
+    double current_voltage;
 
     except = nh.advertise<archlib::Exception>("exception", 10);
 
@@ -149,6 +151,17 @@ void Controller::apply_reli_strategy(const std::string &component) {
     invocations[component].clear();
 }
 
+void Controller::receiveVoltageStatus(const archlib::VoltageStatus::ConstPtr& msg) {
+    ROS_INFO("I heard Controller: [%s: %s]", msg->source.c_str(), to_string(msg->content).c_str());
+
+    // persistMsg.source = msg->source;
+    // persistMsg.target = msg->target;
+    // persistMsg.type = "VoltageStatus";
+    // persistMsg.timestamp = this->now()-time_ref;
+    current_voltage = stod(msg->content);
+}
+
+
 void Controller::apply_cost_strategy(const std::string &component) {
     std::cout << "c_ref[" << component << "] = "<< c_ref[component] <<std::endl;
     std::cout << "c_curr[" << component << "] = "<< c_curr[component] <<std::endl;
@@ -157,8 +170,10 @@ void Controller::apply_cost_strategy(const std::string &component) {
     // if (c_ref[component] == 0 || c_curr[component] == 0){
     //     return;
     // }
-
+    double desired_voltage = 1.0;
+    int kp_volt = 150;
     double error = c_ref[component] - c_curr[component]; //error = Cref - Ccurr
+    double voltage_error = desired_voltage - current_voltage;
 
     if(error > stability_margin*c_ref[component] || error < -stability_margin*c_ref[component]) {
 
@@ -215,7 +230,14 @@ void Controller::apply_cost_strategy(const std::string &component) {
                 //freq[component] += (error>0) ? ((-kp[component]/100) * error) : ((kp[component]/100) * error); 
                 //double new_freq = freq[component] + ((error>0) ? ((-kp[component]/100) * error) : ((kp[component]/100) * error));
                 double new_freq = freq[component] + ((kp[component]/100) * error);
+                double new_volt = current_voltage + ((kp_volt/100) * voltage_error);
                 ROS_INFO("NEW FREQUENCY [%s]", std::to_string(new_freq).c_str());
+                if(new_volt >= 1.0 && new_volt <= 6.0) {
+                    archlib::AdaptationCommand voltageMsg;
+                    voltageMsg.source = ros::this_node::getName();
+                    voltageMsg.target = component;
+                    voltageMsg.action = "volt=" + std::to_string(new_volt);
+                }
                 if(new_freq >= 0.1 && new_freq <= 25) {
                     freq[component] = new_freq;
                     archlib::AdaptationCommand msg;

@@ -47,6 +47,7 @@ class Enactor : public arch::ROSComponent {
 	protected:
 		ros::Publisher adapt;
 		ros::Publisher except;
+		ros::Subscriber voltage_status_sub;
 
 		std::map<std::string, std::deque<int>> invocations; //a map of deques where 1s represent successes and 0s represents failures
 		std::map<std::string, int> exception_buffer;
@@ -57,6 +58,7 @@ class Enactor : public arch::ROSComponent {
 
 		int64_t cycles;
 		double stability_margin;
+		double current_voltage;
 
 		std::string adaptation_parameter;
 };
