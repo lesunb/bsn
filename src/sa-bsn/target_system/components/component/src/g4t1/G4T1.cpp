@@ -108,7 +108,7 @@ void G4T1::collect(const messages::SensorData::ConstPtr& msg) {
         abpd_raw = msg->data;
     } else if (msg->type == "glucosemeter") {
         glc_batt = batt;
-        glc_raw = "teste"; //msg->data;
+        glc_raw = msg->data;
     }
 	
     std::vector<std::string> v = {std::to_string(trm_raw), std::to_string(ecg_raw), std::to_string(oxi_raw), std::to_string(abps_raw), std::to_string(abpd_raw), std::to_string(glc_raw)};
