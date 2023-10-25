@@ -104,6 +104,9 @@ double G3T1_1::collect() {
     cost += BATT_UNIT;
 
     collected_risk = sensorConfig.evaluateNumber(m_data);
+    //std::string s = std::to_string(collected_string);
+    
+    //ROS_INFO("Collected risk: [%s]", std::to_string(collected_risk).c_str());
 
     return m_data;
 }

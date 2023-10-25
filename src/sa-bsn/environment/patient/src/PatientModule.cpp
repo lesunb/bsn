@@ -1,5 +1,6 @@
 #include <PatientModule.hpp>
 
+
 PatientModule::PatientModule(int  &argc, char **argv, std::string name) : ROSComponent(argc, argv, name) {}
 
 PatientModule::~PatientModule() {}
@@ -90,9 +91,9 @@ bool PatientModule::getPatientData(services::PatientData::Request &request,
                                 services::PatientData::Response &response) {
     
     response.data = patientData[request.vitalSign].getValue();
-    
-    std::cout << "Send " + request.vitalSign + " data." << std::endl;
-
+    if(request.vitalSign=="oxigenation"){
+        std::cout << "Send " + request.vitalSign + " data." + std::to_string(response.data)<< std::endl;
+    }
     return true;
 }
 
@@ -102,7 +103,8 @@ void PatientModule::body() {
         if (p.second >= (vitalSignsChanges[p.first] + vitalSignsOffsets[p.first])) {
             patientData[p.first].nextState();
             p.second = vitalSignsOffsets[p.first];
-            std::cout << "Changed " + p.first + " state." << std::endl;
+            //std::string s = std::to_string(p.second);
+            std::cout << "Changed " + p.first + " state."<< std::endl;
         } else {
             p.second += period;
         }

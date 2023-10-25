@@ -1,13 +1,12 @@
 #include "Injector.hpp"
 
-
 Injector::Injector(int  &argc, char **argv, const std::string &name) : ROSComponent(argc, argv, name), cycles(0), duration(), frequency(), amplitude(), noise_factor(), begin(), end(), type() {}
 Injector::~Injector() {}
 
 void Injector::setUp() {
     srand(time(NULL));
     log_uncertainty = handle.advertise<archlib::Uncertainty>("log_uncertainty", 10);
-
+    //wait(500000);     
     ros::NodeHandle config;
     
     double freq;

@@ -1,4 +1,5 @@
 #include "libbsn/processor/Processor.hpp"
+#include <stdio.h>
 
 using namespace std;
 
@@ -31,6 +32,9 @@ namespace bsn {
         }
 
         double data_fuse(vector<double> packetsReceived) {	
+            //FILE *fp;
+            //fp = fopen("/home/samira/Downloads/dados_checagem.txt", "a");
+
             double average, risk_status;
             int32_t count = 0;
             average = 0;
@@ -68,6 +72,7 @@ namespace bsn {
 
             // Calcula a media partir da soma dividida pelo número de pacotes lidos
             double avg = (average / count);
+            //std::cout<<"-----------------Average ===: "+std::to_string(avg)<<std::endl;
 
             std::vector<double> deviations;
             double min = 1000; //Maior valor possível é 100
@@ -90,9 +95,21 @@ namespace bsn {
                     min = dev;
                 }
             }
+            //std::cout<<"-----------------Max ===: "+std::to_string(max)<<std::endl;
+            //std::cout<<"-----------------Min ===: "+std::to_string(min)<<std::endl;
 
+            //std::cout<<"-----------------Ther ===: "+std::to_string(values.at(0))<<std::endl;
+            //std::cout<<"-----------------Ecg ===: "+std::to_string(values.at(1))<<std::endl;
+            //std::cout<<"-----------------Oximeter ===: "+std::to_string(values.at(2))<<std::endl;
+            //std::cout<<"-----------------Abps ===: "+std::to_string(values.at(3))<<std::endl;
+            //std::cout<<"-----------------Abpd===: "+std::to_string(values.at(4))<<std::endl;
+            //std::cout<<"-----------------Glub ===: "+std::to_string(values.at(5))<<std::endl;
+            
             double weighted_average = 0.0;
             double weight_sum = 0.0;
+
+            //fprintf(fp, "Max: %f\t",max);
+            //fprintf(fp, "Min: %f\t",min);
 
             // Status de risco do paciente dado em porcentagem
             if(max - min > 0.0) {
@@ -101,15 +118,25 @@ namespace bsn {
                     //Normalizando desvios entre 0 e 1
                     deviations.at(i) = (deviations.at(i) - min)/(max - min);
 
+                    //fprintf(fp, "Dev_%d: %f\t",i,deviations.at(i));
+                    //fprintf(fp, "Risk_%d: %f\t",i,values.at(i));
+
                     weight_sum += deviations.at(i);
                     weighted_average += values.at(i)*deviations.at(i);
                 }
 
                 risk_status = weighted_average/weight_sum;
             } else {
+                for(i = 0;i < deviations.size();i++) {
+                   // fprintf(fp, "Dev_%d: %f\t",i,deviations.at(i));
+                    //fprintf(fp, "Risk_%d: %f\t",i,values.at(i));
+                }
                 //Se o máximo é igual ao mínimo, a média será calculada e dará o mesmo valor
                 risk_status = avg;
             }
+
+            //fprintf(fp, "Risk_Status: %f\n",risk_status);
+            
 
             // 85.0 é um número totalmente ARBITRARIO
             if(risk_status > 66.0){
@@ -118,7 +145,7 @@ namespace bsn {
             else{
                 cout << "General risk status: " << risk_status << '%' << endl;
             }
-
+            //fclose(fp);
             return risk_status;
         }
     }

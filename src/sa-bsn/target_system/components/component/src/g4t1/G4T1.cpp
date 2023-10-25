@@ -1,4 +1,6 @@
 #include "component/g4t1/G4T1.hpp"
+#include <chrono>
+
 #define W(x) std::cerr << #x << " = " << x << std::endl;
 
 #define BATT_UNIT 0.001
@@ -96,6 +98,8 @@ void G4T1::collect(const messages::SensorData::ConstPtr& msg) {
     } else if (msg->type == "oximeter") {
         oxi_batt = batt;
         oxi_raw = msg->data;
+        //std::cout<<std::to_string(oxi_raw)<<std::endl;
+        //ROS_INFO("Oxi_raw: [%s]", std::to_string(oxi_raw).c_str());
     } else if (msg->type == "abps") {
         abps_batt = batt;
         abps_raw = msg->data;
@@ -104,9 +108,21 @@ void G4T1::collect(const messages::SensorData::ConstPtr& msg) {
         abpd_raw = msg->data;
     } else if (msg->type == "glucosemeter") {
         glc_batt = batt;
-        glc_raw = msg->data;
+        glc_raw = "teste"; //msg->data;
     }
+	
+    std::vector<std::string> v = {std::to_string(trm_raw), std::to_string(ecg_raw), std::to_string(oxi_raw), std::to_string(abps_raw), std::to_string(abpd_raw), std::to_string(glc_raw)};
+    std::cout<<"++++++++++++++++++++"<<std::endl;
+    std::cout<<"Trm: "+v[0]<<std::endl;
+    std::cout<<"Ecg: "+v[1]<<std::endl;
+    std::cout<<"Oxi: "+v[2]<<std::endl;
+    std::cout<<"Abps: "+v[3]<<std::endl;
+    std::cout<<"Abpd: "+v[4]<<std::endl;
+    std::cout<<"Glc: "+v[5]<<std::endl;
+    std::cout<<"++++++++++++++++++++"<<std::endl;
 
+    //std::cout<<msg->type+": "+std::to_string(msg->risk)<<std::endl;
+     
     if (buffer_size[type] < max_size) {
         data_buffer[type].push_back(risk);
         buffer_size[type] = data_buffer[type].size();
@@ -135,7 +151,14 @@ void G4T1::process(){
     total_buffer_size = std::accumulate(std::begin(buffer_size), std::end(buffer_size), 0, std::plus<int>()); //update total buffer size 
 
     // std::vector<std::string> risks;
-    getPatientStatus();
+    std::vector<std::string> v = getPatientStatus();
+    std::cout<<"Term: "+v[0]<<std::endl;
+    std::cout<<"Ecg: "+v[1]<<std::endl;
+    std::cout<<"Oxi: "+v[2]<<std::endl;
+    std::cout<<"Abps: "+v[3]<<std::endl;
+    std::cout<<"Abpd: "+v[4]<<std::endl;
+    std::cout<<"Glc: "+v[5]<<std::endl;
+    std::cout<<"Patient_Status: "+std::to_string(patient_status)<<std::endl;
 
     std::string patient_risk;
 
@@ -160,6 +183,12 @@ void G4T1::process(){
     std::cout << "| ABPD_RISK: " << abpd_risk << std::endl;
     std::cout << "| GLC_RISK: " << glc_risk << std::endl;
     std::cout << "| PATIENT_STATE:" << patient_risk << std::endl;
+
+
+    const auto p1 = std::chrono::system_clock::now();
+    std::cout << "Seconds Since Epoch: "
+              << std::chrono::duration_cast<std::chrono::seconds>(p1.time_since_epoch()).count() << '\n';
+
     std::cout << "*****************************************" << std::endl;
 }
 
