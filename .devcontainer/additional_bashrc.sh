@@ -18,3 +18,5 @@ function cleanupBSN() {
     kill $(cat /var/tmp/strategy_manager.pid && rm /var/tmp/strategy_manager.pid) & sleep 1s
     kill $(pgrep roscore)
 }
+
+export -f cleanupBSN
