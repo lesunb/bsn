@@ -4,6 +4,8 @@
 #include <stdio.h> 
 #include <string>
 #include <vector>
+#include <fstream>
+#include <iostream>
 
 #include "archlib/target_system/Component.hpp"
 #include "archlib/AdaptationCommand.h"
@@ -11,6 +13,8 @@
 
 #include "libbsn/resource/Battery.hpp"
 #include "libbsn/utils/utils.hpp"
+
+#include "services/PatientData.h"
 
 #include <std_msgs/Float32.h>
 #include <std_srvs/SetBool.h>
@@ -34,9 +38,14 @@ class Sensor : public arch::target_system::Component {
         void reconfigure(const archlib::AdaptationCommand::ConstPtr& msg);
         void injectUncertainty(const archlib::Uncertainty::ConstPtr& msg);
 		
-        virtual double collect() = 0;
         virtual double process(const double &data) = 0;
         virtual void transfer(const double &data) = 0;
+
+        void convert_name();
+        virtual double collect() = 0;
+        double collect_table();
+        double collect_real_sensor();
+        double collect_simulation();
 
     protected:
         bool isActive();
@@ -46,6 +55,8 @@ class Sensor : public arch::target_system::Component {
 
     protected:
 		std::string type;
+        std::string name_node_sensor;
+        std::string name_node_sensor_simulation;
 		bool active;
         int buffer_size;
         int replicate_collect;
@@ -55,7 +66,8 @@ class Sensor : public arch::target_system::Component {
         bool instant_recharge;
         bool shouldStart;
         double cost;
-        bool connected_sensor;
+        int connected_sensor;
+        int line_marker = 0;
 };
 
 #endif 

@@ -20,6 +20,7 @@
     <include file="./src/sa-bsn/configurations/target_system/g3t1_5.launch" /> <!-- APPLICATION -->
     <include file="./src/sa-bsn/configurations/target_system/g3t1_6.launch" /> <!-- APPLICATION -->
 
-    <!--<include file="./src/sa-bsn/configurations/simulation/injector.launch" /> <!-- FAULT INJECTION -->
+    <!--<include file="./src/sa-bsn/configurations/simulation/injector.launch" />--> <!-- FAULT INJECTION -->
 
+    <node pkg="component" name="covid_detection" type="covid_detection.py" output="screen"/>
 </launch>

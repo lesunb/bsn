@@ -41,6 +41,11 @@ _(Jump this step if you are in our provided VM)_
 #### **Dependencies**
 
 [ROS Melodic for Ubuntu 18.04](http://wiki.ros.org/melodic/Installation/Ubuntu) is the underlying framework in which the SA-BSN runs.
+* Python 3.8 and python libraries:
+  * pickle
+  * pandas
+  * seaborn
+  * sklearn
 
 ### 1.2) Execute the SA-BSN
 [Catkin](http://wiki.ros.org/ROS/Tutorials/InstallingandConfiguringROSEnvironment) for ROS packages management. 

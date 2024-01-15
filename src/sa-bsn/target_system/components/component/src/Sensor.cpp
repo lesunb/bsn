@@ -26,7 +26,7 @@ int32_t Sensor::run() {
     ros::Subscriber noise_subs = nh.subscribe("uncertainty_"+ros::this_node::getName(), 10, &Sensor::injectUncertainty, this);
     ros::Subscriber reconfig_subs = nh.subscribe("reconfigure_"+ros::this_node::getName(), 10, &Sensor::reconfigure, this);
 
-    nh.getParam("connect_sensor", connected_sensor);
+    nh.getParam("connect_sensor_"+ros::this_node::getName(), connected_sensor);
     ROS_INFO("Sensor connected = %d", connected_sensor);
     
 
@@ -65,17 +65,18 @@ void Sensor::body() {
         data = collect();
 
         /*for data replication, as if replicate_collect values were collected*/
-        {
-            double sum;
-            for(int i = 0; i < replicate_collect; ++i) {
-                double aux_data = data;
-                apply_noise(aux_data);
-                sum += aux_data;
+        if(connected_sensor != 2){
+            {
+                double sum;
+                for(int i = 0; i < replicate_collect; ++i) {
+                    double aux_data = data;
+                    apply_noise(aux_data);
+                    sum += aux_data;
+                }
+                data = sum/replicate_collect;
             }
-            data = sum/replicate_collect;
+            data = process(data);
         }
-
-        data = process(data);
         transfer(data);
 		sendStatus("success");
         sendEnergyStatus(cost);
@@ -140,6 +141,120 @@ void Sensor::turnOn() {
 
 void Sensor::turnOff() {
     active = false;
+}
+
+double Sensor::collect_simulation(){
+    double m_data = -1;
+    ros::ServiceClient client = handle.serviceClient<services::PatientData>("getPatientData");
+    services::PatientData srv;
+
+    srv.request.vitalSign = name_node_sensor_simulation;
+
+    if (client.call(srv)) {
+        m_data = srv.response.data;
+        ROS_INFO("new data collected: [%s]", std::to_string(m_data).c_str());
+    } else {
+        ROS_INFO("error collecting data");
+    }
+    return m_data;
+}
+
+double Sensor::collect_table(){
+    double m_data = -1;
+
+    // Get the path to the sensor data file
+    std::string path_file_to_read = get_current_dir_name();
+    path_file_to_read += "/data_to_read/";
+    path_file_to_read += name_node_sensor;
+    path_file_to_read += ".csv";
+
+    std::ifstream file;
+    file.open(path_file_to_read);
+    if(file.is_open()){
+        // Search for the next line of the file
+        std::string line;
+        std::string csvItem;
+        int line_number_counter = 0;
+        bool last_line = 1;
+        line_marker++;
+        while (std::getline(file, line)) {
+            line_number_counter++;
+            if(line_number_counter == 1){
+                m_data = std::stof(line);
+            }
+            if(line_number_counter == line_marker) {
+                m_data = std::stof(line);
+                last_line = 0;
+                return m_data;
+            }
+        }
+        if(last_line && m_data != -1){
+            ROS_INFO("The end of the data file %s has been reached. Starting reading again", (name_node_sensor+".csv").c_str());
+            line_marker = 0;
+        }
+        if(m_data == -1){
+            ROS_INFO("Could not open the file or the file is empty. Using simulation data");
+            connected_sensor = 0;
+            m_data = collect_simulation();
+        }
+        file.close();
+    }
+    else{
+        ROS_INFO("Could not open the file! Using simulation data");
+        std::ofstream o(path_file_to_read.c_str());
+        connected_sensor = 0;
+        m_data = collect_simulation();
+    }
+    return m_data;
+}
+
+double Sensor::collect_real_sensor(){
+    double m_data = -1;
+
+    std::string res;
+    ros::ServiceClient client = handle.serviceClient<std_srvs::SetBool>(name_node_sensor);
+    std_srvs::SetBool srv;
+    srv.request.data = true;
+    if (client.call(srv)) {
+        res = srv.response.message;
+        m_data = std::stof(res);
+        ROS_INFO("new data collected: [%s]", std::to_string(m_data).c_str());
+    } else {
+        ROS_INFO("error collecting data");
+    }
+    return m_data;
+}
+
+void Sensor::convert_name() {
+    std::string node_name = ros::this_node::getName();
+    if(node_name == "/g3t1_1"){
+        name_node_sensor = "spo2";
+        name_node_sensor_simulation = "oxigenation";
+    }
+    else if(node_name == "/g3t1_2"){
+        name_node_sensor = "bpm";
+        name_node_sensor_simulation = "heart_rate";
+    }
+    else if(node_name == "/g3t1_3"){
+        name_node_sensor = "temp";
+        name_node_sensor_simulation = "temperature";
+    }
+    else if(node_name == "/g3t1_4"){
+        name_node_sensor = "abps";
+        name_node_sensor_simulation = "abps";
+    }
+    else if(node_name == "/g3t1_5"){
+        name_node_sensor = "abpd";
+        name_node_sensor_simulation = "abpd";
+    }
+    else if(node_name == "/g3t1_6"){
+        name_node_sensor = "glucose";
+        name_node_sensor_simulation = "glucose";
+    }
+    else{
+        name_node_sensor = node_name;
+        name_node_sensor_simulation = node_name;
+    }
 }
 
 /*  battery will always recover in 200seconds

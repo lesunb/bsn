@@ -18,7 +18,7 @@ G3T1_2::~G3T1_2() {}
 
 void G3T1_2::setUp() {
     Component::setUp();
-    
+    convert_name();
     std::array<bsn::range::Range,5> ranges;
     std::string s;
 
@@ -82,35 +82,29 @@ void G3T1_2::tearDown() {
     Component::tearDown();
 }
 
+// Method that collects data from the origin and returns a double variable that represents the measured/generated value
 double G3T1_2::collect() {
+    double m_data = -1;
 
-    double m_data = 0;
-    std::string res;
-    if(connected_sensor) {
-        ros::ServiceClient client = handle.serviceClient<std_srvs::SetBool>("bpm");
-        std_srvs::SetBool srv;
-        srv.request.data = true;
-        if (client.call(srv)) {
-            res = srv.response.message;
-            m_data = std::stof(res);
-            ROS_INFO("new data collected: [%s]", std::to_string(m_data).c_str());
-        } else {
-            ROS_INFO("error collecting data");
+    // Switch that identifies where data entry should originate
+    // 0 -> Simulation (default)
+    // 1 -> Real sensors with Arduino
+    // 2 -> Table data
+    switch(connected_sensor){
+        case 1:{
+            m_data = collect_real_sensor();
+            break;
         }
-    } else{
-        ros::ServiceClient client = handle.serviceClient<services::PatientData>("getPatientData");
-        services::PatientData srv;
-
-        srv.request.vitalSign = "heart_rate";
-
-        if (client.call(srv)) {
-            m_data = srv.response.data;
-            ROS_INFO("new data collected: [%s]", std::to_string(m_data).c_str());
-        } else {
-            ROS_INFO("error collecting data");
+        case 2:{
+            m_data = collect_table();
+            break;
+        }
+        default:{
+            m_data = collect_simulation();
+            break;
         }
     }
-
+    
     battery.consume(BATT_UNIT);
     cost += BATT_UNIT;
     collected_risk = sensorConfig.evaluateNumber(m_data);

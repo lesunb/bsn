@@ -5,6 +5,8 @@
 #include <algorithm>
 #include <cmath>
 
+#include <unistd.h>
+
 using namespace bsn::range;
 using namespace bsn::generator;
 using namespace bsn::configuration;
@@ -21,13 +23,13 @@ G3T1_1::~G3T1_1() {}
 
 void G3T1_1::setUp() {
     Component::setUp();
-
+    convert_name();
     std::string s;
 
     std::array<bsn::range::Range,5> ranges;
 
     handle.getParam("start", shouldStart);
-    
+
     { // Configure markov chain
         std::vector<std::string> lrs,mrs0,hrs0,mrs1,hrs1;
 
@@ -51,11 +53,11 @@ void G3T1_1::setUp() {
 
     { // Configure sensor configuration
         Range low_range = ranges[2];
-        
+
         std::array<Range,2> midRanges;
         midRanges[0] = ranges[1];
         midRanges[1] = ranges[3];
-        
+
         std::array<Range,2> highRanges;
         highRanges[0] = ranges[0];
         highRanges[1] = ranges[4];
@@ -76,7 +78,7 @@ void G3T1_1::setUp() {
 
         sensorConfig = SensorConfiguration(0, low_range, midRanges, highRanges, percentages);
     }
-    
+
     { //Check for instant recharge parameter
         handle.getParam("instant_recharge", instant_recharge);
     }
@@ -86,35 +88,28 @@ void G3T1_1::tearDown() {
     Component::tearDown();
 }
 
+// Method that collects data from the origin and returns a double variable that represents the measured/generated value
 double G3T1_1::collect() {
+    double m_data = -1;
 
-    double m_data = 0;
-    std::string res;
-    if(connected_sensor) {
-        ros::ServiceClient client = handle.serviceClient<std_srvs::SetBool>("spo2");
-        std_srvs::SetBool srv;
-        srv.request.data = true;
-        if (client.call(srv)) {
-            res = srv.response.message;
-            m_data = std::stof(res);
-            ROS_INFO("new data collected: [%s]", std::to_string(m_data).c_str());
-        } else {
-            ROS_INFO("error collecting data");
+    // Switch that identifies where data entry should originate
+    // 0 -> Simulation (default)
+    // 1 -> Real sensors with Arduino
+    // 2 -> Table data
+    switch(connected_sensor){
+        case 1:{
+            m_data = collect_real_sensor();
+            break;
         }
-    } else{
-        ros::ServiceClient client = handle.serviceClient<services::PatientData>("getPatientData");
-        services::PatientData srv;
-
-        srv.request.vitalSign = "oxigenation";
-
-        if (client.call(srv)) {
-            m_data = srv.response.data;
-            ROS_INFO("new data collected: [%s]", std::to_string(m_data).c_str());
-        } else {
-            ROS_INFO("error collecting data");
+        case 2:{
+            m_data = collect_table();
+            break;
+        }
+        default:{
+            m_data = collect_simulation();
+            break;
         }
     }
-
 
 
     battery.consume(BATT_UNIT);
@@ -127,7 +122,7 @@ double G3T1_1::collect() {
 
 double G3T1_1::process(const double &m_data) {
     double filtered_data;
-    
+
     filter.insert(m_data);
     filtered_data = filter.getValue();
     battery.consume(BATT_UNIT*filter.getRange());
@@ -170,6 +165,5 @@ std::string G3T1_1::label(double &risk) {
     } else {
         ans = "unknown";
     }
-
     return ans;
 }

@@ -24,7 +24,10 @@
     <!-- instant recharge parameter-->
     <param name="instant_recharge" value="true" type="bool" />
 
-    <!-- real world parameter-->
-    <param name="connect_sensor" value="false" type="bool" />
+    <!--    Identifies where data entry should be made.
+            0 -> Simulation (default)
+            1 -> Real sensors with Arduino
+            2 -> Table data (Turn on this feature to auto generate the file at data_to_read/*sensor_name*.csv)-->
+    <param name="connect_sensor_/g3t1_1" value="0" type="int" />
 
 </launch>
