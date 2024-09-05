@@ -5,6 +5,12 @@ RUN apt update &&\
     sudo rosdep init && rosdep update &&\
     pip3 install pandas
 
+ENV DISPLAY=:0
+ENV QT_X11_NO_MITSHM=1
+
 COPY .devcontainer/additional_bashrc.sh /root/.additional_bashrc
 
 RUN cat "/root/.additional_bashrc" >> /root/.bashrc && rm /root/.additional_bashrc
+
+
+

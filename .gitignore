@@ -26,7 +26,8 @@ json/
 # Ignore generated docs
 *.dox
 *.wikidoc
-
+html
+latex
 # eclipse stuff
 .project
 .cproject
