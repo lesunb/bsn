@@ -11,7 +11,7 @@
     <include file="./src/sa-bsn/configurations/target_system/effector.launch" /> <!-- APPLICATION -->
     <include file="./src/sa-bsn/configurations/target_system/g4t1.launch" /> <!-- APPLICATION -->
 
-    <include file="./src/sa-bsn/configurations/environment/patient.launch " /> <!-- APPLICATION -->
+    <include file="./src/sa-bsn/configurations/environment/patient.launch" /> <!-- APPLICATION -->
 
     <include file="./src/sa-bsn/configurations/target_system/g3t1_1.launch" /> <!-- APPLICATION -->
     <include file="./src/sa-bsn/configurations/target_system/g3t1_2.launch" /> <!-- APPLICATION -->

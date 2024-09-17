@@ -4,5 +4,6 @@ cd /workspaces/bsn &&\
     rm -rf devel &&\
     catkin_make
     echo "source /workspaces/bsn/devel/setup.sh" >> /root/.bashrc
+    source ~/.bashrc
     source /opt/ros/melodic/setup.bash
 
