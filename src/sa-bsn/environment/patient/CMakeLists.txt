@@ -30,3 +30,12 @@ SET(patient-src "${CMAKE_CURRENT_SOURCE_DIR}/src/PatientModule.cpp")
 ADD_EXECUTABLE (patient  "${CMAKE_CURRENT_SOURCE_DIR}/apps/patient.cpp" ${${PROJECT_NAME}-src} ${patient-src})
 TARGET_LINK_LIBRARIES (patient ${catkin_LIBRARIES} ${LIBRARIES})
 ADD_DEPENDENCIES(patient services_generate_messages_cpp)
+
+###########################################################################
+# Add tests
+if(CATKIN_ENABLE_TESTING)
+    find_package(rostest REQUIRED)
+
+    # Add the rostest for the patient module
+    add_rostest(test/test_patient_module.test)
+endif()

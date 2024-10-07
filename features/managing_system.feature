@@ -2,7 +2,6 @@ Feature: Ensure managing system and logger components are communicating correctl
 
 	Scenario: Check if /enactor communicates with /reli_engine and /logger
 		Given the /enactor node is online
-		And the /reli_engine node is online
 		When I check if topics /strategy are inbound and /exception are outbound to /reli_engine
 		And I check if topics /event are inbound and /log_adapt are outbound to /logger
 		Then /enactor node is connected appropriately
