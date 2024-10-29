@@ -1,5 +1,19 @@
 import re
+import subprocess
 
+def format_entity(raw_string):
+    # Check if any words in the string start with an uppercase letter
+    words = raw_string.split()
+    if any(word[0].isupper() for word in words):
+        # If there are uppercase letters, format in camel case
+        formatted_string = ''.join(word.capitalize() for word in words)
+    else:
+        # Otherwise, format in snake case
+        formatted_string = '_'.join(word.lower() for word in words)
+    
+    # Add a forward slash at the beginning
+    return f'/{formatted_string}'
+    
 def get_rostopic_sensor_data(result):
     if result.returncode != 0:
         raise Exception(f"Error getting topic data: {result.stderr.decode('utf-8')}")
@@ -109,6 +123,60 @@ def get_rosnode_info(result):
         else:
             i += 1
     return node_info
+
+import subprocess
+import time
+
+import subprocess
+import time
+
+def parse_topic_data(topic, line_limit=10, timeout=1):
+    """
+    Capture CSV data from a ROS topic using Popen and organize it into a dictionary 
+    with headers dynamically set from the first line. Stops reading once line_limit 
+    is reached or after the timeout.
+    """
+    process = subprocess.Popen(
+        ['rostopic', 'echo', '-p', '--offset', topic],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        universal_newlines=True  # Use this instead of `text=True` for Python 3.6
+    )
+
+    parsed_data = None
+    start_time = time.time()  # Start timer for timeout handling
+
+    try:
+        for i, line in enumerate(iter(process.stdout.readline, '')):
+            line = line.strip()
+
+            # Capture headers from the first line
+            if i == 0:
+                headers = [header.replace("field.", "").strip() for header in line.split(",")]
+                parsed_data = {header: [] for header in headers}
+                continue
+
+            # Process data lines after the headers
+            if i > 0 and parsed_data is not None:
+                columns = line.split(',')
+
+                # Only process if the column count matches header count
+                if len(columns) == len(headers):
+                    for header, value in zip(headers, columns):
+                        parsed_data[header].append(value.strip())
+
+                # Check line limit
+                if i >= line_limit:
+                    break
+
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
+    finally:
+        process.terminate()  # Ensure subprocess terminates
+        process.wait()       # Ensure cleanup
+
+    return parsed_data if parsed_data is not None else {}
 
 
 
