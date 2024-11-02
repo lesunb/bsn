@@ -3,7 +3,8 @@ FROM ros:melodic-ros-core-bionic
 RUN apt update &&\
     apt install -y python-rosdep build-essential git python-pip python3-pip python-virtualenv python-rospkg ros-melodic-rosmon &&\
     sudo rosdep init && rosdep update &&\
-    pip3 install pandas
+    pip3 install pandas &&\
+    pip3 install behave
 
 ENV DISPLAY=:0
 ENV QT_X11_NO_MITSHM=1
