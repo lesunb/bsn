@@ -1,24 +1,58 @@
 from behave import given, when, then
 import subprocess
-from concurrent.futures import ThreadPoolExecutor, as_completed
-from utils.parsers import parse_topic_data, format_entity
+
+from utils.parsers import parse_topic_data, format_entity, process_real_time_topics
+
+def node_is_active(node_name):
+    result = subprocess.run(['rosnode', 'list', node_name], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    node_list = result.stdout.decode('utf-8').splitlines()
+    return node_name in node_list
 def capture_topic_data(topic):
+    
     if topic == '/TargetSystemData':
+        print('passei aqui no capture topic data')
         parsed_data = parse_topic_data(topic, line_limit=10)
+        
         return topic, parsed_data, False, None
     parsed_data = parse_topic_data(topic, line_limit=10)
-    print(parsed_data)
+    
     high_risk_detected = any(
             float(value) > 10 for value in parsed_data['risk']  # Check each value in each list
         )
     risk_key = f"{topic}_risk"  # Append '_risk' to the data type 
     return topic, parsed_data, high_risk_detected, risk_key
 
-def count_matching_elements(list1, list2):
-    matching_elements = set(list1) & set(list2)
-    
-    # Return the count of matching elements
-    return len(matching_elements)
+def count_and_get_matching_elements_with_time(sensor_data, target_system_data, key, value, evaluate):
+    matching_count = 0
+    matched_data = []
+
+    # Iterate over both lists and check for matching values and time condition
+    for i, sensor_risk in enumerate(sensor_data[key][evaluate]):
+        for j, target_risk in enumerate(target_system_data[value]):
+            print(f'SENSOR RISK of {key}: {sensor_risk} TARGET RISK: {target_risk}')
+            if sensor_risk == target_risk:
+                # Parse time strings into floats
+                sensor_time = float(sensor_data[key]['%time'][i])
+                target_time = float(target_system_data['%time'][j])
+
+                # Round and compare times
+                rounded_sensor_time = round(sensor_time, -5) / 1e6
+                rounded_target_time = round(target_time, -5) / 1e6
+
+                print(f'TIME DIFFERENCE in {key}: {rounded_sensor_time} - {rounded_target_time}')
+                
+                if abs(rounded_sensor_time - rounded_target_time) < 2000:
+                    matching_count += 1
+                    matched_data.append({
+                        'sensor_risk': sensor_risk,
+                        'sensor_time': sensor_time,
+                        'target_risk': target_risk,
+                        'target_time': target_time
+                    })
+
+    return matching_count, matched_data
+
+
 @given('the {topic_name} topic is online')
 def step_given_topic_is_online(context, topic_name):
     # Check if /TargetSystemData topic is active
@@ -27,37 +61,18 @@ def step_given_topic_is_online(context, topic_name):
     topic_list = result.stdout.decode('utf-8').splitlines()
     assert topic_name in topic_list, f"{topic_name} is not online"
 
+@given('the node {node_name} is inactive')
+def step_given_node_is_inactive(context, node_name):
+    result = subprocess.run(['rosnode', 'kill', node_name], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    assert not node_is_active(node_name), f"{node_name} is active"
 
 @when('I listen to topics')
 def step_when_check_sensors_publishing_data(context):
     context.sensor_data = {}
     context.found_high_risk = []
     context.target_system_data = {}
-    # Run all topics in parallel
-    with ThreadPoolExecutor() as executor:
-        future_to_topic = {
-            executor.submit(capture_topic_data, format_entity(row['Topic Name'])): row
-            for row in context.table
-        }
-        for future in as_completed(future_to_topic):
-            row = future_to_topic[future]
-            topic, parsed_data, is_high_risk, risk_key = future.result()
-            #print(f"Topic: {topic}, \nData: {parsed_data}, \nRisk: {is_high_risk},\n Risk Key: {risk_key}")
-            if topic == '/TargetSystemData':
-                context.target_system_data = parsed_data
-            else:
-                context.sensor_data[topic] = parsed_data
-            
-            # Store the risk information with the modified key
-            if is_high_risk:
-                #print(f"High risk detected in {topic}: {parsed_data}")
-                context.found_high_risk.append((risk_key, parsed_data))  # Store as (risk_key, data)
-            #print(f"Topic: {topic}, Data: {parsed_data}, Risk: {is_high_risk}, Risk Key: {risk_key}")
 
-    # Ensure at least one high risk was detected
-    assert context.found_high_risk, "No high risk detected in sensor topics."
-
-
+    process_real_time_topics(context, capture_topic_data)
 
                 
 @then('sensors will process the risks')
@@ -78,19 +93,37 @@ def step_then_check_target_system_receives_risk(context):
     '/abpd_data': 'abpd_risk',
     '/glucosemeter_data': 'glc_risk',
     }
-    print("TARGET SYSTEM DATA: ", context.target_system_data)
+    
     target_system_data = context.target_system_data
-    print(f'TARGET sytem data risks: {target_system_data}')
+    
     sensor_data = context.sensor_data
-    print(f'SENSOR DATA: {sensor_data}')
+   
     for key, value in risk_key_mapping.items():
     
         print("Target:", key, "Sensor:", value)
         print(f"Target risks: {sensor_data[key]['risk']} Sensor risks: {target_system_data[value]} and patient status: {target_system_data['patient_status']}")
-        elements = count_matching_elements(sensor_data[key]['risk'], target_system_data[value])
-        assert len(target_system_data['patient_status']) >= elements, "Patient status is not being updated in TargetSystemData."
-        assert elements > 0, f"Topics {key} and {value} do not have matching risk data."
+        count, matched = count_and_get_matching_elements_with_time(sensor_data, target_system_data, key, value, 'risk')
+        assert target_system_data['patient_status'], f'patient_status is not being provided'
+        assert len(target_system_data['patient_status']) >= count, "Patient status is not being updated in TargetSystemData."
+        assert count > 0, f"Topics {key} and {value} do not have matching risk data."
+        assert all((x.replace('.', '', 1).isdigit() and 0 <= float(x) <= 100) 
+                for x in target_system_data['patient_status']), f'patient status is not processing valid risk.'
 
+@then("Target System Data should not receive any risk data or detect patient's status")
+def step_then_check_target_system_does_not_receive_risk(context):
+    # Print out the target system data for inspection
+    print("TARGET SYSTEM DATA (Expected to be empty): ", context.target_system_data)
+
+    target_system_data = context.target_system_data
+    
+    assert not target_system_data, "Patient status is unexpectedly updated in TargetSystemData."
+    # Check that no risks are present in the target system data
+    if target_system_data:
+        for key in ['trm_risk', 'ecg_risk', 'oxi_risk', 'abps_risk', 'abpd_risk', 'glc_risk']:
+            # Assert that the target system data for risks is empty or doesn't contain any values
+            assert not target_system_data[key], f"Expected no data for {key}, but found: {target_system_data[key]}"
+
+    
     
     
 @then('sensors will process the data')
@@ -112,14 +145,13 @@ def step_check_if_TargetSystem_process_data(context):
     print(f'TARGET sytem data: {context.target_system_data}')
     target_data= context.target_system_data
     sensor_data = context.sensor_data
-    print(f'TARGET sytem data risks: {target_data}')
-    print(f'SENSOR DATA: {sensor_data}')
+
     for key, value in data_key_mapping.items():
     
         print("Target:", key, "Sensor:", value)
         print(f"Target risks: {sensor_data[key]['data']} Sensor data: {target_data[value]}")
-        elements = count_matching_elements(sensor_data[key]['data'], target_data[value])
-        assert elements > 0, f"Topics {key} and {value} do not have matching risk data."
+        count, matched = count_and_get_matching_elements_with_time(sensor_data, target_data, key, value, 'data')
+        assert count > 0, f"Topics {key} and {value} do not have matching risk data."
 """
 @then('/TargetSystemData will report a high risk')
 def step_then_check_target_system_data_high_risk(context):
