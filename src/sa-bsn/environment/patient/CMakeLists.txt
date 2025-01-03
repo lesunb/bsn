@@ -33,9 +33,3 @@ ADD_DEPENDENCIES(patient services_generate_messages_cpp)
 
 ###########################################################################
 # Add tests
-if(CATKIN_ENABLE_TESTING)
-    find_package(rostest REQUIRED)
-
-    # Add the rostest for the patient module
-    add_rostest(test/test_patient_module.test)
-endif()

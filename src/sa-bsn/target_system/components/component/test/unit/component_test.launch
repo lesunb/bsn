@@ -1,0 +1,3 @@
+<launch>
+    <test test-name="component_test" pkg="component" type="component_test"/>
+</launch>

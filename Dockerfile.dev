@@ -4,7 +4,11 @@ RUN apt update &&\
     apt install -y python-rosdep build-essential git python-pip python3-pip python-virtualenv python-rospkg ros-melodic-rosmon &&\
     sudo rosdep init && rosdep update &&\
     pip3 install pandas &&\
-    pip3 install behave
+    pip3 install behave &&\
+    sudo apt-get install python3-rosdep python3-rosinstall-generator python3-vcstool &&\
+    sudo apt-get install python3-pybind11 &&\
+    sudo apt-get install python-pybind11
+
 
 ENV DISPLAY=:0
 ENV QT_X11_NO_MITSHM=1
