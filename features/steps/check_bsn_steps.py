@@ -2,7 +2,7 @@ from behave import given, when, then
 import subprocess
 
 from utils.parsers import parse_topic_data, format_entity, process_real_time_topics
-
+from utils.constants import FULL_SYSTEM
 def node_is_active(node_name):
     result = subprocess.run(['rosnode', 'list', node_name], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     node_list = result.stdout.decode('utf-8').splitlines()
@@ -10,7 +10,6 @@ def node_is_active(node_name):
 def capture_topic_data(topic):
     
     if topic == '/TargetSystemData':
-        print('passei aqui no capture topic data')
         parsed_data = parse_topic_data(topic, line_limit=10)
         
         return topic, parsed_data, False, None
@@ -53,6 +52,8 @@ def count_and_get_matching_elements_with_time(sensor_data, target_system_data, k
     return matching_count, matched_data
 
 
+    
+
 @given('the {topic_name} topic is online')
 def step_given_topic_is_online(context, topic_name):
     # Check if /TargetSystemData topic is active
@@ -60,29 +61,58 @@ def step_given_topic_is_online(context, topic_name):
     result = subprocess.run(['rostopic', 'list', topic_name], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     topic_list = result.stdout.decode('utf-8').splitlines()
     assert topic_name in topic_list, f"{topic_name} is not online"
-
-@given('the node {node_name} is inactive')
+@given('that all sensors and central hub nodes are online')
+def step_given_full_system_nodes_online(context):
+    node_is_active(FULL_SYSTEM)   
+@given('{node_name} is inactive')
 def step_given_node_is_inactive(context, node_name):
-    result = subprocess.run(['rosnode', 'kill', node_name], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    assert not node_is_active(node_name), f"{node_name} is active"
+    if node_name == 'Central hub': 
+        result = subprocess.run(['rosnode', 'kill', '/g4t1'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+        assert not node_is_active(node_name), f"{node_name} is active"
 
-@when('I listen to topics')
+@when('I listen to sensors data')
 def step_when_check_sensors_publishing_data(context):
+    
     context.sensor_data = {}
     context.found_high_risk = []
     context.target_system_data = {}
+    
+    topics = [
+        "/thermometer_data",
+        "/ecg_data",
+        "/oximeter_data",
+        "/abps_data",
+        "/abpd_data",
+        "/glucosemeter_data",
+        "/TargetSystemData"
+    ]
 
-    process_real_time_topics(context, capture_topic_data)
+    process_real_time_topics(context, capture_topic_data, topics)
+
+@when('I listen to ecg and thermometer data')
+def step_when_check_sensors_publishing_data(context):
+    
+    context.sensor_data = {}
+    context.found_high_risk = []
+    context.target_system_data = {}
+    
+    topics = [
+        "/thermometer_data",
+        "/ecg_data",
+        "/TargetSystemData"
+    ]
+
+    process_real_time_topics(context, capture_topic_data, topics)
 
                 
 @then('sensors will process the risks')
 def step_then_check_high_risk(context):
     assert any(context.sensor_data.values()), "No risk data found in sensor topics."
-
+    print(f'Sensor data: {context.sensor_data}')
     for topic, data in context.sensor_data.items():
         assert 'risk' in data and data['risk'], f"No risk data detected in topic {topic}."
 
-@then("Target System Data will receive the risks from sensors and detect patient's status")
+@then("Central hub will process the risk")
 def step_then_check_target_system_receives_risk(context):
     #print(f'TargetSystemData is receiving the risk data from sensors: {context.target_system_data}')
     risk_key_mapping = {
@@ -109,7 +139,7 @@ def step_then_check_target_system_receives_risk(context):
         assert all((x.replace('.', '', 1).isdigit() and 0 <= float(x) <= 100) 
                 for x in target_system_data['patient_status']), f'patient status is not processing valid risk.'
 
-@then("Target System Data should not receive any risk data or detect patient's status")
+@then("Central hub will not process the risk")
 def step_then_check_target_system_does_not_receive_risk(context):
     # Print out the target system data for inspection
     print("TARGET SYSTEM DATA (Expected to be empty): ", context.target_system_data)
@@ -122,17 +152,47 @@ def step_then_check_target_system_does_not_receive_risk(context):
         for key in ['trm_risk', 'ecg_risk', 'oxi_risk', 'abps_risk', 'abpd_risk', 'glc_risk']:
             # Assert that the target system data for risks is empty or doesn't contain any values
             assert not target_system_data[key], f"Expected no data for {key}, but found: {target_system_data[key]}"
+@then("Central hub will not process the data")
+def step_then_check_target_system_does_not_receive_risk(context):
+    # Print out the target system data for inspection
+    print("TARGET SYSTEM DATA (Expected to be empty): ", context.target_system_data)
 
+    target_system_data = context.target_system_data
+    
+    assert not target_system_data, "Patient status is unexpectedly updated in TargetSystemData."
+    # Check that no risks are present in the target system data
+    if target_system_data:
+        for key in ['trm_data', 'ecg_data', 'oxi_data', 'abps_data', 'abpd_data', 'glc_data']:
+            # Assert that the target system data for risks is empty or doesn't contain any values
+            assert not target_system_data[key], f"Expected no data for {key}, but found: {target_system_data[key]}"
+"""
+@then('Central hub will not process the data')
+def step_check_if_TargetSystem_does_not_process_data(context):
+    data_key_mapping = {
+        '/thermometer_data': 'trm_data',
+        '/ecg_data': 'ecg_data',
+        '/oximeter_data': 'oxi_data',
+        '/abps_data': 'abps_data',
+        '/abpd_data': 'abpd_data',
+        '/glucosemeter_data': 'glc_data',
+    }
+    
+    target_data = context.target_system_data
+    sensor_data = context.sensor_data
+
+    for key, value in data_key_mapping.items():
+        count, matched = count_and_get_matching_elements_with_time(sensor_data, target_data, key, value, 'data')
+        assert count == 0, f"Unexpected data received for topics {key} and {value}."
+"""    
     
     
-    
-@then('sensors will process the data')
+@then('Sensors will process the data')
 def step_check_if_sensors_process_data(context):
     assert any(context.sensor_data.values()), "No risk data found in sensor topics."
 
     for topic, data in context.sensor_data.items():
         assert 'data' in data and data['data'], f"No risk data detected in topic {topic}."
-@then('Target System Data will receive the data from sensors')
+@then('Central hub will receive data from sensors')
 def step_check_if_TargetSystem_process_data(context):
     data_key_mapping = {
     '/thermometer_data': 'trm_data',
@@ -142,16 +202,17 @@ def step_check_if_TargetSystem_process_data(context):
     '/abpd_data': 'abpd_data',
     '/glucosemeter_data': 'glc_data',
     }
-    print(f'TARGET sytem data: {context.target_system_data}')
+    
     target_data= context.target_system_data
     sensor_data = context.sensor_data
 
     for key, value in data_key_mapping.items():
     
-        print("Target:", key, "Sensor:", value)
-        print(f"Target risks: {sensor_data[key]['data']} Sensor data: {target_data[value]}")
+
         count, matched = count_and_get_matching_elements_with_time(sensor_data, target_data, key, value, 'data')
         assert count > 0, f"Topics {key} and {value} do not have matching risk data."
+        
+
 """
 @then('/TargetSystemData will report a high risk')
 def step_then_check_target_system_data_high_risk(context):

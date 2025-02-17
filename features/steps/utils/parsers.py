@@ -170,12 +170,11 @@ def parse_topic_data(topic, line_limit=10):
             try:
                 # Try to read a line from the queue with a small timeout
                 line = output_queue.get(timeout=13)
-                print(f'{topic} returned: {line}')
+                
                 # First line contains headers
                 if i == 0:
                     headers = [header.replace("field.", "").strip() for header in line.split(",")]
                     parsed_data = {header: [] for header in headers}
-                    print("Headers found:", headers)
                     continue
 
                 # Process data lines if headers are set
@@ -202,7 +201,7 @@ def parse_topic_data(topic, line_limit=10):
 
 
 
-def process_real_time_topics(context, capture_topic_data):
+def process_real_time_topics(context, capture_topic_data, topics):
     """
     Process topics concurrently and organize results into context.
 
@@ -214,8 +213,8 @@ def process_real_time_topics(context, capture_topic_data):
     with ThreadPoolExecutor() as executor:
         # Map futures to rows for tracking
         future_to_topic = {
-            executor.submit(capture_topic_data, format_entity(row['Topic Name'])): row
-            for row in context.table
+            executor.submit(capture_topic_data, topic): topic
+            for topic in topics
         }
 
         for future in as_completed(future_to_topic):

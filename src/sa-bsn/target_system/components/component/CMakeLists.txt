@@ -68,19 +68,36 @@ ADD_EXECUTABLE(g4t1 "${CMAKE_CURRENT_SOURCE_DIR}/apps/g4t1.cpp" ${${PROJECT_NAME
 TARGET_LINK_LIBRARIES(g4t1 ${catkin_LIBRARIES} ${LIBRARIES})
 ADD_DEPENDENCIES(g4t1 messages_generate_messages_cpp)
 
-if(CATKIN_ENABLE_TESTING)
-    find_package(rostest REQUIRED)
-    add_rostest_gtest(component_test
-        test/unit/component_test.launch
-        test/unit/test_Sensor.cpp
-    )
-    target_link_libraries(component_test ${catkin_LIBRARIES})
+SET(patient_data_service-test "${CMAKE_CURRENT_SOURCE_DIR}/test/patient_data_service.cpp")
+add_executable(patient_data_service "${CMAKE_CURRENT_SOURCE_DIR}/test/patient_data_service.cpp" ${${PROJECT_NAME}-test} ${patient_data_service-test})
+target_link_libraries(patient_data_service
+  ${catkin_LIBRARIES}
+  ${LIBRARIES}
+)
+ADD_DEPENDENCIES(patient_data_service messages_generate_messages_cpp)
+
+#if(CATKIN_ENABLE_TESTING)
+#    find_package(rostest REQUIRED)
+#    add_rostest_gtest(component_test
+#        test/unit/component_test.launch
+#        test/unit/test_Sensor.cpp
+#    )
+#    target_link_libraries(component_test ${catkin_LIBRARIES})
+#endif()
+
+if (CATKIN_ENABLE_TESTING)
+  find_package(rostest REQUIRED)
+  add_rostest_gtest(sensor_execution_test
+  test/features/sensor_execution.launch
+  test/features/sensor_execution_test.cpp)
+  target_link_libraries(sensor_execution_test ${catkin_LIBRARIES})
 endif()
 
-if(CATKIN_ENABLE_TESTING)
-    catkin_add_nosetests(test/integration/test_my_cpp_node.py)
-    catkin_add_nosetests(test/bdd/behave_config.py)
-endif()
+
+#if(CATKIN_ENABLE_TESTING)
+#    catkin_add_nosetests(test/integration/test_my_cpp_node.py)
+#    catkin_add_nosetests(test/bdd/behave_config.py)
+#endif()
 
 ###########################################################################
 # Install this project (if needed)

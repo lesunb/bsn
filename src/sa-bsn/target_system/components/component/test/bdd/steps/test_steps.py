@@ -5,7 +5,6 @@ import rospy
 from std_msgs.msg import String
 import subprocess
 import time
-
 received_message = None
 
 def message_callback(msg):
@@ -23,7 +22,7 @@ def step_impl(context):
     """ Publish a message to a ROS topic. """
     global received_message
     received_message = None  # Reset message
-
+    
     pub = rospy.Publisher('/test_topic', String, queue_size=10)
     sub = rospy.Subscriber('/test_topic', String, message_callback)
     
