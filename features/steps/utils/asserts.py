@@ -1,5 +1,9 @@
 import subprocess
 from utils.parsers import get_rosnode_info
+
+def kill_node(node_name):
+    result = subprocess.run(['rosnode', 'kill', node_name], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    assert not bool_node_is_active(node_name), f"{node_name} is active"
 def is_node_receiving_multiple_topics(node_name, expected_topics):
     """
     Check if a node is receiving data from multiple topics.
@@ -77,6 +81,18 @@ def node_is_active(node_names):
     for node_name in node_names:
         assert node_name in node_list, f"{node_name} is not online. Make sure give the system more time to start up."
 
+def bool_node_is_active(node_names):
+    if isinstance(node_names, str):
+        node_names = [node_names]
+
+    
+    result = subprocess.run(['rosnode', 'list'], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    node_list = result.stdout.decode('utf-8').splitlines()
+    for node_name in node_names:
+        if node_name in node_list:
+            return True
+
+    return False
 def check_time_performance(sensor_data, target_system_data, key, value, evaluate):
     time_threshold=250000
 

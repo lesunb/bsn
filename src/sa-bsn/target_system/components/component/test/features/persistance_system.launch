@@ -1,0 +1,15 @@
+    <!-- Feature: BSN-P03 -->
+    <launch>
+        
+       <node name="patient_data_service" pkg="component" type="patient_data_service" output="screen" />
+
+        <include file="/workspaces/bsn/src/sa-bsn/configurations/target_system/probe.launch" />  <!-- APPLICATION -->
+        <include file="/workspaces/bsn/src/sa-bsn/configurations/target_system/effector.launch" /> <!-- APPLICATION -->
+
+        <include file="/workspaces/bsn/src/sa-bsn/configurations/target_system/g4t1.launch" />
+
+        <include file="/workspaces/bsn/src/sa-bsn/configurations/target_system/g3t1_3.launch" />
+        <include file="/workspaces/bsn/src/sa-bsn/configurations/logging_infrastructure/logger.launch" />
+        <include file="/workspaces/bsn/src/sa-bsn/configurations/knowledge_repository/data_access.launch" />
+        
+    </launch>
