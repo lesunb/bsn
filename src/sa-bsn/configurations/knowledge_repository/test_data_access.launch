@@ -1,0 +1,4 @@
+<launch> 
+    <node name="data_access" pkg="repository" type="data_access" output="log" />
+    <param name="frequency" value="10000" /> <!-- 10KHz  -->
+</launch>

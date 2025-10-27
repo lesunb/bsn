@@ -85,12 +85,41 @@ ADD_DEPENDENCIES(patient_data_service messages_generate_messages_cpp)
 #    target_link_libraries(component_test ${catkin_LIBRARIES})
 #endif()
 
+# if (CATKIN_ENABLE_TESTING)
+#   find_package(rostest REQUIRED)
+#   # add_rostest_gtest(sensor_execution_test
+#   # test/features/sensor_execution.launch
+#   # test/features/sensor_execution_test.cpp)
+#   # target_link_libraries(sensor_execution_test ${catkin_LIBRARIES})
+
+#   add_executable(run_bdd_tests test/bdd-test/test.cpp)
+#   target_link_libraries(run_bdd_tests ${catkin_LIBRARIES})
+
+#   # Now use the launch file
+#   add_rostest(test/bdd-test/run_bdd_tests.launch)
+# endif()
+
 if (CATKIN_ENABLE_TESTING)
   find_package(rostest REQUIRED)
-  add_rostest_gtest(sensor_execution_test
-  test/features/sensor_execution.launch
-  test/features/sensor_execution_test.cpp)
-  target_link_libraries(sensor_execution_test ${catkin_LIBRARIES})
+  find_package(ros_pytest REQUIRED)
+  add_rostest(test/test_bdd/test_target_system.launch)
+  add_rostest(test/test_bdd/test_health_status.launch)
+  add_rostest(test/test_bdd/test_data_persistance.launch)
+  add_rostest(test/test_bdd/test_knowledge_repo.launch)
+  add_rostest(test/test_bdd/test_managing_system.launch)
+  # not working yet
+  # add_rostest(test/test_bdd/test_check_bsn.launch)
+  # add_rostest(test/test_sensor.launch)
+
+  # 1. Compila seu arquivo de teste C++ em um executável
+  # add_executable(run_bdd_tests test/bdd-test/test.cpp)
+
+  # 2. Vincula o executável com as bibliotecas do ROS necessárias
+  # target_link_libraries(run_bdd_tests ${catkin_LIBRARIES})
+
+  # 3. Registra o teste para ser executado via rostest, usando o seu arquivo .launch
+  #    Isso é o correto para Catch2, pois não injeta argumentos específicos do GTest.
+  # add_rostest(test/bdd-test/run_bdd_tests.launch)
 endif()
 
 

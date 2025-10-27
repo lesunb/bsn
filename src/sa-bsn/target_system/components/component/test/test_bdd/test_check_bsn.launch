@@ -1,0 +1,26 @@
+<launch>
+    <!-- <include file="$(find messages)/../configurations/environment/patient.launch"/> APPLICATION -->
+  
+    <include file="$(find component)/test/patient.launch" />  
+    <include file="$(find messages)/../configurations/simulation/injector.launch" />
+  
+    <include file="$(find messages)/../configurations/logging_infrastructure/test_logger.launch" /> 
+
+    <include file="$(find messages)/../configurations/knowledge_repository/test_data_access.launch" />
+
+    <include file="$(find messages)/../configurations/system_manager/test_strategy_manager.launch" /> 
+    <include file="$(find messages)/../configurations/system_manager/test_strategy_enactor.launch" />
+
+    <include file="$(find messages)/../configurations/target_system/test_probe.launch" /> 
+    <include file="$(find messages)/../configurations/target_system/test_effector.launch" />
+    <include file="$(find messages)/../configurations/target_system/test_g4t1.launch" />
+
+    <include file="$(find messages)/../configurations/target_system/test_g3t1_1.launch" />
+    <include file="$(find messages)/../configurations/target_system/test_g3t1_2.launch" />
+    <include file="$(find messages)/../configurations/target_system/test_g3t1_3.launch" />
+    <include file="$(find messages)/../configurations/target_system/test_g3t1_4.launch" />
+    <include file="$(find messages)/../configurations/target_system/test_g3t1_5.launch" />
+    <include file="$(find messages)/../configurations/target_system/test_g3t1_6.launch" />
+  <param name="test_module" value="$(find component)/test/test_bdd/test_check_bsn.py"/>
+  <test test-name="test_check_bsn" pkg="ros_pytest" type="ros_pytest_runner" />
+</launch>

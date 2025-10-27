@@ -1,0 +1,6 @@
+<launch> 
+    <node name="enactor" pkg="enactor" type="enactor" output="log" />
+
+    <param name="frequency" value="1" />
+    <param name="kp" value="150" />
+</launch>

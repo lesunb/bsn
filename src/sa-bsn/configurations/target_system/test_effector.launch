@@ -1,0 +1,4 @@
+<launch> 
+    <node name="param_adapter" pkg="effector" type="param_adapter" output="log" />
+    <param name="frequency" value="100" /> <!-- 100 Hz  -->
+</launch>

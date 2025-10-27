@@ -1,0 +1,15 @@
+<launch>
+    <!-- <include file="$(find messages)/../configurations/environment/patient.launch"/> APPLICATION -->
+    <node name="patient_data_service" pkg="component" type="patient_data_service" output="log" />
+    <include file="$(find component)/test/patient.launch" />  
+
+    <include file="$(find messages)/../configurations/target_system/probe.launch" /> 
+    <include file="$(find messages)/../configurations/target_system/effector.launch" /> 
+    <include file="$(find messages)/../configurations/target_system/g4t1.launch" />
+    <include file="$(find messages)/../configurations/target_system/g3t1_3.launch" />
+    <include file="$(find messages)/../configurations/logging_infrastructure/logger.launch" />
+    <include file="$(find messages)/../configurations/knowledge_repository/data_access.launch" />
+  
+  <param name="test_module" value="$(find component)/test/test_bdd/test_data_persistance.py"/>
+  <test test-name="test_data_persistance" pkg="ros_pytest" type="ros_pytest_runner" />
+</launch>

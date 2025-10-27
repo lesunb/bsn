@@ -1,0 +1,30 @@
+<launch> 
+    <!-- Heart Beat Rate Measurement Sensor -->
+    <node name="g3t1_2" pkg="component" type="g3t1_2" output="log" />
+
+    <param name="start" value="true" />
+
+    <param name="frequency" value="2" /> <!-- 2 Hz  -->
+    
+    <!-- Defines the percentages to consider low, moderate or high risk -->
+    <param name="lowrisk" value="0,20" />
+    <param name="midrisk" value="21,65" />
+    <param name="highrisk" value="66,100" />
+
+    <param name="HighRisk0" value="0,70" />
+    <param name="MidRisk0" value="70,85" />
+    <param name="LowRisk" value="85,97" />
+    <param name="MidRisk1" value="97,115" />
+    <param name="HighRisk1" value="115,300" />
+
+    <!-- accuracy in percentage -->
+    <param name="data_accuracy" value="99" type="double" />
+    <param name="comm_accuracy" value="100" type="double" />
+
+    <!-- instant recharge parameter-->
+    <param name="instant_recharge" value="true" type="bool" />
+
+    <!-- real world parameter-->
+    <param name="connect_sensor" value="false" type="bool" />
+
+</launch>

@@ -3,12 +3,12 @@
         
        <node name="patient_data_service" pkg="component" type="patient_data_service" output="screen" />
 
-        <include file="/workspaces/bsn/src/sa-bsn/configurations/target_system/probe.launch" />  <!-- APPLICATION -->
-        <include file="/workspaces/bsn/src/sa-bsn/configurations/target_system/effector.launch" /> <!-- APPLICATION -->
+        <include file="$(find messages)/../configurations/target_system/probe.launch" />  <!-- APPLICATION -->
+        <include file="$(find messages)/../configurations/target_system/effector.launch" /> <!-- APPLICATION -->
 
-        <include file="/workspaces/bsn/src/sa-bsn/configurations/target_system/g4t1.launch" />
+        <include file="$(find messages)/../configurations/target_system/g4t1.launch" />
 
-        <include file="/workspaces/bsn/src/sa-bsn/configurations/target_system/g3t1_3.launch" />
+        <include file="$(find messages)/../configurations/target_system/g3t1_3.launch" />
         
         <!-- <test test-name="sensor_execution_test" pkg="component" type="sensor_execution_test"/> -->
     </launch>

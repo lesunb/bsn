@@ -1,0 +1,20 @@
+<launch>
+    <!-- <include file="$(find messages)/../configurations/environment/patient.launch"/> APPLICATION -->
+    <node name="patient_data_service" pkg="component" type="patient_data_service" output="log" />
+    <include file="$(find component)/test/patient.launch" />  
+  
+    <!-- <include file="$(find component)/test/patient_data_service.launch" />   -->
+
+    <include file="$(find messages)/../configurations/target_system/test_probe.launch" />  <!-- APPLICATION -->
+    <include file="$(find messages)/../configurations/target_system/test_effector.launch" /> <!-- APPLICATION -->
+    <include file="$(find messages)/../configurations/target_system/test_g4t1.launch" /> <!-- APPLICATION -->
+
+    <include file="$(find messages)/../configurations/target_system/test_g3t1_1.launch" /> <!-- APPLICATION -->
+    <include file="$(find messages)/../configurations/target_system/test_g3t1_2.launch" /> <!-- APPLICATION -->
+    <include file="$(find messages)/../configurations/target_system/test_g3t1_3.launch" /> <!-- APPLICATION -->
+    <include file="$(find messages)/../configurations/target_system/test_g3t1_4.launch" /> <!-- APPLICATION -->
+    <include file="$(find messages)/../configurations/target_system/test_g3t1_5.launch" /> <!-- APPLICATION -->
+    <include file="$(find messages)/../configurations/target_system/test_g3t1_6.launch" /> <!-- APPLICATION -->
+  <param name="test_module" value="$(find component)/test/test_bdd/test_health_status.py"/>
+  <test test-name="test_health_status" pkg="ros_pytest" type="ros_pytest_runner" />
+</launch>

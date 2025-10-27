@@ -1,0 +1,4 @@
+<launch> 
+    <node name="collector" pkg="probe" type="collector" output="log" />
+    <param name="frequency" value="100" /> <!-- 100 Hz  -->
+</launch>

@@ -1,0 +1,15 @@
+<launch> 
+    <node name="reli_engine" pkg="adaptation_engine" type="reli_engine" output="log" />
+
+    <param name="monitor_freq" value="1" />        <!-- Hz -->
+
+    <param name="setpoint" value="0.9" />          <!-- -->
+    <param name="actuation_freq" value="0.02" />    <!-- Hz -->
+    <param name="info_quant" value="5" />         <!-- [1,1000] -->
+
+    <param name="offset" value="0.5" />            <!-- % of the current state -->
+    <param name="gain" value="0.01" />              <!-- search granularity -->
+
+    <param name="qos_attribute" value="reliability" />       <!-- reliability or cost -->
+
+</launch>
