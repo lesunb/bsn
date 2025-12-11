@@ -206,7 +206,7 @@ def parse_topic_data(topic, line_limit=10):
     try:
         for i in range(line_limit + 1):
             # Check if we've exceeded the timeout
-
+   
             try:
                 # Try to read a line from the queue with a small timeout
                 line = output_queue.get(timeout=13)
@@ -223,18 +223,18 @@ def parse_topic_data(topic, line_limit=10):
                     if len(columns) == len(headers):
                         for header, value in zip(headers, columns):
                             parsed_data[header].append(value.strip())
-
             except queue.Empty:
                 # No new data was found in the queue, continue until timeout
                 process.terminate()  # Ensure subprocess terminates
                 process.wait() 
                 return parsed_data
-
     except Exception as e:
         print("An error occurred: {0}".format(e))
     finally:
-        process.terminate()  # Ensure subprocess terminates
-        process.wait()       # Ensure cleanup
+        # check if process is still running
+        if process.poll() is None:
+            process.terminate()  # Ensure subprocess terminates
+            process.wait()       # Ensure cleanup
     if parsed_data is not None:
         parsed_data = {key: tuple(values) for key, values in parsed_data.items()}
     return parsed_data if parsed_data is not None else {}
