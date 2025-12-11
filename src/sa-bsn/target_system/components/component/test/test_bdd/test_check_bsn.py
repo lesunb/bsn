@@ -51,17 +51,23 @@ def step_given_topic_is_online(context, topic_name):
     result = subprocess.run(['rostopic', 'list', topic_name], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     topic_list = result.stdout.decode('utf-8').splitlines()
     assert topic_name in topic_list, "{} is not online".format(topic_name)
+
 @given('that all sensors and central hub nodes are online')
 def step_given_full_system_nodes_online(context):
-    node_is_active(FULL_SYSTEM)   
+    node_is_active(FULL_SYSTEM)  
+
+@given('that all sensors are and online Central hub is inactive')
+def step_given_full_system_nodes_online(context):
+    node_is_active(FULL_SYSTEM[:-1])  
+    if '/g4t1' in rosnode.get_node_names():
+        rosnode.kill_nodes(['/g4t1'])
+    rospy.sleep(.2)
+
+
 @given(parsers.parse('{node_name} is inactive'))
 def step_given_node_is_inactive(context, node_name):
-    if node_name == 'Central hub': 
-        rosnode.kill_nodes('/g4t1')
-        rospy.sleep(2)
-    else:
-        is_active = bool_node_is_active(node_name)
-        assert not is_active, "{} is active".format(node_name)
+    is_active = bool_node_is_active(node_name)
+    assert not is_active, "{} is active".format(node_name)
 
 @when('I listen to sensors data')
 def step_when_check_sensors_publishing_data(context):
@@ -135,26 +141,19 @@ def step_then_check_target_system_receives_risk(context):
 
 @then("Central hub will not process the risk")
 def step_then_check_target_system_does_not_receive_risk(context):
-    rosnode.kill_nodes('/g4t1')
-    rospy.sleep(2)  
-    target_system_data = parse_topic_data('/TargetSystemData')
-    # target_system_data = context['target_system_data']
-    print('TargetSystemData after killing g4t1: {}'.format(target_system_data['patient_status']))
+    target_system_data = context['target_system_data']
     assert not target_system_data, "Patient status is unexpectedly updated in TargetSystemData."
     # Check that no risks are present in the target system data
     if target_system_data:
         for key in ['trm_risk', 'ecg_risk', 'oxi_risk', 'abps_risk', 'abpd_risk', 'glc_risk']:
             # Assert that the target system data for risks is empty or doesn't contain any values
             assert not target_system_data[key], "Expected no data for {}, but found: {}".format(key, target_system_data[key])
+
 @then("Central hub will not process the data")
 def step_then_check_target_system_does_not_receive_risk(context):
-    rosnode.kill_nodes('/data_access')
-    rospy.sleep(2)  
-    target_system_data = parse_topic_data('/TargetSystemData')
-    print('TargetSystemData after killing g4t1: {}'.format(target_system_data['patient_status']))
-    # target_system_data = context['target_system_data']
+    target_system_data = context['target_system_data']
     
-    # assert not target_system_data, "Patient status is unexpectedly updated in TargetSystemData."
+    assert not target_system_data, "Patient status is unexpectedly updated in TargetSystemData."
     # Check that no risks are present in the target system data
     if target_system_data:
         for key in ['trm_data', 'ecg_data', 'oxi_data', 'abps_data', 'abpd_data', 'glc_data']:
