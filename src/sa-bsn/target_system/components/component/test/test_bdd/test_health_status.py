@@ -6,16 +6,33 @@ import rosnode
 from asserts import is_node_receiving_multiple_topics, assert_node_is_online, is_node_publishing_to_topics,check_time_performance
 from parsers import process_real_time_topics, parse_topic_data, capture_topic_data
 
-scenarios("./features/health_status.feature")
-# scenarios("./features/BSN-P03.feature")
+# def capture_topic_data(topic):
+#     parsed_data = parse_topic_data(topic, line_limit=10) or {}
+#     # accept common risk key names, default to empty list
+#     risk_list = parsed_data.get('risk') or parsed_data.get('risk_levels') or parsed_data.get('risk_values') or []
+#     high_risk_detected = False
+#     print('risk_list: {}'.format(risk_list))
+#     for value in risk_list:
+#         try:
+#             if float(value) > 10:
+#                 high_risk_detected = True
+#                 break
+#         except (TypeError, ValueError):
+#             continue
+#     risk_key = next((k for k in parsed_data.keys() if 'risk' in k), 'risk')
+#     return topic, parsed_data, high_risk_detected, risk_key
 
-@given('that nodes thermometer and central hub are online')
-def thermometer_and_central_hub_are_online():
-    nodes = rosnode.get_node_names()
-    thermometer_node = '/g3t1_3'
-    central_hub_node = '/g4t1'
-    assert thermometer_node in nodes, "{} is not online.".format(thermometer_node)
-    assert central_hub_node in nodes, "{} is not online.".format(central_hub_node)
+
+# scenarios("./features/health_status.feature")
+scenarios("./features/BSN-P03.feature")
+
+# @given('that nodes thermometer and central hub are online')
+# def thermometer_and_central_hub_are_online():
+#     nodes = rosnode.get_node_names()
+#     thermometer_node = '/g3t1_3'
+#     central_hub_node = '/g4t1'
+#     assert thermometer_node in nodes, "{} is not online.".format(thermometer_node)
+#     assert central_hub_node in nodes, "{} is not online.".format(central_hub_node)
     
 @then('g4t1 will detect new patient health status')
 def g4t1_detects_health_status(context):
@@ -50,11 +67,13 @@ def step_then_g4t1_detects_emergency(context):
 @when(parsers.parse('{node_name} sends low-risk data with high frequency'))
 def step_when_overloaded_data_sent(context, node_name):
     topic = '/{}_data'.format(node_name)
-    _, parsed_data, high_risk_detected = capture_topic_data(topic)
-    context.overloaded = True
-    context.high_risk_detected = high_risk_detected
-    assert context.overloaded, "Sensor data overload did not occur"
+    _, parsed_data, high_risk_detected, risk_key = capture_topic_data(topic)
+    context['overloaded'] = True
+    print('high_risk_detected: {}'.format(high_risk_detected))
+    print('risk_key: {}'.format(risk_key))
+    context['high_risk_detected'] = high_risk_detected
+    assert context['overloaded'], "Sensor data overload did not occur"
 
 @then('Central Hub will experience delayed emergency detection')
 def step_then_g4t1_might_delay_detection(context):
-    assert context.overloaded and context.high_risk_detected, "Delayed detection scenario not met"
+    assert context['overloaded'] and context['high_risk_detected'], "Delayed detection scenario not met"

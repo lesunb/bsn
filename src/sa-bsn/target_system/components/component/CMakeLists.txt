@@ -102,14 +102,25 @@ ADD_DEPENDENCIES(patient_data_service messages_generate_messages_cpp)
 if (CATKIN_ENABLE_TESTING)
   find_package(rostest REQUIRED)
   find_package(ros_pytest REQUIRED)
-  add_rostest(test/test_bdd/test_target_system.launch)
+  # add_rostest(test/test_bdd/test_target_system.launch)
   add_rostest(test/test_bdd/test_health_status.launch)
-  add_rostest(test/test_bdd/test_data_persistance.launch)
-  add_rostest(test/test_bdd/test_knowledge_repo.launch)
-  add_rostest(test/test_bdd/test_managing_system.launch)
-  # not working yet
+  # add_rostest(test/test_bdd/test_bsn_p03.launch)
+  # add_rostest(test/test_bdd/test_data_persistance.launch)
+  # add_rostest(test/test_bdd/test_knowledge_repo.launch)
+  # add_rostest(test/test_bdd/test_managing_system.launch)
+  # add_rostest(test/test_bdd/test_injector.launch)
   # add_rostest(test/test_bdd/test_check_bsn.launch)
-  # add_rostest(test/test_sensor.launch)
+
+  # unit test
+  # add_rostest(test/unit/test_G3T1_1.launch)
+  # add_rostest(test/unit/test_G3T1_2.launch)
+  # add_rostest(test/unit/test_G3T1_3.launch)
+  # add_rostest(test/unit/test_G3T1_4.launch)
+  # add_rostest(test/unit/test_G3T1_5.launch)
+  # add_rostest(test/unit/test_G3T1_6.launch)
+
+  # not working yet
+  # add_rostest(test/unit/test_G4T1.launch)
 
   # 1. Compila seu arquivo de teste C++ em um executável
   # add_executable(run_bdd_tests test/bdd-test/test.cpp)

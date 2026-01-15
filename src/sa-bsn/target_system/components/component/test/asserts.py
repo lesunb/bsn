@@ -166,7 +166,7 @@ def check_time_performance(sensor_data, target_system_data, key, value, evaluate
                 time_diff = sensor_time - target_time
                 print("diff: {}".format(time_diff))
                 if time_diff < time_threshold:
-                    return False
+                    return True
                 print('TIME DIFFERENCE in {}: {} us'.format(key, time_diff))
                 
-    return True
+    return False

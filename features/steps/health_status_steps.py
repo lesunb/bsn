@@ -1,18 +1,8 @@
 from behave import given, when, then
-from utils.parsers import parse_topic_data, format_entity, process_real_time_topics
+from utils.parsers import parse_topic_data, format_entity, process_real_time_topics, capture_topic_data
 from utils.asserts import node_is_active, check_time_performance
 from utils.constants import REDUCED_SYSTEM, FULL_SYSTEM
-def capture_topic_data(topic):
-    parsed_data = parse_topic_data(topic, line_limit=10)
-    high_risk_detected = any(float(value) > 10 for value in parsed_data.get('risk', []))
-    return topic, parsed_data, high_risk_detected
 
-#@given('nodes are online')
-#def step_given_nodes_online(context):
-#    if 'reduced_system' in context.scenario.tags:
-#        node_is_active(REDUCED_SYSTEM)
-#    else:
-#        node_is_active(FULL_SYSTEM)
 @given('that nodes thermometer and central hub are online')
 def step_given_reduced_system_nodes_online(context):
     node_is_active(REDUCED_SYSTEM)    

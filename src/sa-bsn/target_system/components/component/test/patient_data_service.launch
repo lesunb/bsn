@@ -1,4 +1,4 @@
 <launch>
   <!-- Launch the patient data service node -->
- <node name="patient_data_service" pkg="component" type="patient_data_service" output="screen" />
+ <node name="patient_data_service" pkg="component" type="patient_data_service" output="log" />
 </launch>

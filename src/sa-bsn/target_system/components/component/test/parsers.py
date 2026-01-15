@@ -51,7 +51,11 @@ def capture_topic_data(topic):
         
         return topic, parsed_data, False, None
     parsed_data = parse_topic_data(topic, line_limit=10)
-    
+
+    if parsed_data is None:
+        print("Alerta: Falha ao analisar dados para o topico '{}'. parse_topic_data retornou None.".format(topic))
+        return topic, {}, False, None 
+
     high_risk_detected = any(
             float(value) > 10 for value in parsed_data['risk']  # Check each value in each list
         )
@@ -237,6 +241,7 @@ def parse_topic_data(topic, line_limit=10):
             process.wait()       # Ensure cleanup
     if parsed_data is not None:
         parsed_data = {key: tuple(values) for key, values in parsed_data.items()}
+
     return parsed_data if parsed_data is not None else {}
 
 
