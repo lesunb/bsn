@@ -99,28 +99,42 @@ ADD_DEPENDENCIES(patient_data_service messages_generate_messages_cpp)
 #   add_rostest(test/bdd-test/run_bdd_tests.launch)
 # endif()
 
+# Adicionar flags de cobertura SOMENTE se estivermos em modo Debug
+# (Recomendado para evitar poluir builds de produção)
+if(CMAKE_BUILD_TYPE MATCHES Debug)
+    message(STATUS "Build de Debug detectado: Habilitando Cobertura de Código (GCOV)")
+    
+    # -O0: Desativa otimizações (essencial para que a linha do código bata com a execução)
+    # -fprofile-arcs: Instrumenta o código para contar execuções
+    # -ftest-coverage: Gera dados para o GCOV
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage -O0")
+    
+    # Linkar com a biblioteca gcov é necessário em algumas versões do GCC
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fprofile-arcs -ftest-coverage")
+endif()
+
 if (CATKIN_ENABLE_TESTING)
   find_package(rostest REQUIRED)
   find_package(ros_pytest REQUIRED)
-  # add_rostest(test/test_bdd/test_target_system.launch)
+  add_rostest(test/test_bdd/test_target_system.launch)
   add_rostest(test/test_bdd/test_health_status.launch)
+  add_rostest(test/test_bdd/test_data_persistance.launch)
+  add_rostest(test/test_bdd/test_knowledge_repo.launch)
+  add_rostest(test/test_bdd/test_managing_system.launch)
+  add_rostest(test/test_bdd/test_injector.launch)
+  add_rostest(test/test_bdd/test_check_bsn.launch)
+  
   # add_rostest(test/test_bdd/test_bsn_p03.launch)
-  # add_rostest(test/test_bdd/test_data_persistance.launch)
-  # add_rostest(test/test_bdd/test_knowledge_repo.launch)
-  # add_rostest(test/test_bdd/test_managing_system.launch)
-  # add_rostest(test/test_bdd/test_injector.launch)
-  # add_rostest(test/test_bdd/test_check_bsn.launch)
-
   # unit test
-  # add_rostest(test/unit/test_G3T1_1.launch)
-  # add_rostest(test/unit/test_G3T1_2.launch)
-  # add_rostest(test/unit/test_G3T1_3.launch)
-  # add_rostest(test/unit/test_G3T1_4.launch)
-  # add_rostest(test/unit/test_G3T1_5.launch)
-  # add_rostest(test/unit/test_G3T1_6.launch)
+  add_rostest(test/unit/test_G3T1_1.launch)
+  add_rostest(test/unit/test_G3T1_2.launch)
+  add_rostest(test/unit/test_G3T1_3.launch)
+  add_rostest(test/unit/test_G3T1_4.launch)
+  add_rostest(test/unit/test_G3T1_5.launch)
+  add_rostest(test/unit/test_G3T1_6.launch)
+  add_rostest(test/unit/test_G4T1.launch)
 
   # not working yet
-  # add_rostest(test/unit/test_G4T1.launch)
 
   # 1. Compila seu arquivo de teste C++ em um executável
   # add_executable(run_bdd_tests test/bdd-test/test.cpp)
