@@ -1,4 +1,3 @@
-
 import pytest
 import rospy
 import rostopic
@@ -18,8 +17,8 @@ SENSORS = ['/g3t1_1', '/g3t1_2', '/g3t1_3', '/g3t1_4', '/g3t1_5', '/g3t1_6']
 low_risk_value_dict = {
     'oxigenation': 90.0,
     'heart_rate': 90.0,
-    'temperature': 36.0,
-    'abps': 120.0,
+    'temperature': 37.0,
+    'abps': 100.0,
     'abpd': 70.0,
     'glucose': 90.0
 }
@@ -27,26 +26,28 @@ high_risk_value_dict = {
     'oxigenation': 50.0,
     'heart_rate': 120.0,
     'temperature': 45.0,
-    'abps': 300.0,
-    'abpd': 90.0,
+    'abps': 250.0,
+    'abpd': 95.0,
     'glucose': 200.0
 }
-low_risk_threshold_dict = {
-    'oxigenation': 95.0,
-    'heart_rate': 70.0,
-    'temperature': 60.0,
-    'abps': 120.0,
-    'abpd': 80.0,
-    'glucose': 30.0
-}
-high_risk_threshold_dict = {
-    'oxigenation': 85.0,
+mid_risk_value_dict = {
+    'oxigenation': 60,
     'heart_rate': 100.0,
-    'temperature': 100.0,
-    'abps': 160.0,
-    'abpd': 110.0,
-    'glucose': 70.0
+    'temperature': 40.0,
+    'abps': 130.0,
+    'abpd': 85.0,
+    'glucose': 100.0
 }
+out_of_range_value_dict = {
+    'oxigenation': 101,
+    'heart_rate': 301,
+    'temperature': 51.0,
+    'abps': 301.0,
+    'abpd': 305.0,
+    'glucose': 301.0
+}
+low_risk_threshold_dict = 20
+high_risk_threshold_dict = 66
 
 class SharedSensorTests:
     """Shared test methods for sensor testing"""
@@ -135,6 +136,30 @@ class SharedSensorTests:
         res.data = high_risk_value_dict[req.vitalSign]
         return res
     
+    @staticmethod
+    def mock_patient_data_service_with_mid_risk_callback(req):
+        """
+        Funcao callback que simula a logica do servidor.
+        Recebe a requisicao (PatientData) e retorna uma Resposta de Mid Risk (PatientDataResponse).
+        """
+        rospy.loginfo("Servico 'getPatientData' (Mid risk) chamado no teste: {}".format(req.vitalSign))
+        
+        res = PatientDataResponse()
+        res.data = mid_risk_value_dict[req.vitalSign]
+        return res
+
+    @staticmethod
+    def mock_patient_data_service_with_out_of_range_callback(req):
+        """
+        Funcao callback que simula a logica do servidor.
+        Recebe a requisicao (PatientData) e retorna uma Resposta de Out of Range (PatientDataResponse).
+        """
+        rospy.loginfo("Servico 'getPatientData' (Out of range) chamado no teste: {}".format(req.vitalSign))
+        
+        res = PatientDataResponse()
+        res.data = out_of_range_value_dict[req.vitalSign]
+        return res
+    
     def message_callback(self, msg):
         """Callback for receiving messages from the sensor"""
         print("Mensagem recebida no topico {}: data={}".format(self.topic, msg.data))
@@ -157,7 +182,7 @@ class SharedSensorTests:
         received_msg = self.wait_for_message()
         print("Received message: {}".format(received_msg.risk))
         assert received_msg is not None
-        # assert received_msg.risk < low_risk_threshold_dict[self.vital_sign]
+        assert received_msg.risk < low_risk_threshold_dict
         assert received_msg.data == test_data
 
     @pytest.fixture
@@ -190,5 +215,93 @@ class SharedSensorTests:
         received_msg = self.wait_for_message()
         
         assert received_msg is not None
-        # assert received_msg.risk > high_risk_threshold_dict[self.vital_sign]
+        assert received_msg.risk > high_risk_threshold_dict
         assert received_msg.data == test_data
+
+    @pytest.fixture
+    def mock_mid_risk_service(self):
+        """Fixture to setup mid risk service mock"""
+        if self.patient_service_server is not None:
+            self.patient_service_server.shutdown("Reconfigurando para mid risk.")
+            rospy.sleep(0.1)
+        service_name = "getPatientData"
+        self.patient_service_server = rospy.Service(
+            service_name, 
+            PatientData, 
+            self.mock_patient_data_service_with_mid_risk_callback 
+        )
+        rospy.wait_for_service(service_name)
+        rospy.sleep(1)
+
+        self.subscriber = rospy.Subscriber(
+            self.topic, 
+            SensorData, 
+            self.message_callback
+        )
+
+        print("Mid risk service mock setup complete.")
+        time.sleep(1)  
+        yield
+
+    def test_transfer_with_mid_risk_data(self, mock_mid_risk_service):
+        """Test transfer with mid risk  data"""
+        test_data = mid_risk_value_dict[self.vital_sign]
+        received_msg = self.wait_for_message()
+        print("Received message: {}, {}".format(received_msg.risk, test_data))
+        assert received_msg is not None
+        assert received_msg.risk > low_risk_threshold_dict and received_msg.risk < high_risk_threshold_dict
+        assert received_msg.data == test_data
+
+    @pytest.fixture
+    def mock_out_of_range_service(self):
+        """Fixture to setup out of range service mock"""
+        if self.patient_service_server is not None:
+            self.patient_service_server.shutdown("Reconfigurando para out of range.")
+            rospy.sleep(0.1)
+        service_name = "getPatientData"
+        self.patient_service_server = rospy.Service(
+            service_name, 
+            PatientData, 
+            self.mock_patient_data_service_with_out_of_range_callback
+        )
+        rospy.wait_for_service(service_name)
+        rospy.sleep(1)
+
+        self.subscriber = rospy.Subscriber(
+            self.topic, 
+            SensorData, 
+            self.message_callback
+        )
+        print("Out of range service mock setup complete.")
+        time.sleep(1)  
+        yield
+
+    def test_transfer_with_out_of_range_data(self, mock_out_of_range_service):
+        """Test transfer with out of range data"""
+        test_data = out_of_range_value_dict[self.vital_sign]
+        received_msg = self.wait_for_message()
+        assert received_msg is None
+
+        
+    def test_battery_consumption(self, mock_mid_risk_service):
+        """Test that battery level decreases after operations"""
+        received_msg1 = self.wait_for_message()
+        assert received_msg1 is not None
+        initial_battery = received_msg1.batt
+        
+        # Wait for next message
+        time.sleep(0.5)
+        del self.received_messages[:]
+        received_msg2 = self.wait_for_message()
+        
+        if received_msg2 is not None:
+            # Battery should decrease or stay same (if instant recharge)
+            assert received_msg2.batt <= initial_battery
+
+    # def test_service_integration(self):
+    #     """Test that sensor properly integrates with patient data service"""
+    #     received_msg = self.wait_for_message(timeout=3.0)
+        
+    #     assert received_msg is not None
+    #     # Data should come from the mocked service
+    #     assert received_msg.data == low_risk_value_dict[self.vital_sign]
