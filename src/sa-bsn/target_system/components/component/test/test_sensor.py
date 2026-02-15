@@ -6,12 +6,14 @@ from std_msgs.msg import String, Float64
 from asserts import is_node_publishing_to_topics, Command, TIMEOUT_SECONDS
 from parsers import get_rostopic_sensor_data, get_rosnode_info
 from messages.msg import SensorData
+from archlib.msg import Uncertainty, Status
 import subprocess
 import threading
 from services.srv import PatientData, PatientDataResponse, PatientDataRequest
 import rosnode
 import rosservice
 import time
+import math
 
 SENSORS = ['/g3t1_1', '/g3t1_2', '/g3t1_3', '/g3t1_4', '/g3t1_5', '/g3t1_6']
 low_risk_value_dict = {
@@ -159,6 +161,18 @@ class SharedSensorTests:
         res = PatientDataResponse()
         res.data = out_of_range_value_dict[req.vitalSign]
         return res
+
+    @staticmethod
+    def mock_patient_data_service_with_unknown_callback(req):
+        """
+        Funcao callback que simula a logica do servidor.
+        Recebe a requisicao (PatientData) e retorna uma Resposta de Unknown (PatientDataResponse).
+        """
+        rospy.loginfo("Servico 'getPatientData' (Unknown) chamado no teste: {}".format(req.vitalSign))
+
+        res = PatientDataResponse()
+        res.data = -1
+        return res
     
     def message_callback(self, msg):
         """Callback for receiving messages from the sensor"""
@@ -173,6 +187,20 @@ class SharedSensorTests:
             with self.message_lock:
                 if self.received_messages:
                     return self.received_messages[-1]
+            time.sleep(0.01)
+        return None
+
+    def wait_for_status(self, status_messages, status_lock, timeout=2.0, matcher=None):
+        """Wait for a status message to be received"""
+        start_time = time.time()
+        while time.time() - start_time < timeout:
+            with status_lock:
+                if status_messages:
+                    if matcher is None:
+                        return status_messages[-1]
+                    for msg in status_messages:
+                        if matcher(msg):
+                            return msg
             time.sleep(0.01)
         return None
 
@@ -278,9 +306,87 @@ class SharedSensorTests:
 
     def test_transfer_with_out_of_range_data(self, mock_out_of_range_service):
         """Test transfer with out of range data"""
-        test_data = out_of_range_value_dict[self.vital_sign]
         received_msg = self.wait_for_message()
         assert received_msg is None
+
+    @pytest.fixture
+    def mock_unknown_service(self):
+        """Fixture to setup unknown service mock"""
+        if self.patient_service_server is not None:
+            self.patient_service_server.shutdown("Reconfigurando para unknown.")
+            rospy.sleep(0.1)
+        service_name = "getPatientData"
+        self.patient_service_server = rospy.Service(
+            service_name, 
+            PatientData, 
+            self.mock_patient_data_service_with_unknown_callback
+        )
+        rospy.wait_for_service(service_name)
+        rospy.sleep(1)
+
+        self.subscriber = rospy.Subscriber(
+            self.topic, 
+            SensorData, 
+            self.message_callback
+        )
+        print("Out of range service mock setup complete.")
+        time.sleep(1)  
+        yield
+
+    def test_transfer_with_unknown_data(self, mock_unknown_service):
+        """Test transfer with unknown data (out of range)"""
+        received_msg = self.wait_for_message()
+        assert received_msg is None or math.isnan(received_msg.risk) or received_msg.risk == -1, "Expected risk to be NaN or -1 for unknown data, got {}".format(received_msg.risk)
+
+    def test_transfer_with_accuracy_fail(self, mock_mid_risk_service):
+        """Test transfer with accuracy fail (label mismatch)"""
+        if self.vital_sign != 'oxigenation':
+            pytest.skip("Accuracy fail test only applies to g3t1_1")
+
+        status_messages = []
+        status_lock = threading.Lock()
+
+        def status_callback(msg):
+            with status_lock:
+                status_messages.append(msg)
+
+        status_subscriber = rospy.Subscriber(
+            "collect_status",
+            Status,
+            status_callback
+        )
+
+        received_msg = self.wait_for_message()
+        assert received_msg is not None
+
+        uncertainty_topics = ["uncertainty_g3t1_1", "uncertainty_/g3t1_1"]
+        uncertainty_pubs = [
+            rospy.Publisher(topic, Uncertainty, queue_size=10)
+            for topic in uncertainty_topics
+        ]
+        time.sleep(0.2)
+
+        uncertainty_msg = Uncertainty()
+        uncertainty_msg.source = "test"
+        uncertainty_msg.target = "g3t1_1"
+        uncertainty_msg.content = "noise_factor=0.3"
+
+        for _ in range(3):
+            for publisher in uncertainty_pubs:
+                publisher.publish(uncertainty_msg)
+            time.sleep(0.2)
+
+        status_msg = self.wait_for_status(
+            status_messages,
+            status_lock,
+            timeout=6.0,
+            matcher=lambda msg: msg.source.endswith("g3t1_1") and msg.content == "fail"
+        )
+        status_subscriber.unregister()
+
+        assert status_msg is not None
+        assert status_msg.source.endswith("g3t1_1")
+        assert status_msg.content == "fail"
 
         
     def test_battery_consumption(self, mock_mid_risk_service):

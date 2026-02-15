@@ -132,8 +132,15 @@ if (CATKIN_ENABLE_TESTING)
   add_rostest(test/unit/test_G3T1_4.launch)
   add_rostest(test/unit/test_G3T1_5.launch)
   add_rostest(test/unit/test_G3T1_6.launch)
-  add_rostest(test/unit/test_G4T1.launch)
 
+  add_rostest(test/unit/test_G3T1_1_connected.launch)
+  add_rostest(test/unit/test_G3T1_2_connected.launch)
+  add_rostest(test/unit/test_G3T1_3_connected.launch)
+  add_rostest(test/unit/test_G3T1_4_connected.launch)
+  add_rostest(test/unit/test_G3T1_5_connected.launch)
+  add_rostest(test/unit/test_G3T1_6_connected.launch)
+  
+  add_rostest(test/unit/test_G4T1.launch)
   # not working yet
 
   # 1. Compila seu arquivo de teste C++ em um executável
