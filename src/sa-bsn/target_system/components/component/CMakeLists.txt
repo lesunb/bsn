@@ -76,31 +76,7 @@ target_link_libraries(patient_data_service
 )
 ADD_DEPENDENCIES(patient_data_service messages_generate_messages_cpp)
 
-#if(CATKIN_ENABLE_TESTING)
-#    find_package(rostest REQUIRED)
-#    add_rostest_gtest(component_test
-#        test/unit/component_test.launch
-#        test/unit/test_Sensor.cpp
-#    )
-#    target_link_libraries(component_test ${catkin_LIBRARIES})
-#endif()
-
-# if (CATKIN_ENABLE_TESTING)
-#   find_package(rostest REQUIRED)
-#   # add_rostest_gtest(sensor_execution_test
-#   # test/features/sensor_execution.launch
-#   # test/features/sensor_execution_test.cpp)
-#   # target_link_libraries(sensor_execution_test ${catkin_LIBRARIES})
-
-#   add_executable(run_bdd_tests test/bdd-test/test.cpp)
-#   target_link_libraries(run_bdd_tests ${catkin_LIBRARIES})
-
-#   # Now use the launch file
-#   add_rostest(test/bdd-test/run_bdd_tests.launch)
-# endif()
-
 # Adicionar flags de cobertura SOMENTE se estivermos em modo Debug
-# (Recomendado para evitar poluir builds de produção)
 if(CMAKE_BUILD_TYPE MATCHES Debug)
     message(STATUS "Build de Debug detectado: Habilitando Cobertura de Código (GCOV)")
     
@@ -109,7 +85,6 @@ if(CMAKE_BUILD_TYPE MATCHES Debug)
     # -ftest-coverage: Gera dados para o GCOV
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fprofile-arcs -ftest-coverage -O0")
     
-    # Linkar com a biblioteca gcov é necessário em algumas versões do GCC
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fprofile-arcs -ftest-coverage")
 endif()
 
@@ -124,7 +99,6 @@ if (CATKIN_ENABLE_TESTING)
   add_rostest(test/test_bdd/test_injector.launch)
   add_rostest(test/test_bdd/test_check_bsn.launch)
   
-  # add_rostest(test/test_bdd/test_bsn_p03.launch)
   # unit test
   add_rostest(test/unit/test_G3T1_1.launch)
   add_rostest(test/unit/test_G3T1_2.launch)
@@ -141,17 +115,6 @@ if (CATKIN_ENABLE_TESTING)
   add_rostest(test/unit/test_G3T1_6_connected.launch)
   
   add_rostest(test/unit/test_G4T1.launch)
-  # not working yet
-
-  # 1. Compila seu arquivo de teste C++ em um executável
-  # add_executable(run_bdd_tests test/bdd-test/test.cpp)
-
-  # 2. Vincula o executável com as bibliotecas do ROS necessárias
-  # target_link_libraries(run_bdd_tests ${catkin_LIBRARIES})
-
-  # 3. Registra o teste para ser executado via rostest, usando o seu arquivo .launch
-  #    Isso é o correto para Catch2, pois não injeta argumentos específicos do GTest.
-  # add_rostest(test/bdd-test/run_bdd_tests.launch)
 endif()
 
 
