@@ -158,6 +158,18 @@ namespace bsn {
 			return highRisk;
 		}
 
+		bool SensorConfiguration::isLowRiskPercentage(double val) {
+			return lowPercentage.in_range(val);
+		}
+
+		bool SensorConfiguration::isMidRiskPercentage(double val) {
+			return midPercentage.in_range(val);
+		}
+
+		bool SensorConfiguration::isHighRiskPercentage(double val) {
+			return highPercentage.in_range(val);
+		}
+
 		bool SensorConfiguration::isLowRisk(double val) {
 			return lowRisk.in_range(val);
 		}
