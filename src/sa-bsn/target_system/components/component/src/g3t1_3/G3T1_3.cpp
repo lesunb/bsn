@@ -159,11 +159,11 @@ void G3T1_3::transfer(const double &m_data) {
 
 std::string G3T1_3::label(double &risk) {
     std::string ans;
-    if(sensorConfig.isLowRisk(risk)){
+    if(sensorConfig.isLowRiskPercentage(risk)){
         ans = "low";
-    } else if (sensorConfig.isMediumRisk(risk)) {
+    } else if (sensorConfig.isMediumRiskPercentage(risk)) {
         ans = "moderate";
-    } else if (sensorConfig.isHighRisk(risk)) {
+    } else if (sensorConfig.isHighRiskPercentage(risk)) {
         ans = "high";
     } else {
         ans = "unknown";
