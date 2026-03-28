@@ -57,20 +57,32 @@ def step_when_high_risk_data_sent(context):
 
 @then('Central hub will detect an emergency in less than 250 ms')
 def step_then_g4t1_detects_emergency(context):
-    print('teste_final')
-    print(context['sensor_data'])
-    performance_check = check_time_performance(context['sensor_data'], context['target_system_data'],
-                                  '/thermometer_data','trm_data', 'data')
-    
-    assert performance_check, "Central hub failed to detect an emergency in less than 250 ms"
+    sensor_topic = '/thermometer_data'
+    sensor_payload = context['sensor_data'].get(sensor_topic, {})
+
+    evaluate_key = 'risk' if 'risk' in sensor_payload else 'data'
+    target_key = 'trm_risk' if evaluate_key == 'risk' else 'trm_data'
+
+    performance_check = check_time_performance(
+        context['sensor_data'],
+        context['target_system_data'],
+        sensor_topic,
+        target_key,
+        evaluate_key,
+    )
+
+    assert performance_check, (
+        "Central hub failed to detect an emergency in less than 250 ms "
+        "(topic='{}', sensor_key='{}', target_key='{}')".format(
+            sensor_topic, evaluate_key, target_key
+        )
+    )
 
 @when(parsers.parse('{node_name} sends low-risk data with high frequency'))
 def step_when_overloaded_data_sent(context, node_name):
     topic = '/{}_data'.format(node_name)
     _, parsed_data, high_risk_detected, risk_key = capture_topic_data(topic)
     context['overloaded'] = True
-    print('high_risk_detected: {}'.format(high_risk_detected))
-    print('risk_key: {}'.format(risk_key))
     context['high_risk_detected'] = high_risk_detected
     assert context['overloaded'], "Sensor data overload did not occur"
 
