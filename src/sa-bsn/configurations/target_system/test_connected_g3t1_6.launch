@@ -1,0 +1,21 @@
+<launch> 
+    <node name="g3t1_6" pkg="component" type="g3t1_6" output="log" />
+
+    <param name="start" value="true" />
+    <param name="frequency" value="0.6" />
+
+    <param name="lowrisk" value="0,20" />
+    <param name="midrisk" value="21,65" />
+    <param name="highrisk" value="66,100" />
+
+    <param name="glucose_HighRisk0" value="20,39.99" />
+    <param name="glucose_MidRisk0" value="40,54.99" />
+    <param name="glucose_LowRisk" value="90,90" />
+    <param name="glucose_MidRisk1" value="96,119.99" />
+    <param name="glucose_HighRisk1" value="120,200" />
+
+    <param name="data_accuracy" value="99" type="double" />
+    <param name="comm_accuracy" value="100" type="double" />
+    <param name="instant_recharge" value="true" type="bool" />
+    <param name="connect_sensor" value="true" type="bool" />
+</launch>

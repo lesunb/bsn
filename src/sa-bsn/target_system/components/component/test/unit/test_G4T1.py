@@ -278,6 +278,17 @@ class TestG4T1:
         assert received_msg is not None, "No message received"
         assert received_msg.oxi_batt == 10.0, "Expected 10.0, received {}".format(received_msg.oxi_batt)
 
+    def test_collect_uncertainty_like_oximeter_data(self):
+        """Moved from sensor-side: validate central hub collection with perturbed datapoint."""
+        self.publish_sensor_data('oximeter', 15.0, 85.5, 88.0)
+        rospy.sleep(0.5)
+
+        received_msg = self.wait_for_message()
+        assert received_msg is not None, "No message received"
+        assert received_msg.oxi_risk == 15.0
+        assert received_msg.oxi_data == 85.5
+        assert received_msg.oxi_batt == 88.0
+
     # Test sequential data collection
     def test_sequential_sensor_updates(self):
         """Test that sensor data is updated sequentially"""

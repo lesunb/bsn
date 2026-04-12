@@ -1,0 +1,21 @@
+<launch> 
+    <node name="g3t1_5" pkg="component" type="g3t1_5" output="log" />
+
+    <param name="start" value="true" />
+    <param name="frequency" value="5" />
+
+    <param name="lowrisk" value="0,20" />
+    <param name="midrisk" value="21,65" />
+    <param name="highrisk" value="66,100" />
+
+    <param name="abpd_HighRisk0" value="0,39" />
+    <param name="abpd_MidRisk0" value="40,59" />
+    <param name="abpd_LowRisk" value="70,70" />
+    <param name="abpd_MidRisk1" value="71,90" />
+    <param name="abpd_HighRisk1" value="91,300" />
+
+    <param name="data_accuracy" value="99" type="double" />
+    <param name="comm_accuracy" value="100" type="double" />
+    <param name="instant_recharge" value="true" type="bool" />
+    <param name="connect_sensor" value="true" type="bool" />
+</launch>

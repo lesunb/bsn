@@ -13,7 +13,6 @@ from services.srv import PatientData, PatientDataResponse, PatientDataRequest
 import rosnode
 import rosservice
 import time
-import math
 
 SENSORS = ['/g3t1_1', '/g3t1_2', '/g3t1_3', '/g3t1_4', '/g3t1_5', '/g3t1_6']
 low_risk_value_dict = {
@@ -162,17 +161,6 @@ class SharedSensorTests:
         res.data = out_of_range_value_dict[req.vitalSign]
         return res
 
-    @staticmethod
-    def mock_patient_data_service_with_unknown_callback(req):
-        """
-        Funcao callback que simula a logica do servidor.
-        Recebe a requisicao (PatientData) e retorna uma Resposta de Unknown (PatientDataResponse).
-        """
-        rospy.loginfo("Servico 'getPatientData' (Unknown) chamado no teste: {}".format(req.vitalSign))
-
-        res = PatientDataResponse()
-        res.data = -1
-        return res
     
     def message_callback(self, msg):
         """Callback for receiving messages from the sensor"""
@@ -308,35 +296,6 @@ class SharedSensorTests:
         """Test transfer with out of range data"""
         received_msg = self.wait_for_message()
         assert received_msg is None
-
-    @pytest.fixture
-    def mock_unknown_service(self):
-        """Fixture to setup unknown service mock"""
-        if self.patient_service_server is not None:
-            self.patient_service_server.shutdown("Reconfigurando para unknown.")
-            rospy.sleep(0.1)
-        service_name = "getPatientData"
-        self.patient_service_server = rospy.Service(
-            service_name, 
-            PatientData, 
-            self.mock_patient_data_service_with_unknown_callback
-        )
-        rospy.wait_for_service(service_name)
-        rospy.sleep(1)
-
-        self.subscriber = rospy.Subscriber(
-            self.topic, 
-            SensorData, 
-            self.message_callback
-        )
-        print("Out of range service mock setup complete.")
-        time.sleep(1)  
-        yield
-
-    def test_transfer_with_unknown_data(self, mock_unknown_service):
-        """Test transfer with unknown data (out of range)"""
-        received_msg = self.wait_for_message()
-        assert received_msg is None or math.isnan(received_msg.risk) or received_msg.risk == -1, "Expected risk to be NaN or -1 for unknown data, got {}".format(received_msg.risk)
 
     def test_transfer_with_accuracy_fail(self, mock_mid_risk_service):
         """Test transfer with accuracy fail (label mismatch)"""

@@ -1,8 +1,6 @@
 <launch>
     <include file="$(find component)/test/patient.launch" />  
      
-    <!-- <include file="$(find messages)/../configurations/target_system/test_g4t1.launch" />  -->
-
     <include file="$(find messages)/../configurations/target_system/test_probe.launch" />  
     <include file="$(find messages)/../configurations/target_system/test_effector.launch" /> 
     <include file="$(find messages)/../configurations/target_system/test_g4t1.launch" />
