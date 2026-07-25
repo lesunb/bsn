@@ -4,6 +4,7 @@ from test_sensor import SharedSensorTests
 import rospy
 import rosnode
 from asserts import is_node_receiving_multiple_topics, assert_node_is_online, is_node_publishing_to_topics
+import pytest
 
 scenarios("./features/target_system.feature")
 

@@ -5,6 +5,7 @@ import rospy
 import rosnode
 from parsers import parse_topic_data, format_entity, process_real_time_topics, capture_topic_data, format_debug_data
 from asserts import node_is_active, bool_node_is_active
+import subprocess
 
 scenarios("./features/check_bsn.feature")
 
@@ -41,12 +42,6 @@ def count_and_get_matching_elements_with_time(sensor_data, target_system_data, k
 
 @given(parsers.parse('the {topic_name} topic is online'))
 def step_given_topic_is_online(context, topic_name):
-    # Check if /TargetSystemData topic is active
-    cmd = ['rosnode', 'info', node_name]
-    command = Command(cmd)
-    stdout, stderr, returncode = command.run(timeout=TIMEOUT_SECONDS)
-
-    node_info = get_rosnode_info(returncode, stdout, stderr)
     topic_name = format_entity(topic_name)
     result = subprocess.run(['rostopic', 'list', topic_name], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     topic_list = result.stdout.decode('utf-8').splitlines()

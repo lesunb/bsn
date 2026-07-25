@@ -1,18 +1,17 @@
 <launch>
-    <!-- <include file="$(find messages)/../configurations/environment/patient.launch"/> APPLICATION -->
-  
-    <include file="$(find component)/test/patient.launch" />  
-  
-    <include file="$(find messages)/../configurations/logging_infrastructure/test_logger.launch" /> <!-- LOGGING INFRASTRUCTURE -->
-
     <include file="$(find messages)/../configurations/knowledge_repository/test_data_access.launch" /> <!-- KNOWLEDGE REPOSITORY -->
 
     <include file="$(find messages)/../configurations/system_manager/test_strategy_manager.launch" /> <!-- MANAGER SYSTEM -->
     <include file="$(find messages)/../configurations/system_manager/test_strategy_enactor.launch" /> <!-- MANAGER SYSTEM -->
 
+    <include file="$(find messages)/../configurations/logging_infrastructure/test_logger.launch" /> <!-- LOGGING INFRASTRUCTURE -->
+
+
     <include file="$(find messages)/../configurations/target_system/test_probe.launch" />  <!-- APPLICATION -->
     <include file="$(find messages)/../configurations/target_system/test_effector.launch" /> <!-- APPLICATION -->
     <include file="$(find messages)/../configurations/target_system/test_g4t1.launch" /> <!-- APPLICATION -->
+
+    <include file="$(find component)/test/patient.launch" />  
 
     <include file="$(find messages)/../configurations/target_system/test_g3t1_1.launch" /> <!-- APPLICATION -->
     <include file="$(find messages)/../configurations/target_system/test_g3t1_2.launch" /> <!-- APPLICATION -->
@@ -20,7 +19,8 @@
     <include file="$(find messages)/../configurations/target_system/test_g3t1_4.launch" /> <!-- APPLICATION -->
     <include file="$(find messages)/../configurations/target_system/test_g3t1_5.launch" /> <!-- APPLICATION -->
     <include file="$(find messages)/../configurations/target_system/test_g3t1_6.launch" /> <!-- APPLICATION -->
-    <include file="$(find messages)/../configurations/simulation/injector.launch" /> <!-- FAULT INJECTION -->
+    
   <param name="test_module" value="$(find component)/test/test_bdd/test_managing_system.py"/>
-  <test test-name="test_managing_system" pkg="ros_pytest" type="ros_pytest_runner" />
+    <include file="$(find messages)/../configurations/simulation/test_injector.launch" /> 
+  <test test-name="test_managing_system" pkg="ros_pytest" type="ros_pytest_runner" time-limit="120.0"/>
 </launch>
