@@ -1,91 +1,29 @@
 import ros_pytest
 from pytest_bdd import scenarios, given, when, then, parsers
 from test_sensor import SharedSensorTests
+from conftest import listen_to_thermometer
 import rospy
 import rosnode
-from asserts import is_node_receiving_multiple_topics, assert_node_is_online, is_node_publishing_to_topics,check_time_performance
+from asserts import is_node_receiving_multiple_topics, assert_node_is_online, is_node_publishing_to_topics,check_time_performance, bool_node_is_active
 from parsers import process_real_time_topics, parse_topic_data, capture_topic_data
 
-# def capture_topic_data(topic):
-#     parsed_data = parse_topic_data(topic, line_limit=10) or {}
-#     # accept common risk key names, default to empty list
-#     risk_list = parsed_data.get('risk') or parsed_data.get('risk_levels') or parsed_data.get('risk_values') or []
-#     high_risk_detected = False
-#     print('risk_list: {}'.format(risk_list))
-#     for value in risk_list:
-#         try:
-#             if float(value) > 10:
-#                 high_risk_detected = True
-#                 break
-#         except (TypeError, ValueError):
-#             continue
-#     risk_key = next((k for k in parsed_data.keys() if 'risk' in k), 'risk')
-#     return topic, parsed_data, high_risk_detected, risk_key
+scenarios("./features/health_status.feature")
 
-
-# scenarios("./features/health_status.feature")
-scenarios("./features/BSN-P03.feature")
-
-# @given('that nodes thermometer and central hub are online')
-# def thermometer_and_central_hub_are_online():
-#     nodes = rosnode.get_node_names()
-#     thermometer_node = '/g3t1_3'
-#     central_hub_node = '/g4t1'
-#     assert thermometer_node in nodes, "{} is not online.".format(thermometer_node)
-#     assert central_hub_node in nodes, "{} is not online.".format(central_hub_node)
-    
-@then('g4t1 will detect new patient health status')
-def g4t1_detects_health_status(context):
+@then('a patient health status derived from that reading should be available')
+def step_then_patient_health_status_available(context):
     assert len(set(context['target_system_data']['patient_status'])) > 1, "status has not changed. Patient Status: {}".format(context['target_system_data']['patient_status'])
 
-@when('an internal processing error occurs in g4t1')
-def step_when_internal_error_occurs(context):
-    context['internal_error'] = True
+@given('the central hub is unable to process incoming readings')
+def step_given_central_hub_unable_to_process(context):
+    rospy.sleep(2)
 
-@then('Central hub will fail to detect the new patient health status')
-def step_then_g4t1_fails_to_detect_status(context):
-    assert context['internal_error'], "No internal error detected"
+    if '/g4t1' in rosnode.get_node_names():
+        rosnode.kill_nodes(['/g4t1'])
+    rospy.sleep(2)
 
-@given('that nodes thermometer and central hub are online')
-def step_given_reduced_system_nodes_online(context):
-    assert_node_is_online('/g3t1_3')  # Thermometer node
-    assert_node_is_online('/g4t1')     # Central hub node
+@then('no new patient health status should be produced for that reading')
+def step_then_no_new_health_status_produced(context):
+    target_data = context.get('target_system_data') or {}
+    patient_status = target_data.get('patient_status') or []
 
-@when('thermometer sends data with high risk')
-def step_when_high_risk_data_sent(context):
-    assert_node_is_online('/patient_data_service')
-
-@then('Central hub will detect an emergency in less than 250 ms')
-def step_then_g4t1_detects_emergency(context):
-    sensor_topic = '/thermometer_data'
-    sensor_payload = context['sensor_data'].get(sensor_topic, {})
-
-    evaluate_key = 'risk' if 'risk' in sensor_payload else 'data'
-    target_key = 'trm_risk' if evaluate_key == 'risk' else 'trm_data'
-
-    performance_check = check_time_performance(
-        context['sensor_data'],
-        context['target_system_data'],
-        sensor_topic,
-        target_key,
-        evaluate_key,
-    )
-
-    assert performance_check, (
-        "Central hub failed to detect an emergency in less than 250 ms "
-        "(topic='{}', sensor_key='{}', target_key='{}')".format(
-            sensor_topic, evaluate_key, target_key
-        )
-    )
-
-@when(parsers.parse('{node_name} sends low-risk data with high frequency'))
-def step_when_overloaded_data_sent(context, node_name):
-    topic = '/{}_data'.format(node_name)
-    _, parsed_data, high_risk_detected, risk_key = capture_topic_data(topic)
-    context['overloaded'] = True
-    context['high_risk_detected'] = high_risk_detected
-    assert context['overloaded'], "Sensor data overload did not occur"
-
-@then('Central Hub will experience delayed emergency detection')
-def step_then_g4t1_might_delay_detection(context):
-    assert context['overloaded'] and context['high_risk_detected'], "Delayed detection scenario not met"
+    assert len(set(patient_status)) == 0, "status has changed, but no new patient health status should be produced"
