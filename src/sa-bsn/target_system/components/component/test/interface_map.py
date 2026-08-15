@@ -11,6 +11,16 @@ SYSTEM_MAP = {
 	'the uncertainty injector': '/injector',
 	'monitoring data': '/TargetSystemData',
 
+	'adaptation strategy': '/strategy',
+	'adaptation exception': '/exception',
+
+	'log event': '/event', 
+	'adaptation log': '/log_adapt',
+	'sensor event':'/log_event',
+	'sensor status':'/log_status',
+	'sensor energy status':'/log_energy_status',
+	'reconfiguration request':'/reconfigure',
+
 	# knowledge repository
 	'the knowledge repository': '/data_access',
 

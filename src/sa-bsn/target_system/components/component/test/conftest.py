@@ -140,6 +140,11 @@ def _database_error_occurs(context):
 def then_publish_to_node(context, node, topic, node_target):
     check_topic_inbound_from_node(context, SYSTEM_MAP[topic], SYSTEM_MAP[node])
 
+@then(parsers.parse('{node} should subscribe to <topic> published by {node_origin}'))
 @then(parsers.parse('{node} should subscribe to "{topic}" published by {node_origin}'))
 def then_subscribe_to_topic(context, node, topic, node_origin):
     check_topic_outbound_to_node(context, SYSTEM_MAP[topic], SYSTEM_MAP[node])
+
+@then(parsers.parse('{node} should subscribe to "{inbound_topic}" and publish "{outbound_topic}" to {node_target}'))
+def then_subscribe_and_publish_to_reliability_engine(context, node, inbound_topic, outbound_topic):
+    check_topic_inbound_and_outbound(context, SYSTEM_MAP[inbound_topic], SYSTEM_MAP[outbound_topic], SYSTEM_MAP[node])
