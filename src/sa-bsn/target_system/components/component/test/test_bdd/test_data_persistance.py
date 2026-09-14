@@ -1,7 +1,6 @@
 import ros_pytest
 from pytest_bdd import scenarios, given, when, then, parsers
 from test_sensor import SharedSensorTests
-from conftest import listen_to_thermometer
 import rospy
 import rosnode
 from asserts import is_node_receiving_multiple_topics, node_is_active, is_node_publishing_to_topics,check_time_performance
@@ -20,11 +19,7 @@ PERSISTENCE_NODES = [
 
 def node_is_online():
     node_is_active(PERSISTENCE_NODES)
-
-def step_when_send_data_to_collector(context):
-    """Simulate sending data to the collector."""
-    assert '/g3t1_3' in context['non_sensor']['/collect_energy_status']['source'], 'No data detected in /collect_energy_status.'
-
+    
 def step_then_data_persisted(context):
     """Simulate data persistence."""
     assert 'Status' in context['non_sensor']['/persist']['type'], 'Data was not sent to collector, so it cannot be persisted.'

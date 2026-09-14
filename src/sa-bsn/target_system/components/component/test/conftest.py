@@ -35,6 +35,10 @@ def node_is_online(context, node_name):
     assert_node_is_online(SYSTEM_MAP[node_name])
     context['is_node_online'] = True
 
+@given("<sensor> is running")
+def sensor_is_running(context, sensor):
+    node_is_online(context, sensor)
+
 @when(parsers.parse("I check if topics {topic} are outbound to {node}")) # remover
 def check_topic_outbound_to_node(context, topic, node):
     if ',' in topic:
@@ -84,13 +88,16 @@ def node_connected_appropriately(context, node_name):
 
 # refactored
 
-SENSOR_TOPIC_INFO = {
+NODE_TOPIC_INFO = {
+    # sensores
     'g3t1_1': {'topic': '/oximeter_data',    'data_key': 'oxi_data',  'risk_key': 'oxi_risk'},
     'g3t1_2': {'topic': '/ecg_data',          'data_key': 'ecg_data', 'risk_key': 'ecg_risk'},
     'g3t1_3': {'topic': '/thermometer_data',  'data_key': 'trm_data', 'risk_key': 'trm_risk'},
     'g3t1_4': {'topic': '/abps_data',         'data_key': 'abps_data', 'risk_key': 'abps_risk'},
     'g3t1_5': {'topic': '/abpd_data',         'data_key': 'abpd_data', 'risk_key': 'abpd_risk'},
     'g3t1_6': {'topic': '/glucosemeter_data', 'data_key': 'glc_data', 'risk_key': 'glc_risk'},
+
+    '/collector': { 'topic': ['/collect_event', '/collect_status', '/collect_energy_status'] },
 }
 
 @given(parsers.parse('the patient is being monitored by {sensor}'))
@@ -98,38 +105,46 @@ SENSOR_TOPIC_INFO = {
 def step_given_patient_monitored_by_sensor(context, sensor):
     node_is_active([SYSTEM_MAP[sensor], SYSTEM_MAP['the central hub']])
 
-def _sensor_topic_info(sensor):
+def _node_topic_info(sensor):
     """Resolve a Gherkin sensor label (e.g. 'the oximeter') to its topic info via SYSTEM_MAP."""
     node_name = SYSTEM_MAP[sensor].lstrip('/')
-    return SENSOR_TOPIC_INFO[node_name]
+    return NODE_TOPIC_INFO[node_name]
 
 def _send_data_to_collector(context):
     """Simulate sending data to the collector."""
     assert context['sensor'] in context['non_sensor']['/collect_energy_status']['source'], 'No data detected in /collect_energy_status.'
 
-@when('I listen to thermometer') # remover
-@when('<sensor> reports a new vital sign reading')
-@when(parsers.parse('{sensor} reports a new vital sign reading'))
-def step_when_sensor_reports_new_reading(context, sensor):
+def _capture_sensor_reading(context, sensor, duration=None):
+    """Core of `step_when_sensor_reports_new_reading`, factored out so callers
+    outside pytest-bdd (e.g. test_BSN-P03.py) can pass `duration` explicitly.
+    Kept separate from the @when-decorated step below because pytest-bdd
+    resolves every parameter of a step function as a fixture - an extra kwarg
+    there breaks any scenario that binds to that step directly."""
     context['sensor'] = SYSTEM_MAP[sensor]
     context['sensor_data'] = {}
     context['found_high_risk'] = []
     context['target_system_data'] = {}
     context['non_sensor'] = {}
 
-    topic = _sensor_topic_info(sensor)['topic']
+    topic = _node_topic_info(sensor)['topic']
     process_real_time_topics(context, capture_topic_data, [
-        topic,         
+        topic,
         '/collect_energy_status',
         '/persist',
         '/log_energy_status',
         '/TargetSystemData'
-    ])
+    ], duration=duration)
     print('context: {}'.format(context))
 
     _send_data_to_collector(context)
     if context.get('simulate_persistence_failure'):
         _database_error_occurs(context)
+
+@when('I listen to thermometer') # remover
+@when('<sensor> reports a new vital sign reading')
+@when(parsers.parse('{sensor} reports a new vital sign reading'))
+def step_when_sensor_reports_new_reading(context, sensor):
+    _capture_sensor_reading(context, sensor)
 
 def _database_error_occurs(context):
     """Simulate a database error preventing persistence."""

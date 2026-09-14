@@ -11,6 +11,10 @@ NON_SENSOR_TOPICS = [
         '/TargetSystemData'
 ]
 
+# Safety ceiling for parse_topic_data() when no explicit `duration` is given -
+# see the comment above its `line_count` stop condition for why this is needed.
+DEFAULT_CAPTURE_SAFETY_TIMEOUT_S = 30
+
 def format_debug_data(data):
     formatted_output = []
     
@@ -44,13 +48,13 @@ def format_entity(raw_string):
     # Add a forward slash at the beginning
     return '/{0}'.format(formatted_string)
 
-def capture_topic_data(topic):
+def capture_topic_data(topic, line_limit=10, duration=None):
 
     if topic in NON_SENSOR_TOPICS:
-        parsed_data = parse_topic_data(topic, line_limit=10)
-        
+        parsed_data = parse_topic_data(topic, line_limit=line_limit, duration=duration)
+
         return topic, parsed_data, False, None
-    parsed_data = parse_topic_data(topic, line_limit=10)
+    parsed_data = parse_topic_data(topic, line_limit=line_limit, duration=duration)
 
     if parsed_data is None:
         print("Alerta: Falha ao analisar dados para o topico '{}'. parse_topic_data retornou None.".format(topic))
@@ -186,11 +190,24 @@ def enqueue_output(out, output_queue):
         output_queue.put(line.strip())
     out.close()
 
-def parse_topic_data(topic, line_limit=10):
+def parse_topic_data(topic, line_limit=10, duration=None):
     """
-    Capture CSV data from a ROS topic using Popen and organize it into a dictionary 
-    with headers dynamically set from the first line. Stops reading once line_limit 
-    is reached or after the timeout if no data is received.
+    Capture CSV data from a ROS topic using Popen and organize it into a dictionary
+    with headers dynamically set from the first line.
+
+    Stops once `line_limit` data rows have been captured, once `duration` seconds
+    have elapsed since the first row was read, or after 13s with no new data.
+    When `duration` isn't given it defaults to DEFAULT_CAPTURE_SAFETY_TIMEOUT_S,
+    so this always returns in bounded time even if no row ever reaches
+    `line_limit` (see the comment on the `line_count` stop condition below).
+
+    Pass `duration` explicitly when this capture needs to stay open for the
+    same wall-clock window as a sibling topic's capture (e.g. correlating a
+    sensor reading with the downstream node that reacts to it). A line-count
+    cutoff alone lets a fast-publishing topic's window close well before a
+    slow-publishing one's, shrinking - or eliminating - the time span during
+    which both were actually observed together, so a genuinely correlated pair
+    of rows can be missed even though both events happened.
     """
     process = subprocess.Popen(
         ['rostopic', 'echo', '-p', '--offset', topic],
@@ -205,33 +222,45 @@ def parse_topic_data(topic, line_limit=10):
 
     parsed_data = None
     headers = None
-    start_time = time.time()
+    start_time = None
+    line_count = 0
+    # `line_count` only advances on rows that actually match the header (a row
+    # with a stray comma, e.g. inside a string field, is silently skipped). If
+    # every row happened to be skipped, a `line_limit`-only stop condition
+    # would never fire and this would spin until the topic goes quiet. Give it
+    # a hard wall-clock ceiling so it always returns even then; when the
+    # caller passes `duration` explicitly that value is used as the ceiling
+    # instead (see docstring above).
+    effective_duration = duration if duration is not None else DEFAULT_CAPTURE_SAFETY_TIMEOUT_S
 
     try:
-        for i in range(line_limit + 1):
-            # Check if we've exceeded the timeout
-   
+        while True:
             try:
                 # Try to read a line from the queue with a small timeout
                 line = output_queue.get(timeout=13)
-                
+
                 # First line contains headers
-                if i == 0:
+                if headers is None:
                     headers = [header.replace("field.", "").strip() for header in line.split(",")]
                     parsed_data = {header: [] for header in headers}
+                    start_time = time.time()
                     continue
 
                 # Process data lines if headers are set
-                if headers and parsed_data is not None:
+                if parsed_data is not None:
                     columns = line.split(",")
                     if len(columns) == len(headers):
                         for header, value in zip(headers, columns):
                             parsed_data[header].append(value.strip())
+                        line_count += 1
+
+                if start_time is not None and (time.time() - start_time) >= effective_duration:
+                    break
+                if duration is None and line_count >= line_limit:
+                    break
             except queue.Empty:
-                # No new data was found in the queue, continue until timeout
-                process.terminate()  # Ensure subprocess terminates
-                process.wait() 
-                return parsed_data
+                # No new data was found in the queue; stop waiting for more
+                break
     except Exception as e:
         print("An error occurred: {0}".format(e))
     finally:
@@ -246,7 +275,7 @@ def parse_topic_data(topic, line_limit=10):
 
 
 
-def process_real_time_topics(context, capture_topic_data, topics):
+def process_real_time_topics(context, capture_topic_data, topics, duration=None):
     """
     Process topics concurrently and organize results into context.
 
@@ -254,11 +283,19 @@ def process_real_time_topics(context, capture_topic_data, topics):
         context: An object containing the table and attributes to store results.
         capture_topic_data: A function to capture and process topic data.
         format_entity: A function to format topic names.
+        duration: when given, forwarded to `capture_topic_data` so every topic is
+            captured over the same wall-clock window regardless of its own
+            publish rate - see `parse_topic_data` for why that matters when
+            correlating events across topics.
     """
+    submit_topic = (
+        (lambda topic: (capture_topic_data(topic, duration=duration)))
+        if duration is not None else capture_topic_data
+    )
     with ThreadPoolExecutor() as executor:
         # Map futures to rows for tracking
         future_to_topic = {
-            executor.submit(capture_topic_data, topic): topic
+            executor.submit(submit_topic, topic): topic
             for topic in topics
         }
 

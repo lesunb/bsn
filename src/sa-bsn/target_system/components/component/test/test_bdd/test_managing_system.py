@@ -321,6 +321,33 @@ def then_increase_sampling_rate(context, sensor):
     # we need to add a validation if it was registered
     then_adaptation_logged(context)
 
+def _wait_for_peak_frequency_stable(context, since_index, timeout=15.0, quiet_period=2.5):
+    """
+    Aguarda ate que a maior frequencia observada para o target_sensor pare
+    de crescer, e so entao retorna esse valor como o pico.
+    """
+    shared = _get_shared_adaptation_tests()
+    target_sensor = context["target_sensor"]
+    deadline = time.time() + timeout
+    peak_hz = None
+    last_increase_time = time.time()
+    seen = 0
+    while time.time() < deadline:
+        with shared.lock:
+            snapshot = list(shared.commands[since_index:])
+        for msg in snapshot[seen:]:
+            if msg.target == target_sensor and msg.action and msg.action.startswith("freq="):
+                freq = _parse_frequency_hz(msg.action)
+                if peak_hz is None or freq > peak_hz:
+                    peak_hz = freq
+                    last_increase_time = time.time()
+        seen = len(snapshot)
+        if peak_hz is not None and (time.time() - last_increase_time) > quiet_period:
+            return peak_hz
+        rospy.sleep(0.2)
+    return peak_hz
+
+
 # Helper interno. Reaproveitada por given_elevated_rate_sensor, abaixo.
 def given_elevated_rate(context):
     # a sampling-rate increase strategy was previously applied to /g3t1_1
@@ -335,18 +362,7 @@ def given_elevated_rate(context):
     rospy.sleep(8.0)
     _stop_status_failure_stream(context)
 
-    # Captura o pico de frequencia atingido durante esta fase de reliability baixa,
-    # antes de marcar o since_index da fase de recuperacao. Usado depois em
-    # then_reduce_sampling_rate para provar que o comando recebido apos a
-    # recuperacao realmente REDUZ a frequencia, e nao so "chegou".
-    with shared.lock:
-        elevate_commands = list(shared.commands[elevate_start_index:])
-    peak_hz = None
-    for msg in elevate_commands:
-        if msg.target == context["target_sensor"] and msg.action and msg.action.startswith("freq="):
-            freq = _parse_frequency_hz(msg.action)
-            if peak_hz is None or freq > peak_hz:
-                peak_hz = freq
+    peak_hz = _wait_for_peak_frequency_stable(context, elevate_start_index)
 
     assert peak_hz is not None, (
         "Nenhum AdaptationCommand com freq= recebido para {} durante os 5s de "

@@ -151,11 +151,16 @@ def bool_node_is_active(node_names):
 
 def check_time_performance(sensor_data, target_system_data, key, value, evaluate):
     time_threshold=250000
+    value_tolerance=1e-6  # guard against float formatting differences between the two independently-captured topics
     # Iterate over both lists and check for matching values and time condition
     for i, sensor_risk in enumerate(sensor_data[key][evaluate]):
         for j, target_risk in enumerate(target_system_data[value]):
             print('SENSOR RISK of {}: {} TARGET RISK: {}'.format(key, sensor_risk, target_risk))
-            if sensor_risk == target_risk:
+            try:
+                risks_match = abs(float(sensor_risk) - float(target_risk)) <= value_tolerance
+            except (TypeError, ValueError):
+                risks_match = sensor_risk == target_risk
+            if risks_match:
                 # Parse time strings into floats
                 sensor_time = float(sensor_data[key]['%time'][i]) / 1e3
                 target_time = float(target_system_data['%time'][j]) / 1e3

@@ -20,12 +20,13 @@ SYSTEM_MAP = {
 	'sensor status':'/log_status',
 	'sensor energy status':'/log_energy_status',
 	'reconfiguration request':'/reconfigure',
+	'reconfiguration command':'/reconfigure_',
 
 	# knowledge repository
 	'the knowledge repository': '/data_access',
 
 	# patient simulator
-	'the patient simulator': '/Patient',
+	'the patient simulator': '/patient',
 
 	# sensores
 	'the oximeter': '/g3t1_1',

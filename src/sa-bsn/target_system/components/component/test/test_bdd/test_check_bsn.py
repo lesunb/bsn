@@ -5,7 +5,7 @@ import rospy
 import rosnode
 from parsers import process_real_time_topics, capture_topic_data
 from asserts import node_is_active, bool_node_is_active
-from conftest import _sensor_topic_info, step_when_sensor_reports_new_reading
+from conftest import _node_topic_info, step_when_sensor_reports_new_reading
 
 scenarios("./features/check_bsn.feature")
 
@@ -65,7 +65,7 @@ def step_when_oximeter_reports_out_of_range(context):
 @then(parsers.parse('the central hub should receive that reading with the value reported by {sensor}'))
 @then('the central hub should receive that reading with the value reported by <sensor>')
 def step_then_central_hub_receives_reading(context, sensor):
-    info = _sensor_topic_info(sensor)
+    info = _node_topic_info(sensor)
     count, matched = count_and_get_matching_elements_with_time(
         context['sensor_data'], context['target_system_data'], info['topic'], info['data_key'], 'data'
     )
@@ -73,7 +73,7 @@ def step_then_central_hub_receives_reading(context, sensor):
 
 @then('the central hub should classify the patient risk for blood oxygenation as high')
 def step_then_central_hub_classifies_high_risk(context):
-    info = _sensor_topic_info('the oximeter')
+    info = _node_topic_info('the oximeter')
     count, matched = count_and_get_matching_elements_with_time(
         context['sensor_data'], context['target_system_data'], info['topic'], info['risk_key'], 'risk'
     )
