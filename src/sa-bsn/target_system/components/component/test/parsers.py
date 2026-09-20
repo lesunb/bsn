@@ -182,33 +182,15 @@ import Queue as queue  # Python 2 uses Queue instead of queue
 
 
 def enqueue_output(out, output_queue):
-    """
-    Continuously reads lines from the process output and puts them into a queue.
-    This function is intended to be run in a separate thread.
-    """
+    """Continuously reads lines from the process output into a queue (run in a separate thread)."""
     for line in iter(out.readline, ''):
         output_queue.put(line.strip())
     out.close()
 
 def parse_topic_data(topic, line_limit=10, duration=None):
-    """
-    Capture CSV data from a ROS topic using Popen and organize it into a dictionary
-    with headers dynamically set from the first line.
-
-    Stops once `line_limit` data rows have been captured, once `duration` seconds
-    have elapsed since the first row was read, or after 13s with no new data.
-    When `duration` isn't given it defaults to DEFAULT_CAPTURE_SAFETY_TIMEOUT_S,
-    so this always returns in bounded time even if no row ever reaches
-    `line_limit` (see the comment on the `line_count` stop condition below).
-
-    Pass `duration` explicitly when this capture needs to stay open for the
-    same wall-clock window as a sibling topic's capture (e.g. correlating a
-    sensor reading with the downstream node that reacts to it). A line-count
-    cutoff alone lets a fast-publishing topic's window close well before a
-    slow-publishing one's, shrinking - or eliminating - the time span during
-    which both were actually observed together, so a genuinely correlated pair
-    of rows can be missed even though both events happened.
-    """
+    """Capture CSV data from a ROS topic via Popen into a dict (headers from the first line). Stops at `line_limit` rows,
+    `duration` seconds after the first row (default cap DEFAULT_CAPTURE_SAFETY_TIMEOUT_S), or after 13s with no new data.
+    Pass `duration` to align sibling topics' windows: a line-count cutoff closes a fast topic's window before a slow one's."""
     process = subprocess.Popen(
         ['rostopic', 'echo', '-p', '--offset', topic],
         stdout=subprocess.PIPE,
@@ -224,13 +206,8 @@ def parse_topic_data(topic, line_limit=10, duration=None):
     headers = None
     start_time = None
     line_count = 0
-    # `line_count` only advances on rows that actually match the header (a row
-    # with a stray comma, e.g. inside a string field, is silently skipped). If
-    # every row happened to be skipped, a `line_limit`-only stop condition
-    # would never fire and this would spin until the topic goes quiet. Give it
-    # a hard wall-clock ceiling so it always returns even then; when the
-    # caller passes `duration` explicitly that value is used as the ceiling
-    # instead (see docstring above).
+    # `line_count` only advances on rows matching the header (a row with a stray comma is skipped); the wall-clock
+    # ceiling (`duration` or the safety default) guarantees a return even if no row ever reaches `line_limit`.
     effective_duration = duration if duration is not None else DEFAULT_CAPTURE_SAFETY_TIMEOUT_S
 
     try:
@@ -276,18 +253,8 @@ def parse_topic_data(topic, line_limit=10, duration=None):
 
 
 def process_real_time_topics(context, capture_topic_data, topics, duration=None):
-    """
-    Process topics concurrently and organize results into context.
-
-    Args:
-        context: An object containing the table and attributes to store results.
-        capture_topic_data: A function to capture and process topic data.
-        format_entity: A function to format topic names.
-        duration: when given, forwarded to `capture_topic_data` so every topic is
-            captured over the same wall-clock window regardless of its own
-            publish rate - see `parse_topic_data` for why that matters when
-            correlating events across topics.
-    """
+    """Process topics concurrently and organize results into context. `duration`, when given, is forwarded to
+    `capture_topic_data` so every topic is captured over the same wall-clock window (see `parse_topic_data`)."""
     submit_topic = (
         (lambda topic: (capture_topic_data(topic, duration=duration)))
         if duration is not None else capture_topic_data

@@ -6,7 +6,10 @@ Feature: Data Persistence (BSN-P08) - Whether the sensor node has collected some
 		When the thermometer reports a new vital sign reading
 		Then that reading should be retrievable from the knowledge repository with the value reported
 
-	@behavior @sad-path @bsn-p08 @persistence
+	@behavior @sad-path @bsn-p08 @persistence @gap
+	# xfail (ver PERSISTENCE_FAILURE_GAP_REASON): o DataAccess.cpp nunca teve branch de falha de armazenamento, entao nao ha
+	# caminho "errado" a corrigir. O antigo `'fail' in content` passava por ruido do /g4t1 e porque o kill do /logger nunca
+	# funciona.
 	Scenario: A persistence failure is recorded when the knowledge repository cannot store a reading (BSN-P08)
 		Given the knowledge repository is experiencing storage failures
 		When the thermometer reports a new vital sign reading

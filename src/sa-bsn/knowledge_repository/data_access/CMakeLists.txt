@@ -30,3 +30,12 @@ SET(data_access-src "${CMAKE_CURRENT_SOURCE_DIR}/src/DataAccess.cpp")
 ADD_EXECUTABLE (data_access  "${CMAKE_CURRENT_SOURCE_DIR}/apps/data_access.cpp" ${${PROJECT_NAME}-src} ${data_access-src})
 TARGET_LINK_LIBRARIES (data_access PRIVATE ${catkin_LIBRARIES} ${LIBRARIES})
 ADD_DEPENDENCIES(data_access messages_generate_messages_cpp)
+
+###########################################################################
+# Tests.
+if(CATKIN_ENABLE_TESTING)
+  find_package(rostest REQUIRED)
+  find_package(ros_pytest REQUIRED)
+
+  add_rostest(test/unit/test_data_access.launch)
+endif()

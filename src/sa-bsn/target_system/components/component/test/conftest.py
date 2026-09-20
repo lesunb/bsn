@@ -100,10 +100,42 @@ NODE_TOPIC_INFO = {
     '/collector': { 'topic': ['/collect_event', '/collect_status', '/collect_energy_status'] },
 }
 
+# How long the Given below waits for the sensor and the central hub to actually
+# publish, on top of being registered with the master.
+MONITORING_READY_TIMEOUT_S = 30.0
+
+
+def _ensure_ros_node():
+    # ros_pytest_runner never calls rospy.init_node and the steps read topics via `rostopic echo` subprocesses, so no
+    # node exists until a rospy Subscriber is needed (see _wait_for_first_message).
+    if not rospy.core.is_initialized():
+        rospy.init_node('bdd_component_steps', anonymous=True)
+
+
+def _wait_for_first_message(topic, msg_class, timeout):
+    """True once one message arrives on `topic` within `timeout` seconds."""
+    _ensure_ros_node()
+    try:
+        rospy.wait_for_message(topic, msg_class, timeout=timeout)
+        return True
+    except rospy.ROSException:
+        return False
+
+
 @given(parsers.parse('the patient is being monitored by {sensor}'))
 @given('the patient is being monitored by <sensor>')
 def step_given_patient_monitored_by_sensor(context, sensor):
     node_is_active([SYSTEM_MAP[sensor], SYSTEM_MAP['the central hub']])
+
+    # `rosnode list` only says the nodes registered, not that they publish yet (startup race seen on 2026-09-14: nothing
+    # captured for 13s, then passed). Waiting for one message from the sensor and one from the hub closes it.
+    from messages.msg import SensorData, TargetSystemData
+    sensor_topic = _node_topic_info(sensor)['topic']
+    for topic, msg_class in ((sensor_topic, SensorData), ('/TargetSystemData', TargetSystemData)):
+        assert _wait_for_first_message(topic, msg_class, MONITORING_READY_TIMEOUT_S), (
+            "{0} and {1} are registered, but nothing was published on {2} within "
+            "{3}s - the system is not monitoring the patient yet."
+        ).format(SYSTEM_MAP[sensor], SYSTEM_MAP['the central hub'], topic, MONITORING_READY_TIMEOUT_S)
 
 def _node_topic_info(sensor):
     """Resolve a Gherkin sensor label (e.g. 'the oximeter') to its topic info via SYSTEM_MAP."""
@@ -115,11 +147,8 @@ def _send_data_to_collector(context):
     assert context['sensor'] in context['non_sensor']['/collect_energy_status']['source'], 'No data detected in /collect_energy_status.'
 
 def _capture_sensor_reading(context, sensor, duration=None):
-    """Core of `step_when_sensor_reports_new_reading`, factored out so callers
-    outside pytest-bdd (e.g. test_BSN-P03.py) can pass `duration` explicitly.
-    Kept separate from the @when-decorated step below because pytest-bdd
-    resolves every parameter of a step function as a fixture - an extra kwarg
-    there breaks any scenario that binds to that step directly."""
+    """Core of `step_when_sensor_reports_new_reading`, factored out so callers outside pytest-bdd (e.g. test_BSN-P03.py)
+    can pass `duration`; an extra kwarg on the @when step would be resolved as a fixture and break bound scenarios."""
     context['sensor'] = SYSTEM_MAP[sensor]
     context['sensor_data'] = {}
     context['found_high_risk'] = []

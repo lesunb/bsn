@@ -1,0 +1,7 @@
+<launch>
+    <node name="logger" pkg="logging_infrastructure" type="logger" output="log" />
+    <param name="frequency" value="10" />
+
+    <param name="test_module" value="$(find logging_infrastructure)/test/unit/test_logger.py"/>
+    <test test-name="test_logger" pkg="ros_pytest" type="ros_pytest_runner" />
+</launch>

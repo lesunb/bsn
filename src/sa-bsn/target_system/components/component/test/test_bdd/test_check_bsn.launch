@@ -1,7 +1,44 @@
 <launch>
     <!-- <include file="$(find messages)/../configurations/environment/patient.launch"/> APPLICATION -->
   
-    <include file="$(find component)/test/patient.launch" />  
+    <include file="$(find component)/test/patient.launch" />
+
+    <!-- Pins the simulated patient's blood oxygenation into its high-risk
+         state for this suite, so check_bsn.feature's "classifies a vital sign
+         reading outside the normal range as high risk" scenario observes a
+         real high-risk reading instead of hoping for one. Overrides the rows
+         test/patient.launch just set (roslaunch keeps the last value for a
+         repeated param), leaving that file - shared by the other suites -
+         untouched.
+
+         Why here and not inside the scenario, like the ROS2 port does with
+         `ros2 param set`: PatientModule reads <vital>_State<n> only once, in
+         setUp() -> configureDataGenerator(), so changing them at runtime has
+         no effect, and restarting the patient node mid-test is worse than it
+         looks - while it is down, G3T1_1::collect()'s service call fails and
+         returns m_data = 0, which is inside HighRisk1 (0,55) and scores a 66%
+         risk, so the oximeter could publish "high risk" readings that come
+         from the outage, not from the patient.
+
+         Why every reachable row is 0,0,0,0,100: DataGenerator::nextState()
+         (libbsn/src/generator/DataGenerator.cpp) compares its 1..100 roll
+         against each row entry on its own, not against a running sum, so
+         with the configured 0,0,90,8,2 a roll above 90 matches nothing and
+         the state never leaves 2 - the unmodified oximeter can never become
+         high risk in ROS1 at all. With 100 in the last column every roll
+         selects state 4 (HighRisk1, raw SpO2 0,55 -> risk 66-100), including
+         from state 4 itself, whose configured 0,0,5,35,60 would otherwise
+         drop back to state 2 on rolls of 5 or less. Rows 0 and 1 stay all
+         zeros: no row leads there.
+
+         The first transition happens once oxigenation_Offset (10s) plus
+         1/oxigenation_Change (5s) of patient uptime has passed; the step
+         waits for it (see test_check_bsn.py). The other scenarios in this
+         suite don't depend on the oximeter's risk level: one only matches the
+         reported value against the hub's copy, the other kills the hub. -->
+    <param name="oxigenation_State2" value="0,0,0,0,100" />
+    <param name="oxigenation_State3" value="0,0,0,0,100" />
+    <param name="oxigenation_State4" value="0,0,0,0,100" />
     <include file="$(find messages)/../configurations/simulation/injector.launch" />
   
     <include file="$(find messages)/../configurations/logging_infrastructure/test_logger.launch" /> 

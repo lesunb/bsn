@@ -88,13 +88,15 @@ if (CATKIN_ENABLE_TESTING)
   find_package(rostest REQUIRED)
   find_package(ros_pytest REQUIRED)
 
-  add_rostest(test/test_bdd/test_target_system.launch)
+  add_rostest(test/test_bdd/test_BSN-P03.launch)
   add_rostest(test/test_bdd/test_health_status.launch)
+  add_rostest(test/test_bdd/test_check_bsn.launch)
   add_rostest(test/test_bdd/test_data_persistance.launch)
+  add_rostest(test/test_bdd/test_injector.launch)
   add_rostest(test/test_bdd/test_knowledge_repo.launch)
   add_rostest(test/test_bdd/test_managing_system.launch)
-  add_rostest(test/test_bdd/test_injector.launch)
-  add_rostest(test/test_bdd/test_check_bsn.launch)
+
+  add_rostest(test/test_bdd/test_target_system.launch)
   
   # unit test
   add_rostest(test/unit/test_G3T1_1.launch)

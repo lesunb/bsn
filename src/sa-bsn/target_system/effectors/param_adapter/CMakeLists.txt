@@ -41,3 +41,11 @@ TARGET_LINK_LIBRARIES (param_adapter ${catkin_LIBRARIES} ${LIBRARIES})
 ADD_DEPENDENCIES(param_adapter services_generate_messages_cpp)
 
 ###########################################################################
+# Tests.
+if(CATKIN_ENABLE_TESTING)
+  find_package(ros_pytest REQUIRED)
+
+  add_rostest(test/unit/test_param_adapter.launch)
+endif()
+
+###########################################################################

@@ -1,13 +1,56 @@
+import time
+
 import ros_pytest
 from pytest_bdd import scenarios, given, when, then, parsers
 from interface_map import SYSTEM_MAP
 import rospy
 import rosnode
+from messages.msg import SensorData
 from parsers import process_real_time_topics, capture_topic_data
 from asserts import node_is_active, bool_node_is_active
-from conftest import _node_topic_info, step_when_sensor_reports_new_reading
+from conftest import _node_topic_info, _capture_sensor_reading, step_when_sensor_reports_new_reading
 
 scenarios("./features/check_bsn.feature")
+
+# High-risk band of every sensor's risk percentage (lowrisk 0,20 / midrisk
+# 21,65 / highrisk 66,100 in configurations/target_system/test_g3t1_1.launch).
+HIGH_RISK_MIN = 66.0
+HIGH_RISK_MAX = 100.0
+
+# How long to wait for the oximeter to report a high-risk reading once the patient is pinned (first transition needs 15s of
+# uptime, then the oximeter's moving average refills at 1.3 Hz); normally a no-op, the Outline before it takes longer.
+HIGH_RISK_READY_TIMEOUT_S = 60.0
+
+# Capture window once the precondition holds. Explicit `duration` (not the
+# default line_limit=10) so the oximeter topic and /TargetSystemData stay open
+# over the same wall-clock span - see parsers.parse_topic_data.
+HIGH_RISK_CAPTURE_S = 20.0
+
+
+def _ensure_ros_node():
+    # ros_pytest_runner never calls rospy.init_node, and without a node rospy.wait_for_message's subscriber is never
+    # registered and silently times out. Same guard as test_BSN-P03.py's.
+    if not rospy.core.is_initialized():
+        rospy.init_node('bdd_check_bsn', anonymous=True)
+
+
+def _wait_for_high_risk_oximeter_reading(timeout):
+    """Block until the oximeter's own topic reports a risk in the high band.
+    Returns (reached, last_risk_seen)."""
+    _ensure_ros_node()
+    topic = _node_topic_info('the oximeter')['topic']
+    deadline = time.time() + timeout
+    last_risk = None
+    while time.time() < deadline:
+        remaining = deadline - time.time()
+        try:
+            msg = rospy.wait_for_message(topic, SensorData, timeout=max(0.1, min(5.0, remaining)))
+        except rospy.ROSException:
+            continue
+        last_risk = msg.risk
+        if HIGH_RISK_MIN <= msg.risk <= HIGH_RISK_MAX:
+            return True, last_risk
+    return False, last_risk
 
 def count_and_get_matching_elements_with_time(sensor_data, target_system_data, key, value, evaluate):
     matching_count = 0
@@ -60,7 +103,22 @@ def bodyhub_not_process(context):
 
 @when('the oximeter reports a blood oxygenation reading outside its normal range')
 def step_when_oximeter_reports_out_of_range(context):
-    step_when_sensor_reports_new_reading(context, 'the oximeter')
+    # The launch file makes this true (see test_check_bsn.launch); here we
+    # only wait for it to take effect, so the capture below starts once the
+    # oximeter is really publishing high-risk readings.
+    reached, last_risk = _wait_for_high_risk_oximeter_reading(HIGH_RISK_READY_TIMEOUT_S)
+    topic = _node_topic_info('the oximeter')['topic']
+    assert last_risk is not None, (
+        "No message at all arrived on {0} within {1}s - the subscription itself "
+        "is not working, independent of the patient's risk state."
+    ).format(topic, HIGH_RISK_READY_TIMEOUT_S)
+    assert reached, (
+        "The oximeter kept publishing on {0} but never a high-risk ({1}-{2}) reading "
+        "within {3}s (last risk seen: {4}). test_check_bsn.launch pins "
+        "oxigenation_State2/3/4 to 0,0,0,0,100 - check those overrides reached the "
+        "patient node (`rosparam get /oxigenation_State2`)."
+    ).format(topic, HIGH_RISK_MIN, HIGH_RISK_MAX, HIGH_RISK_READY_TIMEOUT_S, last_risk)
+    _capture_sensor_reading(context, 'the oximeter', duration=HIGH_RISK_CAPTURE_S)
 
 @then(parsers.parse('the central hub should receive that reading with the value reported by {sensor}'))
 @then('the central hub should receive that reading with the value reported by <sensor>')
@@ -78,8 +136,11 @@ def step_then_central_hub_classifies_high_risk(context):
         context['sensor_data'], context['target_system_data'], info['topic'], info['risk_key'], 'risk'
     )
     assert count > 0, "Topics {} and {} do not have matching risk data.".format(info['topic'], info['risk_key'])
-    assert any(float(m['target_risk']) > 10 for m in matched), \
-        "Central hub did not classify the blood oxygenation reading as high risk."
+    # Was `> 10`, which a low-risk reading (0-20) already satisfies; with the high-risk state now guaranteed
+    # (test_check_bsn.launch), check the band the scenario actually names.
+    assert any(HIGH_RISK_MIN <= float(m['target_risk']) <= HIGH_RISK_MAX for m in matched), \
+        "Central hub did not classify the blood oxygenation reading as high risk ({0}-{1}); matched: {2}".format(
+            HIGH_RISK_MIN, HIGH_RISK_MAX, [m['target_risk'] for m in matched])
 
 @given('the central hub is unavailable')
 def step_given_central_hub_unavailable(context):

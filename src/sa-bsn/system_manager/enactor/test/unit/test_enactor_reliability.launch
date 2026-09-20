@@ -1,0 +1,22 @@
+<launch>
+    <!-- Twin of test_enactor.launch on the reliability path: everything is
+         identical except adaptation_parameter, which Controller::setUp()
+         reads once and which every branch in Controller.cpp/Enactor.cpp
+         keys off - a running node cannot switch between the two, hence the
+         second launch. See test_enactor_reliability.py's module docstring. -->
+    <param name="frequency" value="5" /> <!-- fast cycle so tests don't wait long -->
+    <param name="kp" value="150" /> <!-- matches configurations/system_manager/strategy_enactor.launch; only enactor reads this -->
+
+    <!-- This is the configuration the deployed system uses: qos_attribute in
+         configurations/system_manager/strategy_manager.launch is
+         "reliability", and that is what reli_engine answers to the
+         EngineRequest service the enactor queries on startup (the test
+         module stubs that service with the same value). -->
+    <param name="adaptation_parameter" value="reliability" />
+
+    <node name="data_access" pkg="repository" type="data_access" output="log" />
+    <node name="enactor" pkg="enactor" type="enactor" output="log" />
+
+    <param name="test_module" value="$(find enactor)/test/unit/test_enactor_reliability.py"/>
+    <test test-name="test_enactor_reliability" pkg="ros_pytest" type="ros_pytest_runner" />
+</launch>

@@ -1,8 +1,7 @@
 import ros_pytest
-from pytest_bdd import scenarios, given, when, then
+from pytest_bdd import scenarios, given, when, then, parsers
 from test_sensor import SharedSensorTests
 import rospy
-import rosnode
 from interface_map import SYSTEM_MAP
 from conftest import check_topic_inbound_from_node, _node_topic_info
 from asserts import is_node_receiving_multiple_topics, assert_node_is_online, is_node_publishing_to_topics
@@ -17,21 +16,20 @@ sensors = ['/g3t1_1', '/g3t1_2', '/g3t1_3', '/g3t1_4', '/g3t1_5', '/g3t1_6']
 @then('<sensor> should publish "vital sign data" to the central hub')
 def sensor_publishes_vital_sign_data_to_central_hub(sensor):
     node_name = SYSTEM_MAP[sensor]
-    sensor_topics = _node_topic_info(node_name)['topic']
-    SharedSensorTests.assert_sensors_are_publishing_data(node_name, sensor_topics)
-    for topic in sensor_topics:
-        SharedSensorTests.assert_topic_has_data(topic)
+    sensor_topic = _node_topic_info(sensor)['topic']
+    SharedSensorTests.assert_sensors_are_publishing_data(node_name, [sensor_topic])
+    SharedSensorTests.assert_topic_has_data(sensor_topic)
 
     central_hub = SYSTEM_MAP['the central hub']
-    is_receiving, missing_topics = is_node_receiving_multiple_topics(central_hub, sensor_topics)
+    is_receiving, missing_topics = is_node_receiving_multiple_topics(central_hub, [sensor_topic])
     assert is_receiving, "{} is missing data from these topics: {}".format(central_hub, missing_topics)
 
 COLLECTOR_INPUT_TOPICS = ['/collect_event', '/collect_status', '/collect_energy_status']
 
-@then('<sensor> should publish "sensor log" to the log collector')
-def sensor_publishes_log_to_log_collector(sensor):
-    log_collector = SYSTEM_MAP['the log collector']
-    is_receiving, missing_topics = is_node_receiving_multiple_topics(log_collector, _node_topic_info(SYSTEM_MAP[sensor])['topic'])
+@then(parsers.parse('<sensor> should publish "sensor log" to {target}'))
+def sensor_publishes_log_to_log_collector(sensor, target):
+    log_collector = SYSTEM_MAP[target]
+    is_receiving, missing_topics = is_node_receiving_multiple_topics(log_collector, COLLECTOR_INPUT_TOPICS)
     assert is_receiving, "{} is missing data from these topics: {}".format(log_collector, missing_topics)
 
 

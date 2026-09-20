@@ -24,6 +24,10 @@
   <exec_depend>archlib</exec_depend>
   <exec_depend>libbsn</exec_depend>
 
+  <test_depend>python-pytest</test_depend>
+  <test_depend>rosunit</test_depend>
+  <test_depend>rostest</test_depend>
+
   <export>
   </export>
   

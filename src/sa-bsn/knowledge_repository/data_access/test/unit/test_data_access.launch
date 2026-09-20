@@ -1,0 +1,7 @@
+<launch>
+    <node name="data_access" pkg="repository" type="data_access" output="log" />
+    <param name="frequency" value="10000" /> <!-- 10KHz, matches configurations/knowledge_repository/data_access.launch -->
+
+    <param name="test_module" value="$(find repository)/test/unit/test_data_access.py"/>
+    <test test-name="test_data_access" pkg="ros_pytest" type="ros_pytest_runner" />
+</launch>

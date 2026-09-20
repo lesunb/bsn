@@ -53,17 +53,8 @@ def kill_node(node_name):
     assert not bool_node_is_active(node_name), "{} is active".format(node_name)
 
 def is_node_receiving_multiple_topics(node_name, expected_topics):
-    """
-    Check if a node is receiving data from multiple topics.
-
-    Parameters:
-    - node_name (str): The name of the ROS node to check.
-    - expected_topics (list): A list of topics that the node is expected to receive data from.
-
-    Returns:
-    - bool: True if the node is receiving data from all the expected topics, False otherwise.
-    - missing_topics (list): List of topics that are missing if the node is not subscribed to all topics.
-    """
+    """Check if a node is receiving data from multiple topics. Returns (True, []) if it is subscribed to
+    all `expected_topics`, otherwise (False, missing_topics)."""
     try:
         cmd = ['rosnode', 'info', node_name]
         command = Command(cmd)
@@ -88,17 +79,8 @@ def is_node_receiving_multiple_topics(node_name, expected_topics):
         raise AssertionError("Timeout: Failed to check if node {} is receiving data.".format(node_name))
     
 def is_node_publishing_to_topics(node_name, expected_topics):
-    """
-    Check if a node is publishing to multiple expected topics.
-
-    Parameters:
-    - node_name (str): The name of the ROS node to check.
-    - expected_topics (list): A list of topics that the node is expected to publish to.
-
-    Returns:
-    - dict: A dictionary with the expected topics as keys and a tuple as the value. 
-            The tuple contains (is_publishing (bool), missing_topics (list)).
-    """
+    """Check if a node is publishing to multiple expected topics. Returns (True, []) if it publishes to all
+    `expected_topics`, otherwise (False, missing_topics)."""
     try:
         node_data = subprocess.Popen(['rosnode', 'info', node_name], stdout=subprocess.PIPE, stderr=subprocess.PIPE)
         stdout, stderr = node_data.communicate()

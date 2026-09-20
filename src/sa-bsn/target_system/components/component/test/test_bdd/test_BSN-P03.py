@@ -14,18 +14,12 @@ from asserts import is_node_receiving_multiple_topics, assert_node_is_online, is
 
 scenarios("./features/BSN-P03.feature")
 
-# The thermometer publishes far slower than /TargetSystemData, so a plain
-# line-count capture lets the hub's window close long before the thermometer's
-# window ever produces the high-risk reading it should be reacting to. Capture
-# both topics over this same wall-clock window instead, so the reading and the
-# hub's reaction to it have a real chance of landing in the same snapshot.
+# The thermometer publishes far slower than /TargetSystemData, so capture both topics over the same wall-clock
+# window (not a line count) so the reading and the hub's reaction can land in the same snapshot.
 EMERGENCY_CAPTURE_DURATION = 15
 
-# Stand-in for "maximum sampling rate": comfortably above the thermometer's
-# baseline 0.6 Hz (see test_g3t1_3.launch), driven the same way the
-# reliability engine drives it - by publishing an AdaptationCommand with a
-# "freq=" action to the sensor's reconfigure_<node> topic (Sensor::reconfigure
-# in Sensor.cpp).
+# Stand-in for "maximum sampling rate": well above the thermometer's 0.6 Hz baseline (test_g3t1_3.launch), driven as the
+# reliability engine does - an AdaptationCommand "freq=" on reconfigure_<node> (Sensor::reconfigure, Sensor.cpp).
 MAX_SAMPLING_FREQUENCY_HZ = 20
 OVERLOAD_OBSERVATION_WINDOW_S = 2.0
 OVERLOAD_MIN_SAMPLES = 6
@@ -35,10 +29,8 @@ def _ensure_ros_node():
         rospy.init_node('bdd_bsn_p03', anonymous=True)
 
 def _drive_sensor_to_max_sampling_rate(node_name, freq=MAX_SAMPLING_FREQUENCY_HZ, repeats=3):
-    """Reconfigure a sensor node's sampling frequency directly, the same way
-    Sensor::reconfigure (Sensor.cpp) is driven by the reliability engine, so
-    the "maximum sampling rate" precondition is an actual induced overload
-    rather than just whatever the sensor happens to be doing on its own."""
+    """Reconfigure a sensor's sampling frequency directly, as the reliability engine does via Sensor::reconfigure
+    (Sensor.cpp), so "maximum sampling rate" is an actually induced overload."""
     bare_name = node_name.lstrip('/')
     reconfigure_topics = ['reconfigure_{}'.format(bare_name), 'reconfigure_/{}'.format(bare_name)]
     publishers = [rospy.Publisher(topic, AdaptationCommand, queue_size=10) for topic in reconfigure_topics]

@@ -8,6 +8,7 @@ import rospy
 from interface_map import SYSTEM_MAP
 
 from archlib.msg import AdaptationCommand, Status, Persist
+from archlib.srv import EffectorRegister
 from asserts import assert_node_is_online, is_node_receiving_multiple_topics
 from messages.msg import SensorData, TargetSystemData
 from test_adaptation_system import SharedAdaptationTests
@@ -18,6 +19,14 @@ scenarios("./features/managing_system.feature")
 # Constantes derivadas do codigo-fonte do Controller e dos launches de teste
 # ---------------------------------------------------------------------------
 LOG_STATUS_TOPIC     = "log_status"
+
+# Topico onde o /enactor publica AdaptationCommands (Controller.cpp:12,
+# subscrito pelo /logger em Logger.cpp:28 -> receiveAdaptationCommand)
+LOG_ADAPT_TOPIC      = "log_adapt"
+
+# Node que entrega o AdaptationCommand ao sensor-alvo ("reconfigure" -> "reconfigure_<target>", ParamAdapter.cpp:23-29);
+# alvo nao registrado so gera "target not found" em /rosout, nunca chega ao pipeline de persistencia.
+PARAM_ADAPTER_NODE   = "/param_adapter"
 
 # Frequencia inicial do controlador (param 'frequency' no launch do enactor)
 INITIAL_FREQ_HZ      = 1.0
@@ -79,6 +88,8 @@ def _stop_status_failure_stream(context):
         thread.join(timeout=2.0)
 
 
+
+
 # ---------------------------------------------------------------------------
 # Helpers: AdaptationCommand
 # ---------------------------------------------------------------------------
@@ -88,6 +99,28 @@ def _mark_since_index(context):
     shared = _get_shared_adaptation_tests()
     with shared.lock:
         context["adaptation_since_index"] = len(shared.commands)
+
+
+def _mark_persist_since_index(context):
+    """Registra o tamanho atual de shared.persist_received: then_adaptation_logged checa a lista inteira e "o oximeter" e
+    reutilizado por quase todo cenario, entao uma checagem nao-escopada passaria mesmo sem o When emitir nada."""
+    shared = _get_shared_adaptation_tests()
+    with shared.persist_lock:
+        context["persist_since_index"] = len(shared.persist_received)
+
+
+def _wait_for_persist_record(target, msg_type="AdaptationCommand", timeout=10.0, since_index=0):
+    """Aguarda um novo Persist (apos since_index) do tipo/target informados."""
+    shared = _get_shared_adaptation_tests()
+    deadline = time.time() + timeout
+    while time.time() < deadline:
+        with shared.persist_lock:
+            snapshot = list(shared.persist_received[since_index:])
+        for msg in snapshot:
+            if msg.target == target and msg.type == msg_type:
+                return msg
+        rospy.sleep(0.05)
+    return None
 
 
 def _wait_for_adaptation_command(target=None, timeout=30.0, require=True, since_index=0):
@@ -109,11 +142,8 @@ def _wait_for_adaptation_command(target=None, timeout=30.0, require=True, since_
 
 
 def _wait_for_adaptation_command_above(target, min_freq_hz, timeout=30.0, since_index=0):
-    """
-    Aguarda especificamente um AdaptationCommand com freq > min_freq_hz.
-    Descarta comandos de reducao que possam chegar antes do sistema convergir
-    para o estado de baixa confiabilidade.
-    """
+    """Aguarda um AdaptationCommand com freq > min_freq_hz, descartando reducoes que cheguem antes de o sistema convergir
+    para o estado de baixa confiabilidade."""
     shared = _get_shared_adaptation_tests()
     deadline = time.time() + timeout
     while time.time() < deadline:
@@ -131,13 +161,8 @@ def _wait_for_adaptation_command_above(target, min_freq_hz, timeout=30.0, since_
 
 
 def _wait_for_adaptation_command_below(target, max_freq_hz, timeout=30.0, since_index=0):
-    """
-    Aguarda especificamente um AdaptationCommand com freq < max_freq_hz.
-    Descarta comandos de aumento que possam chegar antes do /reli_engine
-    "perceber" a recuperacao: a janela deslizante fixa de 10.1s em
-    DataAccess::applyTimeWindow mantem amostras de 'fail' antigas
-    influenciando r_curr por ate ~10s depois do stream de falha parar.
-    """
+    """Aguarda um AdaptationCommand com freq < max_freq_hz, descartando aumentos anteriores a recuperacao: a janela de 10.1s
+    de DataAccess::applyTimeWindow mantem 'fail' antigos em r_curr por ~10s apos o stream parar."""
     shared = _get_shared_adaptation_tests()
     deadline = time.time() + timeout
     while time.time() < deadline:
@@ -206,12 +231,21 @@ def _wait_for_service(service_name, timeout=10.0):
         return False
 
 
+def _set_effector_connection(target_sensor, connected, timeout=10.0):
+    """Chama o servico EffectorRegister (Component.cpp:33-44,80-94) para (des)registrar o sensor em ParamAdapter::target_arr:
+    connection=False faz todo comando cair em "target not found" (ParamAdapter.cpp:23-29). Matar o sensor NAO funciona, pois
+    Component so se desregistra no sigIntHandler (Component.cpp:27), que o shutdown XML-RPC do rosnode.kill_nodes nao chama."""
+    assert _wait_for_service("EffectorRegister", timeout=timeout), (
+        "Servico EffectorRegister indisponivel apos {:.0f}s".format(timeout)
+    )
+    client = rospy.ServiceProxy("EffectorRegister", EffectorRegister)
+    response = client(name=target_sensor, connection=connected)
+    return response.ACK
+
+
 def _wait_for_system_stable(timeout=STABILIZATION_S):
-    """
-    Aguarda ate que o /reli_engine pare de emitir AdaptationCommands
-    (sistema dentro da zona morta). Usado antes de S4 para garantir
-    que comandos de ciclos anteriores nao contaminem o since_index.
-    """
+    """Aguarda o /reli_engine parar de emitir AdaptationCommands (zona morta), para que comandos de ciclos anteriores nao
+    contaminem o since_index de S4."""
     shared = _get_shared_adaptation_tests()
     deadline = time.time() + timeout
     last_count = -1
@@ -322,10 +356,7 @@ def then_increase_sampling_rate(context, sensor):
     then_adaptation_logged(context)
 
 def _wait_for_peak_frequency_stable(context, since_index, timeout=15.0, quiet_period=2.5):
-    """
-    Aguarda ate que a maior frequencia observada para o target_sensor pare
-    de crescer, e so entao retorna esse valor como o pico.
-    """
+    """Aguarda a maior frequencia observada para o target_sensor parar de crescer e retorna esse valor como o pico."""
     shared = _get_shared_adaptation_tests()
     target_sensor = context["target_sensor"]
     deadline = time.time() + timeout
@@ -426,36 +457,92 @@ def then_reduce_sampling_rate(context, sensor):
 
     then_adaptation_logged(context)
 
-# Helpers internos. Reaproveitados por given_cannot_receive_adaptation,
-# when_adaptation_issued_for_sensor e then_failure_record_identifying, abaixo.
-def given_adaptation_issued(context):
-    given_reliability_below_setpoint(context)
+# Helpers internos (reaproveitados pelos steps de "nao consegue receber adaptacao"). O cenario e reproduzido desregistrando
+# o sensor de ParamAdapter::target_arr via EffectorRegister (Component.cpp:33-44,80-94; ParamAdapter.cpp:31-57); matar o
+# processo NAO reproduz, pois Component so se desregistra no sigIntHandler (Component.cpp:27), que o XML-RPC nao chama.
+def given_cannot_receive_adaptation(context, target_sensor):
+    _ensure_ros_node()
+    assert_node_is_online(PARAM_ADAPTER_NODE)
+    assert_node_is_online(target_sensor)
 
-    assert_node_is_online("/enactor")
-    context["enactor_active"] = True
+    context['shared'] = _get_shared_adaptation_tests()
+    _mark_since_index(context)
+    _mark_persist_since_index(context)
 
-def when_cannot_deliver(context):
-    _stop_status_failure_stream(context)
+    ack = _set_effector_connection(target_sensor, False)
+    assert ack, (
+        "EffectorRegister recusou desconectar {} de {}; a precondicao "
+        "'cannot receive adaptation commands' nao foi de fato "
+        "estabelecida.".format(target_sensor, PARAM_ADAPTER_NODE)
+    )
+    context["_effector_disconnected"] = target_sensor
 
-def then_failure_record_available(context):
-    assert_node_is_online("/logger")
-    assert_node_is_online("/data_access")
-    rospy.sleep(2.0)
+
+def when_adaptation_issued(context, target_sensor):
+    # Publica diretamente em log_adapt, o mesmo topico usado pelo
+    # /enactor (Controller.cpp:12), simulando que um AdaptationCommand foi
+    # de fato emitido visando o sensor desligado.
+    pub = rospy.Publisher(LOG_ADAPT_TOPIC, AdaptationCommand, queue_size=10)
+    rospy.sleep(0.3)  # tempo para o publisher completar o handshake com o /logger
+
+    msg = AdaptationCommand()
+    msg.source = "/enactor"
+    msg.target = target_sensor
+    msg.action = "freq=5.0"
+    pub.publish(msg)
+    pub.unregister()
+
+    context["issued_adaptation_action"] = msg.action
+
+
+def then_adaptation_recorded_despite_failure(context, target_sensor):
+    try:
+        assert_node_is_online("/logger")
+        assert_node_is_online("/data_access")
+
+        # Resiliencia: Logger::receiveAdaptationCommand (Logger.cpp:36-48) persiste o comando ao recebe-lo em log_adapt, ANTES de
+        # ele esbarrar no "target not found" do ParamAdapter (ParamAdapter.cpp:23-29). Usa persist_since_index (marcado no Given)
+        # e nao o helper generico, pois "o oximeter" tem registros antigos que fariam uma checagem nao-escopada passar.
+        persist_since = context.get("persist_since_index", 0)
+        persist_msg = _wait_for_persist_record(
+            target_sensor, msg_type="AdaptationCommand",
+            timeout=10.0, since_index=persist_since,
+        )
+        assert persist_msg is not None, (
+            "Nenhum novo registro Persist (type='AdaptationCommand', "
+            "target='{}') apareceu em 'persist' apos o comando emitido neste "
+            "cenario, mesmo com {} desconectado de {}. O /logger deveria "
+            "publicar em 'persist' ao receber o AdaptationCommand em "
+            "log_adapt independentemente de o /param_adapter conseguir "
+            "rotea-lo (Logger.cpp:36-48).".format(
+                target_sensor, target_sensor, PARAM_ADAPTER_NODE)
+        )
+        print("Persist confirmado mesmo com o sensor desconectado: type={} source={} content={}".format(
+            persist_msg.type, persist_msg.source, persist_msg.content))
+    finally:
+        # Restaura a conexao do sensor com o /param_adapter, para que o
+        # estado do sistema nao vaze para outros cenarios/execucoes.
+        if context.pop("_effector_disconnected", None) == target_sensor:
+            _set_effector_connection(target_sensor, True)
+
 
 @given(parsers.parse("{sensor} cannot receive adaptation commands"))
-def given_cannot_receive_adaptation(context, sensor):
-    context["target_sensor"] = SYSTEM_MAP[sensor]
-    given_adaptation_issued(context)
+def given_cannot_receive_adaptation_sensor(context, sensor):
+    target_sensor = SYSTEM_MAP[sensor]
+    context["target_sensor"] = target_sensor
+    given_cannot_receive_adaptation(context, target_sensor)
 
 @when(parsers.parse("an adaptation command is issued for {sensor}"))
 def when_adaptation_issued_for_sensor(context, sensor):
-    context["target_sensor"] = SYSTEM_MAP[sensor]
-    when_cannot_deliver(context)
+    target_sensor = SYSTEM_MAP[sensor]
+    context["target_sensor"] = target_sensor
+    when_adaptation_issued(context, target_sensor)
 
-@then(parsers.parse("a failure record identifying {sensor} should be available in the system log"))
-def then_failure_record_identifying(context, sensor):
-    context["target_sensor"] = SYSTEM_MAP[sensor]
-    then_failure_record_available(context)
+@then(parsers.parse("the adaptation command should be recorded in the system log even though {sensor} cannot receive it"))
+def then_adaptation_recorded_despite_failure_sensor(context, sensor):
+    target_sensor = SYSTEM_MAP[sensor]
+    context["target_sensor"] = target_sensor
+    then_adaptation_recorded_despite_failure(context, target_sensor)
 
 
 # ===========================================================================
