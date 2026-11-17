@@ -414,7 +414,10 @@ def given_elevated_rate(context):
     initial = _observe_sensor_rate(context['rate_sensor'])
     _start_status_failure_stream(context)
     try:
-        rospy.sleep(8.0)
+        settling_s = max(8.0, 2.0 / min(w['hz'] for w in initial['windows']))
+        assert settling_s <= 60.0, 'Initial rate requires settling longer than 60 seconds'
+        print('Elevated-rate settling: {:.3f}s'.format(settling_s))
+        rospy.sleep(settling_s)
         elevated = _observe_sensor_rate(context['rate_sensor'])
         assert_rate_changed(initial, elevated, 'increase')
         context['observed_elevated_rate'] = elevated

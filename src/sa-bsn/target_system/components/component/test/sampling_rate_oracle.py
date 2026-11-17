@@ -4,7 +4,8 @@ import threading
 
 WINDOW_S = 6.0
 MIN_MESSAGES = 4
-MIN_RELATIVE_CHANGE = 0.10
+MAX_WINDOW_S = 60.0
+OBSERVATION_WINDOWS = 3
 
 
 def summarize_rate(stamps):
@@ -20,12 +21,26 @@ def summarize_rate(stamps):
 
 def assert_rate_changed(before, after, direction):
     assert direction in ('increase', 'decrease')
-    ratio = after['hz'] / before['hz']
-    passed = ratio > 1.0 + MIN_RELATIVE_CHANGE if direction == 'increase' else ratio < 1.0 - MIN_RELATIVE_CHANGE
-    assert passed, 'Sensor rate did not {} by more than 10%: before={:.3f} Hz, after={:.3f} Hz'.format(direction, before['hz'], after['hz'])
+    first = before['windows']
+    second = after['windows']
+    assert len(first) == len(second) == OBSERVATION_WINDOWS, 'Three windows required per phase'
+    for metric in ('hz', 'count_hz'):
+        left = [window[metric] for window in first]
+        right = [window[metric] for window in second]
+        baseline = sorted(left)[1]
+        observed = sorted(right)[1]
+        changed = observed > baseline if direction == 'increase' else observed < baseline
+        assert changed, 'Median sensor rate did not {}: {} before={}, after={}'.format(direction, metric, left, right)
 
 
 def observe_rate(subscribe, poll, clock):
+    windows = [_observe_window(subscribe, poll, clock) for _ in range(OBSERVATION_WINDOWS)]
+    result = {'windows': windows, 'hz': sorted(w['hz'] for w in windows)[1]}
+    print('sensor_rate_phase: {}'.format(result))
+    return result
+
+
+def _observe_window(subscribe, poll, clock):
     stamps = []
     lock = threading.Lock()
 
@@ -44,11 +59,17 @@ def observe_rate(subscribe, poll, clock):
         with lock:
             assert stamps, 'Sensor did not publish during discovery'
             stamps[:] = []
-        deadline = clock() + WINDOW_S
+        start = clock()
+        deadline = start + MAX_WINDOW_S
         while clock() < deadline:
             poll()
+            with lock:
+                enough = len(stamps) >= MIN_MESSAGES
+            if clock() - start >= WINDOW_S and enough:
+                break
         with lock:
             result = summarize_rate(list(stamps))
+            result['count_hz'] = len(stamps) / (clock() - start)
         print('sensor_rate_observation: {}'.format(result))
         return result
     finally:
