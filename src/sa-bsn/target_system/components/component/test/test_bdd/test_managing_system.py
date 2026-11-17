@@ -560,6 +560,12 @@ def then_adaptation_recorded_despite_failure(context, target_sensor):
 
 @given(parsers.parse("{sensor} cannot receive adaptation commands"))
 def given_cannot_receive_adaptation_sensor(context, sensor):
+    _ensure_ros_node()
+    topic = _node_topic_info(sensor)['topic']
+    try:
+        rospy.wait_for_message(topic, SensorData, timeout=30.0)
+    except rospy.ROSException as exc:
+        raise AssertionError('Sensor not ready before disconnection: {} ({})'.format(topic, exc))
     target_sensor = SYSTEM_MAP[sensor]
     context["target_sensor"] = target_sensor
     given_cannot_receive_adaptation(context, target_sensor)
