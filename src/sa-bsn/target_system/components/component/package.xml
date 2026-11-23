@@ -18,15 +18,22 @@
   <build_depend>archlib</build_depend>
   <build_depend>lepton</build_depend>
   <build_depend>libbsn</build_depend>
+  <build_depend>python3</build_depend>
+  <build_depend>pybind11</build_depend>
 
-
+  <exec_depend>python3</exec_depend>
   <exec_depend>std_msgs</exec_depend>
   <exec_depend>messages</exec_depend>
   <exec_depend>message_runtime</exec_depend>
   <exec_depend>archlib</exec_depend>
   <exec_depend>lepton</exec_depend>
   <exec_depend>libbsn</exec_depend>
-  
+  <exec_depend>pybind11</exec_depend>
+
+  <depend>ros_pytest</depend>
+  <test_depend>python-pytest</test_depend>
+  <test_depend>rosunit</test_depend>
+  <test_depend>rostest</test_depend>
   <export>
   </export>
 </package>

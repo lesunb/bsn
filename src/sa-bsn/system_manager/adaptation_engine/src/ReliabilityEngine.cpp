@@ -13,7 +13,7 @@ struct comp{
     }
 };
 
-ReliabilityEngine::ReliabilityEngine(int  &argc, char **argv, std::string name): Engine(argc, argv, name), setpoint(), offset(), gain(), tolerance(0.02), prefix("R_"), enact() {}
+ReliabilityEngine::ReliabilityEngine(int  &argc, char **argv, std::string name): Engine(argc, argv, name), setpoint(), offset(), gain(), tolerance(0.02), cycles(0), prefix("R_"), enact() {}
 
 ReliabilityEngine::~ReliabilityEngine() {}
 

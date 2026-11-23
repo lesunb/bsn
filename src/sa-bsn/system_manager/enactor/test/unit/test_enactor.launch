@@ -1,0 +1,32 @@
+<launch>
+    <!-- Both data_access and enactor read "frequency" via a plain, global
+         ros::NodeHandle (handle.getParam("frequency", ...) /
+         nh.getParam("frequency", ...)), so a single global value is shared
+         by both rather than namespaced per node - matches how each is
+         normally launched alone (own launch file, own global "frequency"),
+         just running in the same roslaunch session here. data_access only
+         uses it to pace its own background recalculation; processQuery
+         itself computes on demand regardless, so sharing this value is
+         harmless for what this test checks. -->
+    <param name="frequency" value="5" /> <!-- fast cycle so tests don't wait long -->
+    <param name="kp" value="150" /> <!-- matches configurations/system_manager/strategy_enactor.launch; only enactor reads this -->
+
+    <!-- Pins the branch under test. Controller::setUp() reads this param
+         before querying the EngineRequest service, and the test module
+         answers that service with the same value (see
+         enactor_test_support.py), so the cost path is selected even if the
+         node's 10s waitForService times out before the stub is up. The
+         reliability path - what the real system runs, see
+         configurations/system_manager/strategy_manager.launch - has its own
+         launch/suite: test_enactor_reliability.launch. -->
+    <param name="adaptation_parameter" value="cost" />
+
+    <!-- Controller (built as the `enactor` executable) needs a real
+         DataAccessRequest service for its periodic receiveStatus() cycle to
+         return anything - see test_enactor.py's module docstring. -->
+    <node name="data_access" pkg="repository" type="data_access" output="log" />
+    <node name="enactor" pkg="enactor" type="enactor" output="log" />
+
+    <param name="test_module" value="$(find enactor)/test/unit/test_enactor.py"/>
+    <test test-name="test_enactor" pkg="ros_pytest" type="ros_pytest_runner" />
+</launch>

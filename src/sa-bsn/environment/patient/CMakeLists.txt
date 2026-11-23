@@ -30,3 +30,6 @@ SET(patient-src "${CMAKE_CURRENT_SOURCE_DIR}/src/PatientModule.cpp")
 ADD_EXECUTABLE (patient  "${CMAKE_CURRENT_SOURCE_DIR}/apps/patient.cpp" ${${PROJECT_NAME}-src} ${patient-src})
 TARGET_LINK_LIBRARIES (patient ${catkin_LIBRARIES} ${LIBRARIES})
 ADD_DEPENDENCIES(patient services_generate_messages_cpp)
+
+###########################################################################
+# Add tests

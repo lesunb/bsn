@@ -1,0 +1,30 @@
+<launch> 
+    <!-- Blood Oxigenation Measurement Sensor (connected test profile) -->    
+    <node name="g3t1_1" pkg="component" type="g3t1_1" output="log" />
+
+    <param name="start" value="true" />
+
+    <param name="frequency" value="1.3" /> <!-- 0.2 Hz  -->
+
+    <!-- Defines the percentages to consider low, moderate or high risk -->
+    <param name="lowrisk" value="0,20" />
+    <param name="midrisk" value="21,65" />
+    <param name="highrisk" value="66,100" />
+
+    <!-- Risk values tuned to exercise unknown label path in connected tests -->
+    <param name="oxigenation_HighRisk0" value="0,39" />
+    <param name="oxigenation_MidRisk0" value="40,64" />
+    <param name="oxigenation_LowRisk" value="90,90" />
+    <param name="oxigenation_MidRisk1" value="91,95" />
+    <param name="oxigenation_HighRisk1" value="96,100" />
+
+    <!-- accuracy in percentage -->
+    <param name="accuracy" value="99" type="double" />
+
+    <!-- instant recharge parameter-->
+    <param name="instant_recharge" value="true" type="bool" />
+
+    <!-- real world parameter-->
+    <param name="connect_sensor" value="true" type="bool" />
+
+</launch>

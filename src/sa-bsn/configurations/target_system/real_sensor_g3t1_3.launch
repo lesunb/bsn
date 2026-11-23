@@ -1,6 +1,6 @@
 <launch> 
     <!-- Temperature Measurement Sensor -->
-    <node name="g3t1_3" pkg="component" type="g3t1_3" output="screen" />
+    <node name="g3t1_3" pkg="component" type="g3t1_3" output="log" />
 
     <param name="start" value="true" />
 

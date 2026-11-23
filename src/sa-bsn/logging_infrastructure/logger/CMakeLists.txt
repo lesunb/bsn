@@ -30,3 +30,12 @@ SET(logger-src "${CMAKE_CURRENT_SOURCE_DIR}/src/Logger.cpp")
 ADD_EXECUTABLE (logger  "${CMAKE_CURRENT_SOURCE_DIR}/apps/logger.cpp" ${${PROJECT_NAME}-src} ${logger-src})
 TARGET_LINK_LIBRARIES (logger ${catkin_LIBRARIES} ${LIBRARIES})
 ADD_DEPENDENCIES(logger messages_generate_messages_cpp)
+
+###########################################################################
+# Tests.
+if(CATKIN_ENABLE_TESTING)
+  find_package(rostest REQUIRED)
+  find_package(ros_pytest REQUIRED)
+
+  add_rostest(test/unit/test_logger.launch)
+endif()

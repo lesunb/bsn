@@ -1,0 +1,4 @@
+<launch> 
+    <node name="logger" pkg="logging_infrastructure" type="logger" output="log" />
+    <param name="frequency" value="100" /> <!-- 100 Hz  -->
+</launch>

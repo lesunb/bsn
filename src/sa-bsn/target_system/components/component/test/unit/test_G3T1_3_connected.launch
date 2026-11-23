@@ -1,0 +1,9 @@
+<launch>
+    <include file="$(find component)/test/patient.launch" />  
+
+    <include file="$(find messages)/../configurations/target_system/test_probe.launch" />  
+    <include file="$(find messages)/../configurations/target_system/test_effector.launch" /> 
+  <include file="$(find messages)/../configurations/target_system/test_connected_g3t1_3.launch" />
+  <param name="test_module" value="$(find component)/test/unit/test_G3T1_3_connected.py"/>
+  <test test-name="test_G3T1_3_connected" pkg="ros_pytest" type="ros_pytest_runner" />
+</launch>

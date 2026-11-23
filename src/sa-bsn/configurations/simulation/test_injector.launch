@@ -1,0 +1,8 @@
+<launch> 
+    <node name="injector" pkg="injector" type="injector" output="log" />
+
+    <param name="frequency" value="6" type="int" /> <!--Hz-->
+
+    <param name="components" value="g3t1_1,g3t1_2,g3t1_3,g3t1_4,g3t1_5,g3t1_6" /> <!--Names of the components in which uncertainty will be injected (separeted per ,) --> 
+
+</launch>

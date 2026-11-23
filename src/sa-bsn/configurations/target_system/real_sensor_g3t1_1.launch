@@ -1,6 +1,6 @@
 <launch> 
     <!-- Blood Oxigenation Measurement Sensor -->    
-    <node name="g3t1_1" pkg="component" type="g3t1_1" output="screen" />
+    <node name="g3t1_1" pkg="component" type="g3t1_1" output="log" />
 
     <param name="start" value="true" />
 

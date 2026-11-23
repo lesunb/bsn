@@ -26,7 +26,8 @@ json/
 # Ignore generated docs
 *.dox
 *.wikidoc
-
+html
+latex
 # eclipse stuff
 .project
 .cproject
@@ -65,3 +66,6 @@ json
 venv
 TODO
 bsn_remote_control
+
+coverage/
+coverage_llm/

@@ -1,0 +1,31 @@
+<launch> 
+    <!-- Heart Beat Rate Measurement Sensor (connected test profile) -->
+    <node name="g3t1_2" pkg="component" type="g3t1_2" output="log" />
+
+    <param name="start" value="true" />
+
+    <param name="frequency" value="2" /> <!-- 2 Hz  -->
+    
+    <!-- Defines the percentages to consider low, moderate or high risk -->
+    <param name="lowrisk" value="0,20" />
+    <param name="midrisk" value="21,65" />
+    <param name="highrisk" value="66,100" />
+
+    <!-- Risk values tuned to exercise unknown label path in connected tests -->
+    <param name="heart_rate_HighRisk0" value="0,69" />
+    <param name="heart_rate_MidRisk0" value="70,89" />
+    <param name="heart_rate_LowRisk" value="90,90" />
+    <param name="heart_rate_MidRisk1" value="91,115" />
+    <param name="heart_rate_HighRisk1" value="116,300" />
+
+    <!-- accuracy in percentage -->
+    <param name="data_accuracy" value="99" type="double" />
+    <param name="comm_accuracy" value="100" type="double" />
+
+    <!-- instant recharge parameter-->
+    <param name="instant_recharge" value="true" type="bool" />
+
+    <!-- real world parameter-->
+    <param name="connect_sensor" value="true" type="bool" />
+
+</launch>

@@ -116,3 +116,41 @@ TEST_F(ConfigurationTest, High1) {
     ASSERT_EQ(s.evaluateNumber(39.1), 0.66);
     ASSERT_EQ(s.evaluateNumber(43), 1.0);
 }
+
+class RiskClassificationTest : public testing::Test {
+protected:
+    SensorConfiguration config{
+        3, Range(36.0, 37.99),
+        {{Range(32.0, 35.99), Range(38.0, 40.99)}},
+        {{Range(0.0, 31.99), Range(41.0, 50.0)}},
+        {{Range(0.0, 20.0), Range(21.0, 65.0), Range(66.0, 100.0)}}
+    };
+};
+
+TEST_F(RiskClassificationTest, LowRiskUsesPercentageRange) {
+    EXPECT_TRUE(config.isLowRisk(15.0));
+    EXPECT_FALSE(config.isMediumRisk(15.0));
+    EXPECT_FALSE(config.isHighRisk(15.0));
+}
+
+TEST_F(RiskClassificationTest, MediumRiskUsesPercentageRange) {
+    EXPECT_FALSE(config.isLowRisk(45.0));
+    EXPECT_TRUE(config.isMediumRisk(45.0));
+    EXPECT_FALSE(config.isHighRisk(45.0));
+}
+
+TEST_F(RiskClassificationTest, HighRiskUsesPercentageRange) {
+    EXPECT_FALSE(config.isLowRisk(90.0));
+    EXPECT_FALSE(config.isMediumRisk(90.0));
+    EXPECT_TRUE(config.isHighRisk(90.0));
+}
+
+TEST_F(RiskClassificationTest, TemperatureReadingProducesHighRiskCategory) {
+    const double risk = config.evaluateNumber(45.0);
+    // Independent oracle from the configured temperature and risk intervals.
+    const double expected = 66.0 + (45.0 - 41.0) / (50.0 - 41.0) * 34.0;
+    EXPECT_NEAR(expected, risk, 1e-9);
+    EXPECT_FALSE(config.isLowRisk(risk));
+    EXPECT_FALSE(config.isMediumRisk(risk));
+    EXPECT_TRUE(config.isHighRisk(risk));
+}
